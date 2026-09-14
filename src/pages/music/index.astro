@@ -1,0 +1,60 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import UnderConstruction from "../../components/UnderConstruction.astro";
+import RetroPanel from "../../components/RetroPanel.astro";
+import EmbedPlayer from "../../components/EmbedPlayer.astro";
+import music from "../../data/music.json";
+---
+
+<BaseLayout title="Music">
+  <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Music" }]} />
+  <h1>Music</h1>
+  <UnderConstruction />
+
+  {
+    music.sets.map((set) => (
+      <RetroPanel title={set.title}>
+        <p>{set.description}</p>
+        <EmbedPlayer platform={set.platform} url={set.url} title={set.title} />
+      </RetroPanel>
+    ))
+  }
+
+  <RetroPanel title="gig-photos.dir">
+    <div class="gig-grid">
+      {
+        music.gigPhotos.map((photo) => (
+          <figure class="gig-figure retro-border">
+            <img src={photo.src} alt={photo.alt} loading="lazy" />
+            {photo.caption && <figcaption>{photo.caption}</figcaption>}
+          </figure>
+        ))
+      }
+    </div>
+  </RetroPanel>
+</BaseLayout>
+
+<style>
+  .gig-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+  }
+
+  .gig-figure {
+    margin: 0;
+    background: var(--color-input-bg);
+  }
+
+  .gig-figure img {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .gig-figure figcaption {
+    padding: 0.5rem;
+    font-size: 0.85rem;
+    text-align: center;
+  }
+</style>

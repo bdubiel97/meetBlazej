@@ -1,0 +1,82 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  meta?: string;
+  thumbnail?: string;
+  thumbnailAlt?: string;
+}
+
+const { href, title, meta, thumbnail, thumbnailAlt = "" } = Astro.props;
+---
+
+<a class="list-row retro-border" href={href}>
+  {
+    thumbnail && (
+      <span class="thumb-wrap retro-border">
+        <img src={thumbnail} alt={thumbnailAlt} loading="lazy" />
+      </span>
+    )
+  }
+  <span class="row-text">
+    <span class="row-title">{title}</span>
+    {meta && <span class="row-meta">{meta}</span>}
+  </span>
+  <span class="chevron" aria-hidden="true">&rsaquo;</span>
+</a>
+
+<style>
+  .list-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    background: var(--color-input-bg);
+    text-decoration: none;
+    color: var(--color-ink);
+    margin-bottom: 0.75rem;
+  }
+
+  .list-row:hover {
+    background: var(--color-panel);
+  }
+
+  .thumb-wrap {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .row-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .row-title {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    letter-spacing: -0.5px;
+  }
+
+  .row-meta {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    text-transform: uppercase;
+  }
+
+  .chevron {
+    font-size: 1.5rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+</style>

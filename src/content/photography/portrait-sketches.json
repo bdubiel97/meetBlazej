@@ -1,0 +1,10 @@
+{
+  "title": "Portrait Sketches",
+  "description": "PLACEHOLDER album — replace description and photos in this file once you have real images.",
+  "coverImage": "/images/photography/portrait-sketches/cover.svg",
+  "photos": [
+    { "src": "/images/photography/portrait-sketches/photo-1.svg", "alt": "Placeholder portrait 1", "caption": "Placeholder caption 1" },
+    { "src": "/images/photography/portrait-sketches/photo-2.svg", "alt": "Placeholder portrait 2", "caption": "Placeholder caption 2" },
+    { "src": "/images/photography/portrait-sketches/photo-3.svg", "alt": "Placeholder portrait 3", "caption": "Placeholder caption 3" }
+  ]
+}

@@ -1,0 +1,146 @@
+@import "@fontsource/press-start-2p/400.css";
+@import "@fontsource/cascadia-mono/400.css";
+@import "@fontsource/cascadia-mono/600.css";
+@import "@fontsource/cascadia-mono/700.css";
+
+:root {
+  --color-bg: #e1e1e1;
+  --color-ink: #101010;
+  --color-panel: #ececec;
+  --color-input-bg: #ffffff;
+  --color-shadow: #101010;
+  --color-link: #101010;
+  --color-muted: #4a4a4a;
+
+  --font-display: "Press Start 2P", system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", "Cascadia Code", ui-monospace, monospace;
+
+  --border-width: 1px;
+  --shadow-offset: 4px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  line-height: 1.5;
+  margin: 0 0 1rem;
+}
+
+h1 {
+  font-size: 1.5rem;
+}
+h2 {
+  font-size: 1.1rem;
+}
+h3 {
+  font-size: 0.9rem;
+}
+
+p {
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--color-link);
+}
+
+a:focus-visible,
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Retro UI primitives */
+
+.retro-border {
+  border: var(--border-width) solid var(--color-ink);
+  border-radius: 0;
+}
+
+.retro-shadow {
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-shadow);
+}
+
+.retro-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: -0.5px;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  border: var(--border-width) solid var(--color-ink);
+  border-radius: 0;
+  padding: 0.6em 0.9em;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-shadow);
+  transition: transform 0.05s ease, box-shadow 0.05s ease;
+}
+
+.retro-btn:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 3px 3px 0 0 var(--color-shadow);
+}
+
+.retro-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

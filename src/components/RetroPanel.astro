@@ -1,0 +1,41 @@
+---
+interface Props {
+  title?: string;
+  as?: "section" | "div";
+}
+
+const { title, as: Tag = "section" } = Astro.props;
+---
+
+<Tag class="retro-panel retro-border retro-shadow">
+  {
+    title && (
+      <div class="panel-title-bar">
+        <h2>{title}</h2>
+      </div>
+    )
+  }
+  <div class="panel-body">
+    <slot />
+  </div>
+</Tag>
+
+<style>
+  .retro-panel {
+    background: var(--color-panel);
+    margin-bottom: 2rem;
+  }
+
+  .panel-title-bar {
+    border-bottom: var(--border-width) solid var(--color-ink);
+    padding: 0.75rem 1rem;
+  }
+
+  .panel-title-bar h2 {
+    margin: 0;
+  }
+
+  .panel-body {
+    padding: 1.25rem 1rem;
+  }
+</style>

@@ -1,0 +1,56 @@
+{
+  "name": "YOUR NAME HERE",
+  "title": "Your Job Title",
+  "photo": "/images/cv/profile-placeholder.svg",
+  "contact": {
+    "email": "you@example.com",
+    "location": "Your City, Country",
+    "links": [
+      { "label": "GitHub", "url": "https://github.com/your-handle" },
+      { "label": "LinkedIn", "url": "https://linkedin.com/in/your-handle" }
+    ]
+  },
+  "summary": "PLACEHOLDER — replace this with two or three sentences about who you are professionally, what you do, and what you're looking for. Edit this text in src/data/cv.json.",
+  "experience": [
+    {
+      "company": "Placeholder Company",
+      "role": "Placeholder Role",
+      "start": "2022",
+      "end": "Present",
+      "bullets": [
+        "Replace with a real accomplishment or responsibility.",
+        "Add another bullet describing impact or scope.",
+        "Keep bullets short and specific — numbers help."
+      ]
+    },
+    {
+      "company": "Previous Company",
+      "role": "Previous Role",
+      "start": "2019",
+      "end": "2022",
+      "bullets": [
+        "Replace with a real accomplishment from this role.",
+        "Add another bullet here."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "Placeholder University",
+      "degree": "Placeholder Degree",
+      "start": "2015",
+      "end": "2019",
+      "notes": "Optional note — honors, relevant coursework, etc."
+    }
+  ],
+  "skills": [
+    {
+      "category": "Languages",
+      "items": ["JavaScript", "TypeScript", "Python"]
+    },
+    {
+      "category": "Tools",
+      "items": ["Git", "Figma", "Node.js"]
+    }
+  ]
+}

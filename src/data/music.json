@@ -1,0 +1,21 @@
+{
+  "sets": [
+    {
+      "platform": "soundcloud",
+      "url": "https://soundcloud.com/soundcloud/for-you-mix",
+      "title": "PLACEHOLDER — Replace with your SoundCloud set URL",
+      "description": "Paste the normal share URL from SoundCloud into \"url\" — no embed code needed."
+    },
+    {
+      "platform": "youtube",
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "title": "PLACEHOLDER — Replace with your YouTube set/video URL",
+      "description": "Paste the normal watch or youtu.be URL from YouTube into \"url\"."
+    }
+  ],
+  "gigPhotos": [
+    { "src": "/images/music/gigs/gig-1.svg", "alt": "Placeholder gig photo 1", "caption": "Placeholder caption 1" },
+    { "src": "/images/music/gigs/gig-2.svg", "alt": "Placeholder gig photo 2", "caption": "Placeholder caption 2" },
+    { "src": "/images/music/gigs/gig-3.svg", "alt": "Placeholder gig photo 3", "caption": "Placeholder caption 3" }
+  ]
+}

@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+import Lightbox from "../../components/Lightbox.astro";
+
+export async function getStaticPaths() {
+  const albums = await getCollection("photography");
+  return albums.map((album) => ({
+    params: { album: album.id },
+    props: { album },
+  }));
+}
+
+const { album } = Astro.props;
+---
+
+<BaseLayout title={album.data.title} description={album.data.description}>
+  <Breadcrumb
+    items={[
+      { label: "Home", href: "/" },
+      { label: "Photography", href: "/photography" },
+      { label: album.data.title },
+    ]}
+  />
+  <h1>{album.data.title}</h1>
+  <p>{album.data.description}</p>
+
+  <Lightbox photos={album.data.photos} />
+</BaseLayout>

@@ -1,0 +1,144 @@
+---
+import siteData from "../data/site.json";
+
+const navItems = [
+  { label: "HOME", href: "/" },
+  { label: "PHOTOGRAPHY", href: "/photography" },
+  { label: "MUSIC", href: "/music" },
+];
+---
+
+<header class="top-bar retro-border" data-top-bar>
+  <div class="top-bar-row container">
+    <button
+      type="button"
+      class="retro-btn menu-toggle"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-menu-toggle
+    >
+      MENU
+    </button>
+    <nav class="desktop-nav" aria-label="Primary">
+      {
+        navItems.map((item) => (
+          <a class="retro-btn" href={item.href}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <a class="retro-btn" href={`mailto:${siteData.contactEmail}`}>CONNECT</a>
+  </div>
+</header>
+
+<div id="mobile-menu" class="mobile-menu" data-mobile-menu hidden>
+  <button
+    type="button"
+    class="retro-btn close-menu"
+    data-menu-close
+  >
+    CLOSE
+  </button>
+  <nav aria-label="Mobile primary">
+    {
+      navItems.map((item) => (
+        <a class="retro-btn mobile-nav-link" href={item.href}>
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+</div>
+
+<style>
+  .top-bar {
+    background: var(--color-bg);
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+  }
+
+  .top-bar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-block: 0.75rem;
+  }
+
+  .desktop-nav {
+    display: none;
+    gap: 0.5rem;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  @media (min-width: 640px) {
+    .desktop-nav {
+      display: flex;
+    }
+    .menu-toggle {
+      display: none;
+    }
+  }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: var(--color-bg);
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem;
+  }
+
+  .mobile-menu[hidden] {
+    display: none;
+  }
+
+  .mobile-menu nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .mobile-nav-link {
+    justify-content: flex-start;
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const closeBtn = document.querySelector<HTMLButtonElement>("[data-menu-close]");
+  const menu = document.querySelector<HTMLElement>("[data-mobile-menu]");
+
+  function openMenu() {
+    if (!menu || !toggle) return;
+    menu.hidden = false;
+    toggle.setAttribute("aria-expanded", "true");
+    const firstLink = menu.querySelector<HTMLElement>("a, button");
+    firstLink?.focus();
+  }
+
+  function closeMenu() {
+    if (!menu || !toggle) return;
+    menu.hidden = true;
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.focus();
+  }
+
+  toggle?.addEventListener("click", openMenu);
+  closeBtn?.addEventListener("click", closeMenu);
+
+  menu?.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
+  });
+</script>

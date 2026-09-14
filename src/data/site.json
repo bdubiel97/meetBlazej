@@ -1,0 +1,10 @@
+{
+  "siteTitle": "Your Name",
+  "tagline": "Developer, photographer, occasional DJ.",
+  "contactEmail": "you@example.com",
+  "footerText": "Built with Astro.",
+  "socialLinks": [
+    { "label": "GitHub", "url": "https://github.com/your-handle" },
+    { "label": "LinkedIn", "url": "https://linkedin.com/in/your-handle" }
+  ]
+}

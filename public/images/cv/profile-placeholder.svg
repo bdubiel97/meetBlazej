@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="300" viewBox="0 0 240 300">
+  <defs>
+    <pattern id="sqphrmm" width="20" height="20" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+      <rect width="20" height="20" fill="#d8d8d8" />
+      <rect width="10" height="20" fill="#b0b0b0" />
+    </pattern>
+  </defs>
+  <rect width="240" height="300" fill="url(#sqphrmm)" />
+  <rect x="1" y="1" width="238" height="298" fill="none" stroke="#101010" stroke-width="2" />
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="17" fill="#101010">PROFILE PHOTO</text>
+</svg>

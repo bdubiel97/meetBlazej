@@ -1,0 +1,59 @@
+---
+---
+
+<footer class="status-bar retro-border" data-status-bar>
+  <div class="status-bar-row container">
+    <span data-visitor-no>VISITOR NO. : ----</span>
+    <span data-clock>--:--:-- --</span>
+  </div>
+</footer>
+
+<style>
+  .status-bar {
+    background: var(--color-bg);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    font-family: var(--font-display);
+    font-size: 0.65rem;
+    letter-spacing: -0.5px;
+  }
+
+  .status-bar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-block: 0.85rem;
+    flex-wrap: wrap;
+  }
+</style>
+
+<script>
+  const STORAGE_KEY = "site-visitor-no";
+
+  function getVisitorNumber(): number {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    if (stored) return Number(stored);
+    const assigned = 1000 + Math.floor(Math.random() * 8999);
+    window.localStorage.setItem(STORAGE_KEY, String(assigned));
+    return assigned;
+  }
+
+  const visitorEl = document.querySelector("[data-visitor-no]");
+  if (visitorEl) {
+    try {
+      visitorEl.textContent = `VISITOR NO. : ${getVisitorNumber()}`;
+    } catch {
+      visitorEl.textContent = "VISITOR NO. : 0001";
+    }
+  }
+
+  const clockEl = document.querySelector("[data-clock]");
+  function tick() {
+    if (!clockEl) return;
+    clockEl.textContent = new Date().toLocaleTimeString();
+  }
+  tick();
+  setInterval(tick, 1000);
+</script>
