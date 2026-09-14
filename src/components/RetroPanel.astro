@@ -2,12 +2,13 @@
 interface Props {
   title?: string;
   as?: "section" | "div";
+  id?: string;
 }
 
-const { title, as: Tag = "section" } = Astro.props;
+const { title, as: Tag = "section", id } = Astro.props;
 ---
 
-<Tag class="retro-panel retro-border retro-shadow">
+<Tag id={id} class="retro-panel retro-border retro-shadow">
   {
     title && (
       <div class="panel-title-bar">

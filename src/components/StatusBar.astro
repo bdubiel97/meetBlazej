@@ -1,10 +1,23 @@
 ---
+const navItems = [
+  { label: "HOME", href: "/" },
+  { label: "PHOTOGRAPHY", href: "/photography" },
+  { label: "MUSIC", href: "/music" },
+];
 ---
 
 <footer class="status-bar retro-border" data-status-bar>
   <div class="status-bar-row container">
     <span data-visitor-no>VISITOR NO. : ----</span>
-    <span data-clock>--:--:-- --</span>
+    <nav class="status-nav" aria-label="Primary">
+      {
+        navItems.map((item) => (
+          <a class="retro-btn" href={item.href}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
   </div>
 </footer>
 
@@ -27,6 +40,13 @@
     padding-block: 0.85rem;
     flex-wrap: wrap;
   }
+
+  .status-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-left: auto;
+  }
 </style>
 
 <script>
@@ -48,12 +68,4 @@
       visitorEl.textContent = "VISITOR NO. : 0001";
     }
   }
-
-  const clockEl = document.querySelector("[data-clock]");
-  function tick() {
-    if (!clockEl) return;
-    clockEl.textContent = new Date().toLocaleTimeString();
-  }
-  tick();
-  setInterval(tick, 1000);
 </script>

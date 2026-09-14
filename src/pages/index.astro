@@ -14,11 +14,11 @@ import cv from "../data/cv.json";
     </div>
   </div>
 
-  <RetroPanel title="about.txt">
+  <RetroPanel id="about-txt" title="about.txt">
     <p>{cv.summary}</p>
   </RetroPanel>
 
-  <RetroPanel title="experience.exe">
+  <RetroPanel id="experience-exe" title="experience.exe">
     {
       cv.experience.map((job) => (
         <div class="entry">
@@ -38,7 +38,7 @@ import cv from "../data/cv.json";
     }
   </RetroPanel>
 
-  <RetroPanel title="education.dat">
+  <RetroPanel id="education-dat" title="education.dat">
     {
       cv.education.map((edu) => (
         <div class="entry">
@@ -54,7 +54,7 @@ import cv from "../data/cv.json";
     }
   </RetroPanel>
 
-  <RetroPanel title="skills.sys">
+  <RetroPanel id="skills-sys" title="skills.sys">
     {
       cv.skills.map((group) => (
         <div class="skill-group">
@@ -65,7 +65,7 @@ import cv from "../data/cv.json";
     }
   </RetroPanel>
 
-  <RetroPanel title="contact.cfg">
+  <RetroPanel id="contact-cfg" title="contact.cfg">
     <p>Email: <a href={`mailto:${cv.contact.email}`}>{cv.contact.email}</a></p>
     <ul class="contact-links">
       {

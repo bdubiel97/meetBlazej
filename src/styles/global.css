@@ -81,6 +81,10 @@ img {
   display: block;
 }
 
+[id] {
+  scroll-margin-top: 5rem;
+}
+
 /* Retro UI primitives */
 
 .retro-border {

@@ -1,11 +1,45 @@
 ---
+import { getCollection } from "astro:content";
 import siteData from "../data/site.json";
+import music from "../data/music.json";
+import { homeSections, gigPhotosSectionId } from "../data/nav";
+import { slugify } from "../utils/slugify";
 
-const navItems = [
-  { label: "HOME", href: "/" },
-  { label: "PHOTOGRAPHY", href: "/photography" },
-  { label: "MUSIC", href: "/music" },
-];
+const pathname = Astro.url.pathname;
+const section = pathname.startsWith("/photography")
+  ? "photography"
+  : pathname.startsWith("/music")
+    ? "music"
+    : "home";
+
+let sectionLabel = "HOME";
+let sectionLinks: { label: string; href: string }[] = [];
+
+if (section === "home") {
+  sectionLabel = "HOME";
+  sectionLinks = [
+    { label: "Overview", href: "/" },
+    ...homeSections.map((s) => ({ label: s.label, href: `/#${s.id}` })),
+  ];
+} else if (section === "photography") {
+  const albums = await getCollection("photography");
+  sectionLabel = "PHOTOGRAPHY";
+  sectionLinks = [
+    { label: "Overview", href: "/photography" },
+    ...albums.map((album) => ({ label: album.data.title, href: `/photography/${album.id}` })),
+  ];
+} else {
+  const musicLinks = music.sets.map((set, i) => ({
+    id: `${slugify(set.title)}-${i}`,
+    label: set.title,
+  }));
+  sectionLabel = "MUSIC";
+  sectionLinks = [
+    { label: "Overview", href: "/music" },
+    ...musicLinks.map((link) => ({ label: link.label, href: `/music#${link.id}` })),
+    { label: "gig-photos.dir", href: `/music#${gigPhotosSectionId}` },
+  ];
+}
 ---
 
 <header class="top-bar retro-border" data-top-bar>
@@ -14,42 +48,27 @@ const navItems = [
       type="button"
       class="retro-btn menu-toggle"
       aria-expanded="false"
-      aria-controls="mobile-menu"
+      aria-controls="menu-dropdown"
       data-menu-toggle
     >
       MENU
     </button>
-    <nav class="desktop-nav" aria-label="Primary">
-      {
-        navItems.map((item) => (
-          <a class="retro-btn" href={item.href}>
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
     <a class="retro-btn" href={`mailto:${siteData.contactEmail}`}>CONNECT</a>
   </div>
-</header>
 
-<div id="mobile-menu" class="mobile-menu" data-mobile-menu hidden>
-  <button
-    type="button"
-    class="retro-btn close-menu"
-    data-menu-close
-  >
-    CLOSE
-  </button>
-  <nav aria-label="Mobile primary">
-    {
-      navItems.map((item) => (
-        <a class="retro-btn mobile-nav-link" href={item.href}>
-          {item.label}
-        </a>
-      ))
-    }
-  </nav>
-</div>
+  <div id="menu-dropdown" class="menu-dropdown retro-border retro-shadow" data-menu-dropdown hidden>
+    <div class="menu-section-label">{sectionLabel}</div>
+    <ul>
+      {
+        sectionLinks.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</header>
 
 <style>
   .top-bar {
@@ -70,75 +89,80 @@ const navItems = [
     padding-block: 0.75rem;
   }
 
-  .desktop-nav {
-    display: none;
-    gap: 0.5rem;
-  }
-
-  .menu-toggle {
-    display: inline-flex;
-  }
-
-  @media (min-width: 640px) {
-    .desktop-nav {
-      display: flex;
-    }
-    .menu-toggle {
-      display: none;
-    }
-  }
-
-  .mobile-menu {
-    position: fixed;
-    inset: 0;
+  .menu-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 1.25rem;
     background: var(--color-bg);
-    z-index: 30;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1.25rem;
+    width: min(320px, calc(100vw - 2.5rem));
+    max-height: calc(100vh - 6rem);
+    overflow-y: auto;
+    z-index: 25;
   }
 
-  .mobile-menu[hidden] {
+  .menu-dropdown[hidden] {
     display: none;
   }
 
-  .mobile-menu nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-top: 1rem;
+  .menu-section-label {
+    padding: 0.75rem 1rem;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: -0.5px;
+    border-bottom: var(--border-width) solid var(--color-ink);
   }
 
-  .mobile-nav-link {
-    justify-content: flex-start;
+  .menu-dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0.85rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .menu-dropdown a {
+    text-decoration: underline;
   }
 </style>
 
 <script>
   const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
-  const closeBtn = document.querySelector<HTMLButtonElement>("[data-menu-close]");
-  const menu = document.querySelector<HTMLElement>("[data-mobile-menu]");
+  const dropdown = document.querySelector<HTMLElement>("[data-menu-dropdown]");
 
   function openMenu() {
-    if (!menu || !toggle) return;
-    menu.hidden = false;
+    if (!dropdown || !toggle) return;
+    dropdown.hidden = false;
     toggle.setAttribute("aria-expanded", "true");
-    const firstLink = menu.querySelector<HTMLElement>("a, button");
-    firstLink?.focus();
   }
 
   function closeMenu() {
-    if (!menu || !toggle) return;
-    menu.hidden = true;
+    if (!dropdown || !toggle) return;
+    dropdown.hidden = true;
     toggle.setAttribute("aria-expanded", "false");
-    toggle.focus();
   }
 
-  toggle?.addEventListener("click", openMenu);
-  closeBtn?.addEventListener("click", closeMenu);
+  function toggleMenu() {
+    if (!dropdown) return;
+    dropdown.hidden ? openMenu() : closeMenu();
+  }
 
-  menu?.addEventListener("keydown", (e) => {
+  toggle?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    toggleMenu();
+  });
+
+  dropdown?.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).tagName === "A") closeMenu();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!dropdown || dropdown.hidden) return;
+    const target = e.target as Node;
+    if (!dropdown.contains(target) && target !== toggle) closeMenu();
+  });
+
+  document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeMenu();
   });
 </script>
