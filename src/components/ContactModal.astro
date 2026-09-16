@@ -1,0 +1,178 @@
+---
+import siteData from "../data/site.json";
+---
+
+<div class="contact-overlay" data-contact-overlay hidden>
+  <div class="contact-modal retro-border retro-shadow" role="dialog" aria-modal="true" aria-labelledby="contact-modal-title">
+    <button type="button" class="contact-close" data-contact-close aria-label="Close">[X]</button>
+    <h2 id="contact-modal-title" class="visually-hidden">Send a message</h2>
+
+    <form data-contact-form action={siteData.contactFormEndpoint} method="POST">
+      <label>
+        Name
+        <input type="text" name="name" placeholder="Jane Smith" required />
+      </label>
+      <label>
+        Email
+        <input type="email" name="email" placeholder="jane@framer.com" required />
+      </label>
+      <label>
+        Message
+        <textarea name="message" rows="5" placeholder="Type your message here..." required></textarea>
+      </label>
+      <div class="contact-submit-row">
+        <button type="submit" class="retro-btn">SUBMIT!</button>
+      </div>
+    </form>
+
+    <p class="contact-status" data-contact-status hidden></p>
+  </div>
+</div>
+
+<script>
+  const overlay = document.querySelector<HTMLElement>("[data-contact-overlay]");
+  const closeBtn = document.querySelector<HTMLButtonElement>("[data-contact-close]");
+  const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+  const status = document.querySelector<HTMLElement>("[data-contact-status]");
+  const triggers = document.querySelectorAll<HTMLElement>("[data-open-contact]");
+
+  let lastFocused: HTMLElement | null = null;
+
+  function open() {
+    if (!overlay) return;
+    lastFocused = document.activeElement as HTMLElement;
+    overlay.hidden = false;
+    overlay.querySelector<HTMLInputElement>("input")?.focus();
+    document.addEventListener("keydown", onKeydown);
+  }
+
+  function close() {
+    if (!overlay) return;
+    overlay.hidden = true;
+    document.removeEventListener("keydown", onKeydown);
+    lastFocused?.focus();
+  }
+
+  function onKeydown(e: KeyboardEvent) {
+    if (e.key === "Escape") close();
+  }
+
+  triggers.forEach((trigger) => trigger.addEventListener("click", open));
+  closeBtn?.addEventListener("click", close);
+  overlay?.addEventListener("click", (e) => {
+    if (e.target === overlay) close();
+  });
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!form || !status) return;
+
+    const submitBtn = form.querySelector<HTMLButtonElement>("button[type=submit]");
+    submitBtn?.setAttribute("disabled", "true");
+    status.hidden = false;
+    status.textContent = "[ SENDING... ]";
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+
+      if (response.ok) {
+        status.textContent = "[ MESSAGE SENT — THANKS! ]";
+        form.reset();
+        form.hidden = true;
+      } else {
+        status.textContent = "[ SOMETHING WENT WRONG — TRY AGAIN ]";
+      }
+    } catch {
+      status.textContent = "[ SOMETHING WENT WRONG — TRY AGAIN ]";
+    } finally {
+      submitBtn?.removeAttribute("disabled");
+    }
+  });
+</script>
+
+<style>
+  .contact-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(16, 16, 16, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    padding: 1.5rem;
+  }
+
+  .contact-overlay[hidden] {
+    display: none;
+  }
+
+  .contact-modal {
+    position: relative;
+    background: var(--color-panel);
+    width: min(90vw, 480px);
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 2rem 1.5rem 1.5rem;
+  }
+
+  .contact-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--color-ink);
+    padding: 0.25rem;
+    line-height: 1;
+  }
+
+  .contact-modal form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .contact-modal label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    letter-spacing: -0.5px;
+  }
+
+  .contact-modal input,
+  .contact-modal textarea {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    background: var(--color-input-bg);
+    border: var(--border-width) solid var(--color-muted);
+    border-radius: 0;
+    padding: 0.6rem 0.75rem;
+    color: var(--color-ink);
+  }
+
+  .contact-modal textarea {
+    resize: vertical;
+  }
+
+  .contact-submit-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.25rem;
+  }
+
+  .contact-status {
+    margin: 1.25rem 0 0;
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    letter-spacing: -0.5px;
+  }
+</style>

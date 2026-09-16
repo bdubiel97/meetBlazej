@@ -1,7 +1,8 @@
 {
   "siteTitle": "Your Name",
   "tagline": "Developer, photographer, occasional DJ.",
-  "contactEmail": "you@example.com",
+  "contactEmail": "bdubiel97@gmail.com",
+  "contactFormEndpoint": "https://formspree.io/f/YOUR_FORM_ID",
   "footerText": "Built with Astro.",
   "photographyInstagram": "https://www.instagram.com/analog.playground_/",
   "musicSoundcloud": "https://on.soundcloud.com/KCuJpqD0VnY56csdsA",

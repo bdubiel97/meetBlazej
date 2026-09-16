@@ -3,6 +3,7 @@ import "../styles/global.css";
 import TopBar from "../components/TopBar.astro";
 import StatusBar from "../components/StatusBar.astro";
 import CursorTrail from "../components/CursorTrail.astro";
+import ContactModal from "../components/ContactModal.astro";
 import siteData from "../data/site.json";
 
 interface Props {
@@ -29,6 +30,7 @@ const pageTitle = title ? `${title} — ${siteData.siteTitle}` : siteData.siteTi
     </main>
     <StatusBar />
     <CursorTrail />
+    <ContactModal />
   </body>
 </html>
 

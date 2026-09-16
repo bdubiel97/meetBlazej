@@ -1,6 +1,5 @@
 ---
 import { getCollection } from "astro:content";
-import siteData from "../data/site.json";
 import music from "../data/music.json";
 import { homeSections, gigPhotosSectionId } from "../data/nav";
 import { slugify } from "../utils/slugify";
@@ -53,7 +52,7 @@ if (section === "home") {
     >
       MENU
     </button>
-    <a class="retro-btn" href={`mailto:${siteData.contactEmail}`}>CONNECT</a>
+    <button type="button" class="retro-btn" data-open-contact>CONNECT</button>
   </div>
 
   <div id="menu-dropdown" class="menu-dropdown retro-border retro-shadow" data-menu-dropdown hidden>
