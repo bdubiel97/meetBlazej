@@ -31,6 +31,7 @@ import siteData from "../data/site.json";
 
 <script>
   const overlay = document.querySelector<HTMLElement>("[data-contact-overlay]");
+  const modal = overlay?.querySelector<HTMLElement>(".contact-modal") ?? null;
   const closeBtn = document.querySelector<HTMLButtonElement>("[data-contact-close]");
   const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
   const status = document.querySelector<HTMLElement>("[data-contact-status]");
@@ -38,10 +39,90 @@ import siteData from "../data/site.json";
 
   let lastFocused: HTMLElement | null = null;
 
-  function open() {
+  function spawnTrailGhost(rect: { left: number; top: number; width: number; height: number }) {
+    if (!overlay || !modal) return;
+    const ghost = document.createElement("div");
+    ghost.setAttribute("aria-hidden", "true");
+    ghost.style.position = "fixed";
+    ghost.style.left = `${rect.left}px`;
+    ghost.style.top = `${rect.top}px`;
+    ghost.style.width = `${rect.width}px`;
+    ghost.style.height = `${rect.height}px`;
+    ghost.style.background = "#101010";
+    ghost.style.opacity = "0.45";
+    ghost.style.pointerEvents = "none";
+    ghost.style.transition = "opacity 260ms linear";
+    overlay.insertBefore(ghost, modal);
+    requestAnimationFrame(() => {
+      ghost.style.opacity = "0";
+    });
+    setTimeout(() => ghost.remove(), 320);
+  }
+
+  function animateModalIn(triggerEl: HTMLElement) {
+    if (!modal) return;
+    const startRect = triggerEl.getBoundingClientRect();
+    const endRect = modal.getBoundingClientRect();
+    const duration = 380;
+    const startTime = performance.now();
+    let lastGhostAt = 0;
+
+    modal.style.position = "fixed";
+    modal.style.margin = "0";
+    modal.style.left = `${startRect.left}px`;
+    modal.style.top = `${startRect.top}px`;
+    modal.style.width = `${startRect.width}px`;
+    modal.style.height = `${startRect.height}px`;
+
+    function step(now: number) {
+      const elapsed = now - startTime;
+      const t = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+
+      const rect = {
+        left: startRect.left + (endRect.left - startRect.left) * eased,
+        top: startRect.top + (endRect.top - startRect.top) * eased,
+        width: startRect.width + (endRect.width - startRect.width) * eased,
+        height: startRect.height + (endRect.height - startRect.height) * eased,
+      };
+
+      if (modal) {
+        modal.style.left = `${rect.left}px`;
+        modal.style.top = `${rect.top}px`;
+        modal.style.width = `${rect.width}px`;
+        modal.style.height = `${rect.height}px`;
+      }
+
+      if (elapsed - lastGhostAt >= 40) {
+        spawnTrailGhost(rect);
+        lastGhostAt = elapsed;
+      }
+
+      if (t < 1) {
+        requestAnimationFrame(step);
+      } else if (modal) {
+        modal.style.position = "";
+        modal.style.margin = "";
+        modal.style.left = "";
+        modal.style.top = "";
+        modal.style.width = "";
+        modal.style.height = "";
+      }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  function open(triggerEl?: HTMLElement) {
     if (!overlay) return;
     lastFocused = document.activeElement as HTMLElement;
     overlay.hidden = false;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (triggerEl && !prefersReducedMotion) {
+      animateModalIn(triggerEl);
+    }
+
     overlay.querySelector<HTMLInputElement>("input")?.focus();
     document.addEventListener("keydown", onKeydown);
   }
@@ -57,7 +138,9 @@ import siteData from "../data/site.json";
     if (e.key === "Escape") close();
   }
 
-  triggers.forEach((trigger) => trigger.addEventListener("click", open));
+  triggers.forEach((trigger) =>
+    trigger.addEventListener("click", () => open(trigger))
+  );
   closeBtn?.addEventListener("click", close);
   overlay?.addEventListener("click", (e) => {
     if (e.target === overlay) close();
