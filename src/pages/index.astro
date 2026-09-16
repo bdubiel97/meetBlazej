@@ -11,6 +11,15 @@ import cv from "../data/cv.json";
       <h1>{cv.name}</h1>
       <p class="profile-title">{cv.title}</p>
       <p class="profile-location">{cv.contact.location}</p>
+      <nav class="header-links" aria-label="Profile links">
+        {
+          cv.contact.links.map((link) => (
+            <a href={link.url} target="_blank" rel="noopener noreferrer">
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
     </div>
   </div>
 

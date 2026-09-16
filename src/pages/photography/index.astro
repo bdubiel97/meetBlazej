@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import UnderConstruction from "../../components/UnderConstruction.astro";
+import site from "../../data/site.json";
 
 const albums = await getCollection("photography");
 ---
@@ -10,6 +11,11 @@ const albums = await getCollection("photography");
 <BaseLayout title="Photography">
   <Breadcrumb items={[{ label: "Photography" }]} />
   <h1>Photography</h1>
+  <nav class="header-links" aria-label="Photography links">
+    <a href={site.photographyInstagram} target="_blank" rel="noopener noreferrer">
+      Instagram
+    </a>
+  </nav>
   <UnderConstruction />
 
   <div class="album-grid">

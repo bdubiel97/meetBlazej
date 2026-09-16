@@ -5,6 +5,7 @@ import UnderConstruction from "../../components/UnderConstruction.astro";
 import RetroPanel from "../../components/RetroPanel.astro";
 import EmbedPlayer from "../../components/EmbedPlayer.astro";
 import music from "../../data/music.json";
+import site from "../../data/site.json";
 import { slugify } from "../../utils/slugify";
 import { gigPhotosSectionId } from "../../data/nav";
 ---
@@ -12,6 +13,14 @@ import { gigPhotosSectionId } from "../../data/nav";
 <BaseLayout title="Music">
   <Breadcrumb items={[{ label: "Music" }]} />
   <h1>Music</h1>
+  <nav class="header-links" aria-label="Music links">
+    <a href={site.musicSoundcloud} target="_blank" rel="noopener noreferrer">
+      SoundCloud
+    </a>
+    <a href={site.musicInstagram} target="_blank" rel="noopener noreferrer">
+      Instagram
+    </a>
+  </nav>
   <UnderConstruction />
 
   {

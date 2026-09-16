@@ -6,8 +6,8 @@
     "email": "you@example.com",
     "location": "Your City, Country",
     "links": [
-      { "label": "GitHub", "url": "https://github.com/your-handle" },
-      { "label": "LinkedIn", "url": "https://linkedin.com/in/your-handle" }
+      { "label": "GitHub", "url": "https://github.com/bdubiel97" },
+      { "label": "LinkedIn", "url": "https://www.linkedin.com/in/bdubiel" }
     ]
   },
   "summary": "PLACEHOLDER — replace this with two or three sentences about who you are professionally, what you do, and what you're looking for. Edit this text in src/data/cv.json.",

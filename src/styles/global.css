@@ -136,6 +136,13 @@ img {
   box-shadow: none;
 }
 
+.header-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0 0 1.5rem;
+}
+
 .container {
   max-width: 860px;
   margin: 0 auto;
