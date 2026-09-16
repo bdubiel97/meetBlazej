@@ -38,6 +38,7 @@ import siteData from "../data/site.json";
   const triggers = document.querySelectorAll<HTMLElement>("[data-open-contact]");
 
   let lastFocused: HTMLElement | null = null;
+  let lastTrigger: HTMLElement | null = null;
 
   function spawnTrailGhost(rect: { left: number; top: number; width: number; height: number }) {
     if (!overlay || !modal) return;
@@ -59,10 +60,22 @@ import siteData from "../data/site.json";
     setTimeout(() => ghost.remove(), 700);
   }
 
-  function animateModalIn(triggerEl: HTMLElement) {
+  function clearModalInlineRect() {
     if (!modal) return;
-    const startRect = triggerEl.getBoundingClientRect();
-    const endRect = modal.getBoundingClientRect();
+    modal.style.position = "";
+    modal.style.margin = "";
+    modal.style.left = "";
+    modal.style.top = "";
+    modal.style.width = "";
+    modal.style.height = "";
+  }
+
+  function animateModalBetween(
+    startRect: DOMRect,
+    endRect: DOMRect,
+    onComplete?: () => void
+  ) {
+    if (!modal) return;
     const duration = 1100;
     const startTime = performance.now();
     let lastGhostAt = 0;
@@ -100,13 +113,8 @@ import siteData from "../data/site.json";
 
       if (t < 1) {
         requestAnimationFrame(step);
-      } else if (modal) {
-        modal.style.position = "";
-        modal.style.margin = "";
-        modal.style.left = "";
-        modal.style.top = "";
-        modal.style.width = "";
-        modal.style.height = "";
+      } else {
+        onComplete?.();
       }
     }
 
@@ -116,11 +124,14 @@ import siteData from "../data/site.json";
   function open(triggerEl?: HTMLElement) {
     if (!overlay) return;
     lastFocused = document.activeElement as HTMLElement;
+    if (triggerEl) lastTrigger = triggerEl;
     overlay.hidden = false;
 
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (triggerEl && !prefersReducedMotion) {
-      animateModalIn(triggerEl);
+    if (triggerEl && modal && !prefersReducedMotion) {
+      const startRect = triggerEl.getBoundingClientRect();
+      const endRect = modal.getBoundingClientRect();
+      animateModalBetween(startRect, endRect, clearModalInlineRect);
     }
 
     overlay.querySelector<HTMLInputElement>("input")?.focus();
@@ -129,9 +140,22 @@ import siteData from "../data/site.json";
 
   function close() {
     if (!overlay) return;
-    overlay.hidden = true;
     document.removeEventListener("keydown", onKeydown);
-    lastFocused?.focus();
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const finish = () => {
+      if (overlay) overlay.hidden = true;
+      clearModalInlineRect();
+      lastFocused?.focus();
+    };
+
+    if (modal && lastTrigger && !prefersReducedMotion) {
+      const startRect = modal.getBoundingClientRect();
+      const endRect = lastTrigger.getBoundingClientRect();
+      animateModalBetween(startRect, endRect, finish);
+    } else {
+      finish();
+    }
   }
 
   function onKeydown(e: KeyboardEvent) {

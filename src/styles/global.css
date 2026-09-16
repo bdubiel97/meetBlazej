@@ -16,7 +16,7 @@
   --font-mono: "Cascadia Mono", "Cascadia Code", ui-monospace, monospace;
 
   --border-width: 1px;
-  --shadow-offset: 4px;
+  --shadow-offset: 8px;
 }
 
 *,
@@ -127,12 +127,12 @@ img {
 }
 
 .retro-btn:hover {
-  transform: translate(1px, 1px);
-  box-shadow: 3px 3px 0 0 var(--color-shadow);
+  transform: translate(2px, 2px);
+  box-shadow: calc(var(--shadow-offset) - 2px) calc(var(--shadow-offset) - 2px) 0 0 var(--color-shadow);
 }
 
 .retro-btn:active {
-  transform: translate(4px, 4px);
+  transform: translate(var(--shadow-offset), var(--shadow-offset));
   box-shadow: none;
 }
 
