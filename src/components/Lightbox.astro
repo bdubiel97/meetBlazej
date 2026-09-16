@@ -15,7 +15,7 @@ const { photos } = Astro.props;
 <div class="photo-grid" data-lightbox-root>
   {
     photos.map((photo, i) => (
-      <button type="button" class="photo-thumb retro-border" data-open-lightbox={i}>
+      <button type="button" class="photo-thumb retro-border retro-shadow" data-open-lightbox={i}>
         <img src={photo.src} alt={photo.alt} loading="lazy" />
       </button>
     ))
@@ -23,7 +23,7 @@ const { photos } = Astro.props;
 </div>
 
 <div class="lightbox-overlay" data-lightbox-overlay hidden>
-  <div class="lightbox-inner retro-border">
+  <div class="lightbox-inner retro-border retro-shadow">
     <button type="button" class="retro-btn lightbox-close" data-lightbox-close>CLOSE [X]</button>
     <img data-lightbox-image src="" alt="" />
     <p data-lightbox-caption class="lightbox-caption"></p>
@@ -126,7 +126,7 @@ const { photos } = Astro.props;
   .lightbox-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(16, 16, 16, 0.85);
+    background: rgba(16, 16, 16, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;

@@ -36,7 +36,7 @@ import { gigPhotosSectionId } from "../../data/nav";
     <div class="gig-grid">
       {
         music.gigPhotos.map((photo) => (
-          <figure class="gig-figure retro-border">
+          <figure class="gig-figure retro-border retro-shadow">
             <img src={photo.src} alt={photo.alt} loading="lazy" />
             {photo.caption && <figcaption>{photo.caption}</figcaption>}
           </figure>
