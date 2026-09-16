@@ -49,21 +49,21 @@ import siteData from "../data/site.json";
     ghost.style.width = `${rect.width}px`;
     ghost.style.height = `${rect.height}px`;
     ghost.style.background = "#101010";
-    ghost.style.opacity = "0.45";
+    ghost.style.opacity = "0.6";
     ghost.style.pointerEvents = "none";
-    ghost.style.transition = "opacity 260ms linear";
+    ghost.style.transition = "opacity 650ms linear";
     overlay.insertBefore(ghost, modal);
     requestAnimationFrame(() => {
       ghost.style.opacity = "0";
     });
-    setTimeout(() => ghost.remove(), 320);
+    setTimeout(() => ghost.remove(), 700);
   }
 
   function animateModalIn(triggerEl: HTMLElement) {
     if (!modal) return;
     const startRect = triggerEl.getBoundingClientRect();
     const endRect = modal.getBoundingClientRect();
-    const duration = 380;
+    const duration = 1100;
     const startTime = performance.now();
     let lastGhostAt = 0;
 
@@ -93,7 +93,7 @@ import siteData from "../data/site.json";
         modal.style.height = `${rect.height}px`;
       }
 
-      if (elapsed - lastGhostAt >= 40) {
+      if (elapsed - lastGhostAt >= 70) {
         spawnTrailGhost(rect);
         lastGhostAt = elapsed;
       }
@@ -181,7 +181,7 @@ import siteData from "../data/site.json";
   .contact-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(16, 16, 16, 0.85);
+    background: rgba(16, 16, 16, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
