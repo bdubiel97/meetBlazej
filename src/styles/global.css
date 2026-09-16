@@ -38,6 +38,16 @@ body {
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  cursor: url("/cursors/arrow.svg") 1 1, auto;
+}
+
+a,
+button,
+summary,
+[role="button"],
+input[type="submit"],
+label[for] {
+  cursor: url("/cursors/pointer.svg") 4 1, pointer;
 }
 
 h1,
@@ -109,7 +119,7 @@ img {
   border-radius: 0;
   padding: 0.6em 0.9em;
   text-decoration: none;
-  cursor: pointer;
+  cursor: url("/cursors/pointer.svg") 4 1, pointer;
   box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 var(--color-shadow);
   transition: transform 0.05s ease, box-shadow 0.05s ease;
 }

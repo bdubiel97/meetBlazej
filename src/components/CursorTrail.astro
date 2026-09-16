@@ -1,0 +1,55 @@
+---
+---
+
+<script>
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+
+  if (!prefersReducedMotion && hasFinePointer) {
+    const sizes = [6, 5, 4, 3];
+    const opacities = [0.7, 0.45, 0.25, 0.1];
+
+    const dots = sizes.map((size, i) => {
+      const el = document.createElement("div");
+      el.setAttribute("aria-hidden", "true");
+      el.style.position = "fixed";
+      el.style.top = "0";
+      el.style.left = "0";
+      el.style.width = `${size}px`;
+      el.style.height = `${size}px`;
+      el.style.background = "#101010";
+      el.style.opacity = String(opacities[i]);
+      el.style.pointerEvents = "none";
+      el.style.zIndex = "9999";
+      el.style.transform = "translate(-100px, -100px)";
+      document.body.appendChild(el);
+      return { el, size, x: -100, y: -100 };
+    });
+
+    let mouseX = -100;
+    let mouseY = -100;
+    let tracking = false;
+
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      tracking = true;
+    });
+
+    function animate() {
+      if (tracking) {
+        let targetX = mouseX;
+        let targetY = mouseY;
+        for (const dot of dots) {
+          dot.x += (targetX - dot.x) * 0.4;
+          dot.y += (targetY - dot.y) * 0.4;
+          dot.el.style.transform = `translate(${dot.x - dot.size / 2}px, ${dot.y - dot.size / 2}px)`;
+          targetX = dot.x;
+          targetY = dot.y;
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+  }
+</script>

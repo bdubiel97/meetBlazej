@@ -18,7 +18,6 @@ const { album } = Astro.props;
 <BaseLayout title={album.data.title} description={album.data.description}>
   <Breadcrumb
     items={[
-      { label: "Home", href: "/" },
       { label: "Photography", href: "/photography" },
       { label: album.data.title },
     ]}
