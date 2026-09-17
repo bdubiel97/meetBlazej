@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Breadcrumb from "../../components/Breadcrumb.astro";
 import UnderConstruction from "../../components/UnderConstruction.astro";
 import RetroPanel from "../../components/RetroPanel.astro";
 import EmbedPlayer from "../../components/EmbedPlayer.astro";
@@ -10,8 +9,7 @@ import { slugify } from "../../utils/slugify";
 import { gigPhotosSectionId } from "../../data/nav";
 ---
 
-<BaseLayout title="Music">
-  <Breadcrumb items={[{ label: "Music" }]} />
+<BaseLayout title="Music" theme="music">
   <h1>Music</h1>
   <nav class="header-links" aria-label="Music links">
     <a href={site.musicSoundcloud} target="_blank" rel="noopener noreferrer">

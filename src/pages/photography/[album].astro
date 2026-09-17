@@ -15,7 +15,7 @@ export async function getStaticPaths() {
 const { album } = Astro.props;
 ---
 
-<BaseLayout title={album.data.title} description={album.data.description}>
+<BaseLayout title={album.data.title} description={album.data.description} theme="photography">
   <Breadcrumb
     items={[
       { label: "Photography", href: "/photography" },

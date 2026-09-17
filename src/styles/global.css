@@ -11,12 +11,36 @@
   --color-shadow: #101010;
   --color-link: #101010;
   --color-muted: #4a4a4a;
+  --color-overlay: rgba(16, 16, 16, 0.4);
+  --color-panel-ink: var(--color-ink);
 
   --font-display: "Press Start 2P", system-ui, sans-serif;
   --font-mono: "Cascadia Mono", "Cascadia Code", ui-monospace, monospace;
 
   --border-width: 1px;
   --shadow-offset: 8px;
+}
+
+/* Per-page palettes */
+
+body.theme-music {
+  --color-bg: #4b5320;
+  --color-panel: #c4ff00;
+  --color-ink: #c4ff00;
+  --color-shadow: #ea00ff;
+  --color-link: #c4ff00;
+  --color-overlay: rgba(234, 0, 255, 0.55);
+  --color-panel-ink: #ea00ff;
+}
+
+body.theme-photography {
+  --color-bg: #101010;
+  --color-panel: #1c1c1c;
+  --color-input-bg: #0a0a0a;
+  --color-ink: #e1e1e1;
+  --color-shadow: #e1e1e1;
+  --color-link: #e1e1e1;
+  --color-muted: #9a9a9a;
 }
 
 *,

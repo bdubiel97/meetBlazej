@@ -9,9 +9,10 @@ import siteData from "../data/site.json";
 interface Props {
   title?: string;
   description?: string;
+  theme?: string;
 }
 
-const { title, description = siteData.tagline } = Astro.props;
+const { title, description = siteData.tagline, theme } = Astro.props;
 const pageTitle = title ? `${title} — ${siteData.siteTitle}` : siteData.siteTitle;
 ---
 
@@ -23,7 +24,7 @@ const pageTitle = title ? `${title} — ${siteData.siteTitle}` : siteData.siteTi
     <meta name="description" content={description} />
     <title>{pageTitle}</title>
   </head>
-  <body>
+  <body class={theme ? `theme-${theme}` : undefined}>
     <TopBar />
     <main class="container page-main">
       <slot />
