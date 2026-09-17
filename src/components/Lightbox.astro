@@ -7,20 +7,23 @@ interface Photo {
 
 interface Props {
   photos: Photo[];
+  showGrid?: boolean;
 }
 
-const { photos } = Astro.props;
+const { photos, showGrid = true } = Astro.props;
 ---
 
-<div class="photo-grid" data-lightbox-root>
-  {
-    photos.map((photo, i) => (
-      <button type="button" class="photo-thumb retro-border retro-shadow" data-open-lightbox={i}>
-        <img src={photo.src} alt={photo.alt} loading="lazy" />
-      </button>
-    ))
-  }
-</div>
+{
+  showGrid && (
+    <div class="photo-grid" data-lightbox-root>
+      {photos.map((photo, i) => (
+        <button type="button" class="photo-thumb retro-border retro-shadow" data-open-lightbox={i}>
+          <img src={photo.src} alt={photo.alt} loading="lazy" />
+        </button>
+      ))}
+    </div>
+  )
+}
 
 <div class="lightbox-overlay" data-lightbox-overlay hidden>
   <div class="lightbox-inner retro-border retro-shadow">

@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import UnderConstruction from "../../components/UnderConstruction.astro";
+import FilmReel from "../../components/FilmReel.astro";
 import site from "../../data/site.json";
 
 const albums = await getCollection("photography");
@@ -14,7 +14,7 @@ const albums = await getCollection("photography");
       Instagram
     </a>
   </nav>
-  <UnderConstruction />
+  <FilmReel />
 
   <div class="album-grid">
     {
@@ -31,8 +31,14 @@ const albums = await getCollection("photography");
 <style>
   .album-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .album-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .album-tile {
@@ -44,7 +50,7 @@ const albums = await getCollection("photography");
   }
 
   .album-tile img {
-    aspect-ratio: 1;
+    aspect-ratio: 3 / 2;
     object-fit: cover;
     border-bottom: var(--border-width) solid var(--color-ink);
   }

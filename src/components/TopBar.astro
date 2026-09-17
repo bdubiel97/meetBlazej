@@ -11,21 +11,43 @@ const section = pathname.startsWith("/photography")
     ? "music"
     : "home";
 
+interface MenuLink {
+  label: string;
+  href: string;
+}
+
+interface MenuGroup {
+  label: string;
+  children: MenuLink[];
+}
+
+type MenuItem = MenuLink | MenuGroup;
+
+function isGroup(item: MenuItem): item is MenuGroup {
+  return "children" in item;
+}
+
 let sectionLabel = "HOME";
-let sectionLinks: { label: string; href: string }[] = [];
+let sectionItems: MenuItem[] = [];
 
 if (section === "home") {
   sectionLabel = "HOME";
-  sectionLinks = [
+  sectionItems = [
     { label: "Overview", href: "/" },
     ...homeSections.map((s) => ({ label: s.label, href: `/#${s.id}` })),
   ];
 } else if (section === "photography") {
   const albums = await getCollection("photography");
   sectionLabel = "PHOTOGRAPHY";
-  sectionLinks = [
+  sectionItems = [
     { label: "Overview", href: "/photography" },
-    ...albums.map((album) => ({ label: album.data.title, href: `/photography/${album.id}` })),
+    {
+      label: "Albums",
+      children: albums.map((album) => ({
+        label: album.data.title,
+        href: `/photography/${album.id}`,
+      })),
+    },
   ];
 } else {
   const musicLinks = music.sets.map((set, i) => ({
@@ -33,7 +55,7 @@ if (section === "home") {
     label: set.title,
   }));
   sectionLabel = "MUSIC";
-  sectionLinks = [
+  sectionItems = [
     { label: "Overview", href: "/music" },
     ...musicLinks.map((link) => ({ label: link.label, href: `/music#${link.id}` })),
     { label: "gig-photos.dir", href: `/music#${gigPhotosSectionId}` },
@@ -59,11 +81,26 @@ if (section === "home") {
     <div class="menu-section-label">{sectionLabel}</div>
     <ul>
       {
-        sectionLinks.map((link) => (
-          <li>
-            <a href={link.href}>{link.label}</a>
-          </li>
-        ))
+        sectionItems.map((item) =>
+          isGroup(item) ? (
+            <li>
+              <details class="menu-group">
+                <summary>{item.label}</summary>
+                <ul>
+                  {item.children.map((child) => (
+                    <li>
+                      <a href={child.href}>{child.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          )
+        )
       }
     </ul>
   </div>
@@ -122,6 +159,29 @@ if (section === "home") {
 
   .menu-dropdown a {
     text-decoration: underline;
+  }
+
+  .menu-group summary {
+    cursor: pointer;
+    list-style: none;
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  .menu-group summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .menu-group summary::before {
+    content: "[+] ";
+  }
+
+  .menu-group[open] summary::before {
+    content: "[-] ";
+  }
+
+  .menu-group ul {
+    padding: 0.6rem 0 0 1.5rem;
   }
 </style>
 

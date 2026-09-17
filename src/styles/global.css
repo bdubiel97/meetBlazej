@@ -13,6 +13,7 @@
   --color-muted: #4a4a4a;
   --color-overlay: rgba(16, 16, 16, 0.4);
   --color-panel-ink: var(--color-ink);
+  --color-cursor-trail: var(--color-ink);
 
   --font-display: "Press Start 2P", system-ui, sans-serif;
   --font-mono: "Cascadia Mono", "Cascadia Code", ui-monospace, monospace;
@@ -31,6 +32,7 @@ body.theme-music {
   --color-link: #c4ff00;
   --color-overlay: rgba(234, 0, 255, 0.55);
   --color-panel-ink: #ea00ff;
+  --color-cursor-trail: #ea00ff;
 }
 
 body.theme-photography {
@@ -41,6 +43,20 @@ body.theme-photography {
   --color-shadow: #e1e1e1;
   --color-link: #e1e1e1;
   --color-muted: #9a9a9a;
+  --color-cursor-trail: #f2c200;
+}
+
+body.theme-photography .top-bar {
+  border-bottom-color: #f2c200;
+}
+
+body.theme-photography .status-bar {
+  border-top-color: #e2231a;
+}
+
+body.theme-photography .contact-close,
+body.theme-photography .contact-modal label {
+  color: #ffffff;
 }
 
 *,
