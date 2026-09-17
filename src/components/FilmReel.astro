@@ -1,0 +1,271 @@
+---
+import frames from "../data/filmReel.json";
+import Lightbox from "./Lightbox.astro";
+---
+
+<div class="film-reel">
+  <div class="film-canister">
+    <div class="canister-nub" aria-hidden="true"></div>
+    <div class="spool" aria-hidden="true"><span></span></div>
+    <div class="canister-labels">
+      <span class="canister-label">35mm</span>
+      <span class="canister-label">10 exp</span>
+    </div>
+  </div>
+  <div class="film-scroll">
+    <div class="film-track" data-film-track>
+      <div class="film-strip" data-film-strip>
+        <div class="film-strip-frames">
+          <div class="sprockets sprockets-top" aria-hidden="true"></div>
+          <div class="frames">
+            {
+              frames.map((frame, i) => (
+                <button type="button" class="film-frame" data-open-lightbox={i}>
+                  <img src={frame.src} alt={frame.alt} loading="lazy" />
+                  {frame.caption && <span class="film-frame-caption">{frame.caption}</span>}
+                </button>
+              ))
+            }
+          </div>
+          <div class="sprockets sprockets-bottom" aria-hidden="true"></div>
+        </div>
+        <svg
+          class="film-tail"
+          viewBox="0 0 70 112"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <polygon
+            points="1,2 15,2 68,56 15,110 1,110"
+            fill="#e5e5e5"
+            stroke="#e5e5e5"
+            stroke-width="1"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<Lightbox photos={frames} showGrid={false} />
+
+<script>
+  const track = document.querySelector<HTMLElement>("[data-film-track]");
+  const strip = document.querySelector<HTMLElement>("[data-film-strip]");
+  const scroller = document.querySelector<HTMLElement>(".film-scroll");
+
+  function resetScroll() {
+    if (scroller) scroller.scrollLeft = 0;
+  }
+
+  function playRollOut() {
+    if (!track || !strip) return;
+    // Measure the natural width BEFORE collapsing anything — once track is
+    // constrained to 0, strip (a flex child) can get squeezed too, which
+    // would make this measurement read back near-zero.
+    const targetWidth = strip.scrollWidth;
+
+    track.style.transition = "none";
+    track.style.width = "0px";
+    resetScroll();
+    // Force reflow so the width:0 reset is applied before re-enabling the transition.
+    void track.offsetWidth;
+    track.style.transition = "";
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        track.style.width = `${targetWidth}px`;
+        resetScroll();
+      });
+    });
+  }
+
+  if (track && strip) {
+    playRollOut();
+
+    track.addEventListener("transitionend", resetScroll);
+    document.fonts?.ready?.then(resetScroll);
+    window.addEventListener("load", resetScroll);
+    setTimeout(resetScroll, 300);
+    setTimeout(resetScroll, 1000);
+    setTimeout(resetScroll, 2000);
+
+    // Bfcache restores (browser back/forward) skip script re-execution,
+    // so replay the roll-out explicitly whenever that happens.
+    window.addEventListener("pageshow", (e) => {
+      if (e.persisted) playRollOut();
+    });
+  }
+</script>
+
+<style>
+  .film-reel {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .film-scroll {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-anchor: none;
+  }
+
+  .film-canister {
+    flex: 0 0 auto;
+    width: 77px;
+    height: 162px;
+    background: #f2c200;
+    border-style: solid;
+    border-color: #ffffff #101010 #ffffff #ffffff;
+    border-width: 2px 1px 2px 2px;
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .canister-nub {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 33.33%;
+    height: 4px;
+    background: #ffffff;
+  }
+
+  .spool {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 4px solid #e2231a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: spool-spin 3s linear infinite;
+  }
+
+  .spool span {
+    width: 3px;
+    height: 100%;
+    background: #e2231a;
+  }
+
+  .canister-labels {
+    display: flex;
+    gap: 6px;
+    align-items: flex-end;
+  }
+
+  .canister-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-family: var(--font-display);
+    font-size: calc(0.5rem + 2px);
+    letter-spacing: -0.5px;
+    color: #101010;
+  }
+
+  .film-track {
+    overflow: hidden;
+    transition: width 10.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .film-strip {
+    display: flex;
+    align-items: center;
+  }
+
+  .film-strip-frames {
+    position: relative;
+    height: 150px;
+    background: #101010;
+    border: var(--border-width) solid #e5e5e5;
+    border-left: none;
+    border-right: var(--border-width) solid #ffffff;
+    box-shadow: var(--shadow-offset) var(--shadow-offset) 0 0 rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+  }
+
+  .sprockets {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background-image: repeating-linear-gradient(
+      to right,
+      #e5e5e5 0 8px,
+      transparent 8px 18px
+    );
+  }
+
+  .sprockets-top {
+    top: 10px;
+  }
+
+  .sprockets-bottom {
+    bottom: 10px;
+  }
+
+  .frames {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+  }
+
+  .film-frame {
+    position: relative;
+    flex: 0 0 auto;
+    width: 150px;
+    height: 106px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    overflow: hidden;
+    background: #1a1a1a;
+  }
+
+  .film-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .film-frame-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 3px 6px;
+    background: rgba(0, 0, 0, 0.65);
+    color: #f5f5f5;
+    font-family: var(--font-display);
+    font-size: 0.55rem;
+    letter-spacing: -0.5px;
+  }
+
+  .film-tail {
+    flex: 0 0 auto;
+    width: 70px;
+    height: 112px;
+    display: block;
+    position: relative;
+    z-index: 3;
+  }
+
+  @keyframes spool-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
