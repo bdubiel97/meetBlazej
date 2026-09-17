@@ -1,0 +1,257 @@
+---
+---
+
+<img
+  class="monkey-sprite"
+  data-monkey-sprite
+  src="/images/music/monkey-banana.svg"
+  alt=""
+  aria-hidden="true"
+  hidden
+/>
+<img
+  class="banana-sprite"
+  data-banana-sprite
+  src="/images/music/banana.svg"
+  alt=""
+  aria-hidden="true"
+  hidden
+/>
+
+<script>
+  const monkey = document.querySelector<HTMLImageElement>("[data-monkey-sprite]");
+  const banana = document.querySelector<HTMLImageElement>("[data-banana-sprite]");
+  const topBar = document.querySelector<HTMLElement>(".top-bar");
+  const menuBtn = document.querySelector<HTMLElement>(".top-bar [data-menu-toggle]");
+  const connectBtn = document.querySelector<HTMLElement>(".top-bar [data-open-contact]");
+  const statusBar = document.querySelector<HTMLElement>(".status-bar");
+
+  if (monkey && banana && topBar && menuBtn && connectBtn && statusBar) {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const BANANA_ASPECT = 233 / 284;
+
+    let mouseX = -9999;
+    let mouseY = -9999;
+    window.addEventListener("mousemove", (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animateValue(duration: number, onUpdate: (t: number) => void): Promise<void> {
+      return new Promise((resolve) => {
+        const start = performance.now();
+        function frame(now: number) {
+          const elapsed = now - start;
+          const t = Math.min(elapsed / duration, 1);
+          onUpdate(t);
+          if (t < 1) {
+            requestAnimationFrame(frame);
+          } else {
+            resolve();
+          }
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+
+    function sleep(ms: number): Promise<void> {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    // Fraction of the hanging-monkey artwork's height, measured from its
+    // top edge, where the curl of the wrapped tail sits — used so the
+    // separator line passes through the middle of that curl.
+    const TAIL_ANCHOR_FRACTION = 0.085;
+
+    function measure() {
+      const topRect = topBar!.getBoundingClientRect();
+      const menuRect = menuBtn!.getBoundingClientRect();
+      const connectRect = connectBtn!.getBoundingClientRect();
+      const statusRect = statusBar!.getBoundingClientRect();
+      const groundY = topRect.bottom;
+      const base = groundY / 3;
+      // Jumping monkey: between the original (1x) and the first "2x bigger"
+      // pass, i.e. 1.5x. Hanging monkey: 1.5x bigger than that 2x size, i.e. 3x.
+      const jumpSize = Math.min(Math.max(base * 1.5, 18), 180);
+      const hangSize = Math.min(Math.max(base * 3, 36), 360);
+      const padding = 16;
+      return {
+        groundY,
+        jumpSize,
+        hangSize,
+        startX: menuRect.right + padding,
+        endX: connectRect.left - padding - jumpSize,
+        bottomY: statusRect.top,
+        bottomBarHeight: statusRect.height,
+      };
+    }
+
+    function placeMonkey(x: number, y: number, size: number, flipped: boolean) {
+      monkey!.style.width = `${size}px`;
+      monkey!.style.height = `${size}px`;
+      monkey!.style.transform = `translate(${x}px, ${y}px)${flipped ? " scaleX(-1)" : ""}`;
+    }
+
+    function placeBanana(x: number, y: number, height: number) {
+      const width = height * BANANA_ASPECT;
+      banana!.style.width = `${width}px`;
+      banana!.style.height = `${height}px`;
+      banana!.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    async function hop(
+      fromX: number,
+      toX: number,
+      groundY: number,
+      size: number,
+      flipped: boolean,
+      duration: number,
+      hopHeight: number
+    ) {
+      await animateValue(duration, (t) => {
+        const x = fromX + (toX - fromX) * t;
+        const arc = Math.sin(Math.PI * t) * hopHeight;
+        placeMonkey(x, groundY - size - arc, size, flipped);
+      });
+    }
+
+    // Gravity-driven fall (px/ms^2) — tuned so a typical fall takes a few
+    // seconds, matching the "twice slower" overall pacing.
+    const GRAVITY = 0.00018;
+    const RETREAT_SPEED = 0.5; // px/ms, snappy compared to the slow fall
+
+    // Falls from dropY toward endY, but if the cursor gets within
+    // `proximityThreshold` of the banana it reverses back up to dropY
+    // instead. Resolves with whether it reached the bottom or retreated.
+    function fallWithGuard(
+      dropX: number,
+      dropY: number,
+      endY: number,
+      bananaSize: number,
+      proximityThreshold: number
+    ): Promise<{ retreated: boolean }> {
+      return new Promise((resolve) => {
+        let y = dropY;
+        let velocity = 0;
+        let retreating = false;
+        let lastTime = performance.now();
+
+        function frame(now: number) {
+          const dt = Math.min(now - lastTime, 50);
+          lastTime = now;
+
+          const bananaCenterX = dropX + (bananaSize * BANANA_ASPECT) / 2;
+          const bananaCenterY = y + bananaSize / 2;
+          const distToCursor = Math.hypot(mouseX - bananaCenterX, mouseY - bananaCenterY);
+
+          if (!retreating && distToCursor < proximityThreshold) {
+            retreating = true;
+          }
+
+          if (retreating) {
+            y -= RETREAT_SPEED * dt;
+            if (y <= dropY) {
+              placeBanana(dropX, dropY, bananaSize);
+              resolve({ retreated: true });
+              return;
+            }
+          } else {
+            velocity += GRAVITY * dt;
+            y += velocity * dt;
+            if (y >= endY) {
+              placeBanana(dropX, endY, bananaSize);
+              resolve({ retreated: false });
+              return;
+            }
+          }
+
+          placeBanana(dropX, y, bananaSize);
+          requestAnimationFrame(frame);
+        }
+
+        requestAnimationFrame(frame);
+      });
+    }
+
+    async function runCycle() {
+      if (prefersReducedMotion) return;
+
+      const { groundY, jumpSize, hangSize, startX, endX, bottomY, bottomBarHeight } = measure();
+      const hopHeight = jumpSize * 0.5;
+      const hopCount = 5;
+      const hopDuration = 900;
+      const step = (endX - startX) / hopCount;
+
+      monkey!.src = "/images/music/monkey-banana.svg";
+      monkey!.hidden = false;
+      banana!.hidden = true;
+      // Default artwork faces left, so moving right needs it flipped.
+      placeMonkey(startX, groundY - jumpSize, jumpSize, true);
+
+      let x = startX;
+      for (let i = 0; i < hopCount; i++) {
+        const nextX = i === hopCount - 1 ? endX : x + step;
+        await hop(x, nextX, groundY, jumpSize, true, hopDuration, hopHeight);
+        x = nextX;
+      }
+
+      const backX = Math.max(startX, endX - step);
+      await hop(x, backX, groundY, jumpSize, false, hopDuration, hopHeight);
+      x = backX;
+
+      monkey!.src = "/images/music/monkey-hang.svg";
+      placeMonkey(x, groundY - hangSize * TAIL_ANCHOR_FRACTION, hangSize, false);
+
+      const bananaSize = hangSize * 0.55;
+      const dropX = x + hangSize * 0.8;
+      const dropY = groundY + hangSize * 0.45;
+      banana!.hidden = false;
+      placeBanana(dropX, dropY, bananaSize);
+
+      // Let it fall past the bottom bar's own bottom edge so it visually
+      // disappears behind the (opaque) bar rather than popping out of
+      // existence right at the separator line.
+      const fallEndY = bottomY + bottomBarHeight + bananaSize * 0.3;
+      const proximityThreshold = Math.max(60, bananaSize * 1.4);
+      const { retreated } = await fallWithGuard(
+        dropX,
+        dropY,
+        fallEndY,
+        bananaSize,
+        proximityThreshold
+      );
+
+      banana!.hidden = true;
+      await sleep(retreated ? 400 : 500);
+      runCycle();
+    }
+
+    runCycle();
+  }
+</script>
+
+<style>
+  .monkey-sprite,
+  .banana-sprite {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .monkey-sprite {
+    z-index: 21;
+  }
+
+  .banana-sprite {
+    /* Below the status bar's z-index (20) so it disappears behind it
+       as it falls, instead of stopping abruptly at the separator line. */
+    z-index: 15;
+  }
+
+  .monkey-sprite[hidden],
+  .banana-sprite[hidden] {
+    display: none;
+  }
+</style>
