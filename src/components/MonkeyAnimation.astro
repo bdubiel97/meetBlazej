@@ -178,9 +178,16 @@
 
       const { groundY, jumpSize, hangSize, startX, endX, bottomY, bottomBarHeight } = measure();
       const hopHeight = jumpSize * 0.5;
-      const hopCount = 5;
       const hopDuration = 900;
-      const step = (endX - startX) / hopCount;
+      // Fixed hop length/pace, independent of how many hops this cycle
+      // actually does — only the number of hops varies, never their length
+      // or speed.
+      const baseHopCount = 6;
+      const step = (endX - startX) / baseHopCount;
+      const rightHopChoices = [4, 5, 6];
+      const leftHopChoices = [1, 2, 3, 4];
+      const rightHopCount = rightHopChoices[Math.floor(Math.random() * rightHopChoices.length)];
+      const leftHopCount = leftHopChoices[Math.floor(Math.random() * leftHopChoices.length)];
 
       monkey!.src = "/images/music/monkey-banana.svg";
       monkey!.hidden = false;
@@ -189,15 +196,17 @@
       placeMonkey(startX, groundY - jumpSize, jumpSize, true);
 
       let x = startX;
-      for (let i = 0; i < hopCount; i++) {
-        const nextX = i === hopCount - 1 ? endX : x + step;
+      for (let i = 0; i < rightHopCount; i++) {
+        const nextX = Math.min(x + step, endX);
         await hop(x, nextX, groundY, jumpSize, true, hopDuration, hopHeight);
         x = nextX;
       }
 
-      const backX = Math.max(startX, endX - step);
-      await hop(x, backX, groundY, jumpSize, false, hopDuration, hopHeight);
-      x = backX;
+      for (let i = 0; i < leftHopCount; i++) {
+        const nextX = Math.max(x - step, startX);
+        await hop(x, nextX, groundY, jumpSize, false, hopDuration, hopHeight);
+        x = nextX;
+      }
 
       monkey!.src = "/images/music/monkey-hang.svg";
       placeMonkey(x, groundY - hangSize * TAIL_ANCHOR_FRACTION, hangSize, false);
@@ -212,7 +221,7 @@
       // disappears behind the (opaque) bar rather than popping out of
       // existence right at the separator line.
       const fallEndY = bottomY + bottomBarHeight + bananaSize * 0.3;
-      const proximityThreshold = Math.max(60, bananaSize * 1.4);
+      const proximityThreshold = Math.max(30, bananaSize * 0.7);
       const { retreated } = await fallWithGuard(
         dropX,
         dropY,
@@ -222,11 +231,43 @@
       );
 
       banana!.hidden = true;
-      await sleep(retreated ? 400 : 500);
+
+      if (retreated) {
+        // Banana got scared back to the monkey — hop it back to the start
+        // instead of teleporting there.
+        await sleep(400);
+        monkey!.src = "/images/music/monkey-banana.svg";
+        let bx = x;
+        while (bx > startX) {
+          const nextX = Math.max(bx - step, startX);
+          await hop(bx, nextX, groundY, jumpSize, false, hopDuration, hopHeight);
+          bx = nextX;
+        }
+      } else {
+        await sleep(500);
+        // Rest at the starting point between loops.
+        monkey!.src = "/images/music/monkey-banana.svg";
+        placeMonkey(startX, groundY - jumpSize, jumpSize, true);
+      }
+
+      await sleep(4000);
+
       runCycle();
     }
 
-    runCycle();
+    async function start() {
+      if (prefersReducedMotion) return;
+      // Wait at the starting point before the first cycle, same as the
+      // rest between loops.
+      const { groundY, jumpSize, startX } = measure();
+      monkey!.src = "/images/music/monkey-banana.svg";
+      monkey!.hidden = false;
+      placeMonkey(startX, groundY - jumpSize, jumpSize, true);
+      await sleep(4000);
+      runCycle();
+    }
+
+    start();
   }
 </script>
 
