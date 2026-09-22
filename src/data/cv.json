@@ -1,56 +1,144 @@
 {
-  "name": "YOUR NAME HERE",
-  "title": "Your Job Title",
-  "photo": "/images/cv/profile-placeholder.svg",
+  "name": "Błażej Dubiel",
+  "title": "Software Engineer",
+  "photo": "/images/cv/profile-pic-web.jpg",
   "contact": {
-    "email": "you@example.com",
-    "location": "Your City, Country",
+    "email": "bdubiel97@gmail.com",
+    "phone": "+48 609 405 718",
+    "location": "Groningen, Netherlands",
     "links": [
       { "label": "GitHub", "url": "https://github.com/bdubiel97" },
       { "label": "LinkedIn", "url": "https://www.linkedin.com/in/bdubiel" }
     ]
   },
-  "summary": "PLACEHOLDER — replace this with two or three sentences about who you are professionally, what you do, and what you're looking for. Edit this text in src/data/cv.json.",
+  "summary": 
+    "Software engineer with 4+ years of experience building scalable applications across diverse domains. Driven to turn unknowns into efficient solutions. Currently pursuing a career in AI, eager to contribute to impactful projects in the field.",
   "experience": [
     {
-      "company": "Placeholder Company",
-      "role": "Placeholder Role",
-      "start": "2022",
-      "end": "Present",
+      "company": "Freelance",
+      "role": "Software Engineer",
+      "start": "JAN 2026",
+      "end": "Ongoing",
       "bullets": [
-        "Replace with a real accomplishment or responsibility.",
-        "Add another bullet describing impact or scope.",
-        "Keep bullets short and specific — numbers help."
+        "Designed and developed successfully the control software for the prototype of a clarifier machine in the chemical lab of a beet sugar factory, used to maintain chemical solutions for specific concentrations. Built the front-end and back-end on a Raspberry Pi.",
+        "This website."
+      ],
+      "stack": ["Python", "PyQt6", "Linux command line"]
+    },
+    {
+      "company": "BOIKON",
+      "role": "Software Engineer",
+      "start": "JAN 2023",
+      "end": "Ongoing",
+      "place": "Leek, Netherlands",
+      "bullets": [
+        "Developingand and maintaining track and trace software infrastructure for automation of track and trace solutions to ensure compliance and operational efficiency within EU tobacco directive. ",
+        "Developed and implemented end-to-end industrial machine software, spanning control logic, HMI development, data collection and processing applications and visualization dashboards. ",
+        "Configuring and optimizing vision systems for object detection and classification tasks in the automated pipelines, ensuring nearly perfect system accuracy.",
+        "Responsible for Claude Code adaptation within the software team, including research, infrastructure set up, skills and routines design.",
+        "Daily collaboration with cross-functional teams, including engineers, product managers as well as customers."
+      ],
+      "stack": ["PLC", "C#", ".NET", "SQL", "Structured Text", "WPF"]
+    },
+    {
+      "company": "TNO",
+      "role": "AI Engineer intern",
+      "start": "JAN 2022",
+      "end": "NOV 2022",
+      "place": "Den Hague, Netherlands",
+      "bullets": [
+        "Conducted research as part of a project entitled “Autonomous Detection and Classification of Bituminous Joints in Highway Pavement Using Two-Staged and Residual-Based Convolutional Autoencoder.",
+        "Extracted and preprocessed intensity-based data from a laser-triangulation system and developed an end-to-end unsupervised pipeline for bituminous joint detection, addressing label sparsity, anomaly detection, feature space inhomogeneity, and normalization challenges.",
+        "Thesis outcomes received high acclaim, earning a grade of 7.5 from academia and recognition from the host company, where the proposed approach established a benchmark for future projects."
+      ],
+      "stack": ["python", "Docker", "MATLAB"]
+    },
+    {
+      "company": "AGH Racing Team",
+      "role": "Computational Fluid Dynamics Engineer & Graphic Designer",
+      "start": "OCT 2018",
+      "end": "SEPT 2020",
+      "place": "Cracow, Poland",
+      "bullets": [
+        "Designed and optimized aerodynamic components for a Formula Student race car using Computational Fluid Dynamics (CFD) simulations, contributing to the 1st electric Formula Student car in Poland.",
+        "Race car sheating design and social media graphics design."
       ]
     },
     {
-      "company": "Previous Company",
-      "role": "Previous Role",
-      "start": "2019",
-      "end": "2022",
+      "company": "SISTECAUT Lda. ",
+      "role": "Mechatronics Engineer intern",
+      "start": "JULY 2019",
+      "end": "AUG 2019",
+      "place": "Aveiro, Portugal",
       "bullets": [
-        "Replace with a real accomplishment from this role.",
-        "Add another bullet here."
+        "Manipulators programming.",
+        "PLC programming."
       ]
     }
   ],
   "education": [
     {
-      "school": "Placeholder University",
-      "degree": "Placeholder Degree",
-      "start": "2015",
-      "end": "2019",
-      "notes": "Optional note — honors, relevant coursework, etc."
+      "school": "University of Groningen",
+      "degree": "MSc. Artificial Intelligence",
+      "start": "SEPT 2020",
+      "end": "JUNE 2024",
+      "notes": "Hollistic study of AI, including subjects such as Machine Learning, Deep Learning, Computer Vision, robotics in AI, Design of Multi-Agent systems, Natural Language Processing, Data Science as well as electives in the field of science and business. "
+    },
+    {
+      "school": "AGH University of Science and Technology (Cracow)",
+      "degree": "BSc. Mechatronics Engineering",
+      "start": "SEPT 2016",
+      "end": "JUNE 2020",
+      "notes": "Engineering program, taught in English, focused on synergy between mechanical, electrical and computer engineering for mechatronics. Concluded with a thesis on face recognition for mechatronics applications."
+    },
+    {
+      "school": "University of Aveiro",
+      "degree": "Erasmus+ exchange program",
+      "start": "FEB 2019",
+      "end": "JULY 2019",
+      "notes": "Exchange program in Portugal during which I started my journer into AI by taking Machine Learning and Computer Vision courses."
     }
+  ],
+  "coursesConferences": [
+    {
+      "name": "Governance in AI",
+      "provider": "Organised by Bluedot",
+      "date": "Fall 2025",
+      "notes": "A course on AI governance, covering regulatory frameworks and discussing possible solutions to ethical and legal challenges."
+    },
+    {
+      "name": "AI Safety - technical track",
+      "provider": "Organised by SAIN (Safe AI Netherlands)",
+      "date": "Fall 2025",
+      "notes": "A course on technical aspects of AI safety, covering technical aspects of AI safety and discussion of potential risks as well as possible solutions. Concluded with a research project entitled 'sss'."
+    },
+    {
+      "name": "ML in Poland conference (2024 edition)",
+      "notes": "Conference on AI state-of-the-art in Poland."
+    }
+  ],
+  "projects": [
+    "Face recognition software for mechatronic devices",
+    "End-to-end pattern recognition pipeline for manuscripts analysis",
+    "Japanese vowel sound classification",
+    "Van-Gogh paintings generation using DCGANs",
+    "fMRI and EEG analysis for computational neuroscience",
+    "Multi-Agent simulation of ad-hoc networks",
+    "Autonomous fire fighter robot & autonomous snowplough robot",
+    "Various deep-learning based classifications"
   ],
   "skills": [
     {
-      "category": "Languages",
-      "items": ["JavaScript", "TypeScript", "Python"]
+      "category": "Stack",
+      "items": ["python", "C#", "MATLAB", "Structured Text", "PyQt6", "SQL", ".NET"]
     },
     {
-      "category": "Tools",
-      "items": ["Git", "Figma", "Node.js"]
+      "category": "Tooling",
+      "items": ["Git", "Claude Code", "VS and VS code", "Docker", "Jupyter", "Linux comand line", "SCRUM", "JIRA"]
+    },
+    {
+      "category": "Languages",
+      "items": ["Polish (native)", "English (fluent)", "Spanish (intermediate)", "Dutch (basic)"]
     }
   ]
 }

@@ -23,11 +23,11 @@ import cv from "../data/cv.json";
     </div>
   </div>
 
-  <RetroPanel id="about-txt" title="about.txt">
+  <RetroPanel id="about-txt" title="About me">
     <p>{cv.summary}</p>
   </RetroPanel>
 
-  <RetroPanel id="experience-exe" title="experience.exe">
+  <RetroPanel id="experience-exe" title="Work experience">
     {
       cv.experience.map((job) => (
         <div class="entry">
@@ -36,18 +36,24 @@ import cv from "../data/cv.json";
           </h3>
           <p class="entry-dates">
             {job.start} – {job.end}
+            {job.place && ` · ${job.place}`}
           </p>
           <ul>
             {job.bullets.map((bullet) => (
               <li>{bullet}</li>
             ))}
           </ul>
+          {job.stack && (
+            <p class="entry-stack">
+              <strong>{job.stack.join(", ")}</strong>
+            </p>
+          )}
         </div>
       ))
     }
   </RetroPanel>
 
-  <RetroPanel id="education-dat" title="education.dat">
+  <RetroPanel id="education-dat" title="Education">
     {
       cv.education.map((edu) => (
         <div class="entry">
@@ -63,7 +69,27 @@ import cv from "../data/cv.json";
     }
   </RetroPanel>
 
-  <RetroPanel id="skills-sys" title="skills.sys">
+  <RetroPanel id="courses-log" title="Courses & conferences">
+    {
+      cv.coursesConferences.map((course) => (
+        <div class="entry">
+          <h3>{course.name}</h3>
+          <p class="entry-dates">
+            {course.provider && `${course.provider} — `}{course.date}
+          </p>
+          {course.notes && <p>{course.notes}</p>}
+        </div>
+      ))
+    }
+  </RetroPanel>
+
+  <RetroPanel id="projects-zip" title="Projects">
+    <ul>
+      {cv.projects.map((project) => <li>{project}</li>)}
+    </ul>
+  </RetroPanel>
+
+  <RetroPanel id="skills-sys" title="Skills">
     {
       cv.skills.map((group) => (
         <div class="skill-group">
@@ -74,8 +100,11 @@ import cv from "../data/cv.json";
     }
   </RetroPanel>
 
-  <RetroPanel id="contact-cfg" title="contact.cfg">
+  <RetroPanel id="contact-cfg" title="Contact">
     <p>Email: <a href={`mailto:${cv.contact.email}`}>{cv.contact.email}</a></p>
+    {cv.contact.phone && (
+      <p>Phone: <a href={`tel:${cv.contact.phone.replace(/\s+/g, "")}`}>{cv.contact.phone}</a></p>
+    )}
     <ul class="contact-links">
       {
         cv.contact.links.map((link) => (
@@ -123,6 +152,11 @@ import cv from "../data/cv.json";
     color: var(--color-muted);
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
+  }
+
+  .entry-stack {
+    margin: 0.75rem 0 0;
+    padding-left: 40px;
   }
 
   .skill-group {
