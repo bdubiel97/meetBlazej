@@ -2,6 +2,13 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import RetroPanel from "../components/RetroPanel.astro";
 import cv from "../data/cv.json";
+import { homeSections } from "../data/nav";
+
+// Look up a section's title from the shared list in src/data/nav.ts, so the
+// MENU dropdown and the panel headings never drift out of sync.
+function sectionTitle(id: string) {
+  return homeSections.find((section) => section.id === id)?.label ?? id;
+}
 ---
 
 <BaseLayout title="CV">
@@ -23,11 +30,11 @@ import cv from "../data/cv.json";
     </div>
   </div>
 
-  <RetroPanel id="about-txt" title="About me">
+  <RetroPanel id="about-txt" title={sectionTitle("about-txt")}>
     <p>{cv.summary}</p>
   </RetroPanel>
 
-  <RetroPanel id="experience-exe" title="Work experience">
+  <RetroPanel id="experience-exe" title={sectionTitle("experience-exe")}>
     {
       cv.experience.map((job) => (
         <div class="entry">
@@ -53,7 +60,7 @@ import cv from "../data/cv.json";
     }
   </RetroPanel>
 
-  <RetroPanel id="education-dat" title="Education">
+  <RetroPanel id="education-dat" title={sectionTitle("education-dat")}>
     {
       cv.education.map((edu) => (
         <div class="entry">
@@ -69,7 +76,7 @@ import cv from "../data/cv.json";
     }
   </RetroPanel>
 
-  <RetroPanel id="courses-log" title="Courses & conferences">
+  <RetroPanel id="courses-log" title={sectionTitle("courses-log")}>
     {
       cv.coursesConferences.map((course) => (
         <div class="entry">
@@ -83,13 +90,13 @@ import cv from "../data/cv.json";
     }
   </RetroPanel>
 
-  <RetroPanel id="projects-zip" title="Projects">
+  <RetroPanel id="projects-zip" title={sectionTitle("projects-zip")}>
     <ul>
       {cv.projects.map((project) => <li>{project}</li>)}
     </ul>
   </RetroPanel>
 
-  <RetroPanel id="skills-sys" title="Skills">
+  <RetroPanel id="skills-sys" title={sectionTitle("skills-sys")}>
     {
       cv.skills.map((group) => (
         <div class="skill-group">
@@ -100,7 +107,7 @@ import cv from "../data/cv.json";
     }
   </RetroPanel>
 
-  <RetroPanel id="contact-cfg" title="Contact">
+  <RetroPanel id="contact-cfg" title={sectionTitle("contact-cfg")}>
     <p>Email: <a href={`mailto:${cv.contact.email}`}>{cv.contact.email}</a></p>
     {cv.contact.phone && (
       <p>Phone: <a href={`tel:${cv.contact.phone.replace(/\s+/g, "")}`}>{cv.contact.phone}</a></p>
@@ -130,8 +137,7 @@ import cv from "../data/cv.json";
 
   .profile-photo {
     width: 140px;
-    height: 175px;
-    object-fit: cover;
+    height: auto;
     filter: grayscale(1) contrast(1.05);
   }
 
