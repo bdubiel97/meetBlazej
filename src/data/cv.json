@@ -12,7 +12,7 @@
     ]
   },
   "summary": 
-    "Software engineer with 4+ years of experience building scalable applications across diverse domains. Driven to turn unknowns into efficient solutions. Currently pursuing a career in AI, eager to contribute to impactful projects in the field.",
+    "Software engineer with 4+ years of experience building scalable applications across diverse domains. Enthusiastic about turning unknowns into efficient solutions. Currently pursuing a career in AI through contributing to impactful projects in the field. I spend my free time on analog photography and music.",
   "experience": [
     {
       "company": "Freelance",
@@ -20,10 +20,10 @@
       "start": "JAN 2026",
       "end": "Ongoing",
       "bullets": [
-        "Designed and developed successfully the control software for the prototype of a clarifier machine in the chemical lab of a beet sugar factory, used to maintain chemical solutions for specific concentrations. Built the front-end and back-end on a Raspberry Pi.",
+        "Successfully designed and developed the control software for a prototype clarifier machine used in a chemical laboratory at a beet sugar factory to maintain chemical solutions at specific concentrations and temperatures. Built both the front-end and back-end for a Raspberry Pi.",
         "This website."
       ],
-      "stack": ["Python", "PyQt6", "Linux command line"]
+      "stack": ["Python", "PyQt6", "Linux CLI", "Claudde Code"]
     },
     {
       "company": "BOIKON",
@@ -32,11 +32,12 @@
       "end": "Ongoing",
       "place": "Leek, Netherlands",
       "bullets": [
-        "Developingand and maintaining track and trace software infrastructure for automation of track and trace solutions to ensure compliance and operational efficiency within EU tobacco directive. ",
-        "Developed and implemented end-to-end industrial machine software, spanning control logic, HMI development, data collection and processing applications and visualization dashboards. ",
-        "Configuring and optimizing vision systems for object detection and classification tasks in the automated pipelines, ensuring nearly perfect system accuracy.",
+        "Developing and and maintaining track and trace software infrastructure to ensure compliance and operational efficiency within EU tobacco directive on tracebility of tobacco products.",
+        "That includes implementation of data applications ensuring data aggregation and processing, control logic of industrials machines, HMI design and vision systems configuration.",
+        "Led several successful projects, implementing software architecture enhancements and enabling secure, safety-compliant AI deployment across the company.",
         "Responsible for Claude Code adaptation within the software team, including research, infrastructure set up, skills and routines design.",
-        "Daily collaboration with cross-functional teams, including engineers, product managers as well as customers."
+        "Working closely with clients remotely during development and service, as well as on-site during the commissioning of new machines",
+        "Daily collaboration with cross-functional teams, including engineers from different departments and product managers."
       ],
       "stack": ["PLC", "C#", ".NET", "SQL", "Structured Text", "WPF"]
     },
@@ -82,7 +83,7 @@
       "degree": "MSc. Artificial Intelligence",
       "start": "SEPT 2020",
       "end": "JUNE 2024",
-      "notes": "Hollistic study of AI, including subjects such as Machine Learning, Deep Learning, Computer Vision, robotics in AI, Design of Multi-Agent systems, Natural Language Processing, Data Science as well as electives in the field of science and business. "
+      "notes": "Hollistic study of AI, including subjects such as Machine Learning, Deep Learning, Computer Vision, robotics in AI, Design of Multi-Agent systems, Natural Language Processing, Data Science as well as elective in the field of science and business. "
     },
     {
       "school": "AGH University of Science and Technology (Cracow)",
@@ -110,7 +111,7 @@
       "name": "AI Safety - technical track",
       "provider": "Organised by SAIN (Safe AI Netherlands)",
       "date": "Fall 2025",
-      "notes": "A course on technical aspects of AI safety, covering technical aspects of AI safety and discussion of potential risks as well as possible solutions. Concluded with a research project entitled 'sss'."
+      "notes": "A course on technical aspects of AI safety, covering technical aspects of AI safety and discussion of potential risks as well as possible solutions. Concluded with a research project entitled 'Subjective overview of the mechanistic interpretability methods for LLMs'."
     },
     {
       "name": "ML in Poland conference (2024 edition)",
@@ -130,11 +131,15 @@
   "skills": [
     {
       "category": "Stack",
-      "items": ["python", "C#", "MATLAB", "Structured Text", "PyQt6", "SQL", ".NET"]
+      "items": ["python", "C#", "MATLAB", "Structured Text", "PyQt6", "SQL", ".NET", "WPF", "Linux CLI"]
     },
     {
       "category": "Tooling",
-      "items": ["Git", "Claude Code", "VS and VS code", "Docker", "Jupyter", "Linux comand line", "SCRUM", "JIRA"]
+      "items": ["Git", "Claude Code", "VS and VS code", "Docker", "Jupyter", "SCRUM", "JIRA"]
+    },
+    {
+      "category": "AI interesets",
+      "items": ["Governance of AI", "Human-machine alignment", "AI Safety","Computer Vision", "Signal processing", "Anomaly detection", "Data Analysis","Patterns recognition"]
     },
     {
       "category": "Languages",
