@@ -1,6 +1,5 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import UnderConstruction from "../../components/UnderConstruction.astro";
 import MonkeyAnimation from "../../components/MonkeyAnimation.astro";
 import RetroPanel from "../../components/RetroPanel.astro";
 import EmbedPlayer from "../../components/EmbedPlayer.astro";
@@ -12,20 +11,28 @@ import { gigPhotosSectionId } from "../../data/nav";
 
 <BaseLayout title="Music" theme="music">
   <h1>Music</h1>
-  <nav class="header-links" aria-label="Music links">
-    <a href={site.musicSoundcloud} target="_blank" rel="noopener noreferrer">
-      SoundCloud
-    </a>
-    <a href={site.musicInstagram} target="_blank" rel="noopener noreferrer">
-      Instagram
-    </a>
-  </nav>
-  <UnderConstruction />
+  <RetroPanel id="about" title="About">
+    <p>{music.about}</p>
+    <nav class="music-links" aria-label="Music links">
+      <a href={site.musicSoundcloud} target="_blank" rel="noopener noreferrer">
+        SoundCloud
+      </a>
+      <a href={site.musicInstagram} target="_blank" rel="noopener noreferrer">
+        Instagram
+      </a>
+      <a href={site.musicSoundcloudIpa} target="_blank" rel="noopener noreferrer">
+        SoundCloud IPA
+      </a>
+      <a href={site.musicInstagramIpa} target="_blank" rel="noopener noreferrer">
+        Instagram IPA
+      </a>
+    </nav>
+  </RetroPanel>
 
   {
     music.sets.map((set, i) => (
       <RetroPanel id={`${slugify(set.title)}-${i}`} title={set.title}>
-        <p>{set.description}</p>
+        {set.description && <p>{set.description}</p>}
         <EmbedPlayer platform={set.platform} url={set.url} title={set.title} />
       </RetroPanel>
     ))
@@ -48,6 +55,19 @@ import { gigPhotosSectionId } from "../../data/nav";
 </BaseLayout>
 
 <style>
+  .music-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* The theme's regular link color matches this panel's background
+     exactly, so links inside a panel need the panel-ink color instead
+     to stay visible. */
+  .music-links a {
+    color: var(--color-panel-ink);
+  }
+
   .gig-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));

@@ -33,14 +33,14 @@ let sectionItems: MenuItem[] = [];
 if (section === "home") {
   sectionLabel = "HOME";
   sectionItems = [
-    { label: "Overview", href: "/" },
+    { label: "Top of the page", href: "/" },
     ...homeSections.map((s) => ({ label: s.label, href: `/#${s.id}` })),
   ];
 } else if (section === "photography") {
   const albums = await getCollection("photography");
   sectionLabel = "PHOTOGRAPHY";
   sectionItems = [
-    { label: "Overview", href: "/photography" },
+    { label: "Top of the page", href: "/photography" },
     {
       label: "Albums",
       children: albums.map((album) => ({
@@ -50,14 +50,24 @@ if (section === "home") {
     },
   ];
 } else {
-  const musicLinks = music.sets.map((set, i) => ({
-    id: `${slugify(set.title)}-${i}`,
-    label: set.title,
-  }));
+  const youtubeLinks = music.sets
+    .map((set, i) => ({ ...set, id: `${slugify(set.title)}-${i}` }))
+    .filter((set) => set.platform === "youtube");
+  const otherLinks = music.sets
+    .map((set, i) => ({ ...set, id: `${slugify(set.title)}-${i}` }))
+    .filter((set) => set.platform !== "youtube");
   sectionLabel = "MUSIC";
   sectionItems = [
-    { label: "Overview", href: "/music" },
-    ...musicLinks.map((link) => ({ label: link.label, href: `/music#${link.id}` })),
+    { label: "Top of the page", href: "/music" },
+    { label: "About", href: "/music#about" },
+    ...otherLinks.map((set) => ({ label: set.title, href: `/music#${set.id}` })),
+    {
+      label: "YouTube Sets",
+      children: youtubeLinks.map((set) => ({
+        label: set.title,
+        href: `/music#${set.id}`,
+      })),
+    },
     { label: "gig-photos.dir", href: `/music#${gigPhotosSectionId}` },
   ];
 }

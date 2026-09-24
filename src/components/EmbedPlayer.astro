@@ -27,13 +27,28 @@ function getYouTubeEmbedSrc(rawUrl: string): string | null {
   }
 }
 
+// A single-track share link can carry an "in" param pointing back at the
+// playlist it was shared from (e.g. "?in=user/sets/slug") — resolve that so
+// the widget loads with real playlist context and next()/prev() can move
+// between tracks, instead of just embedding one isolated track.
+function resolveSoundCloudUrl(rawUrl: string): string {
+  try {
+    const parsed = new URL(rawUrl);
+    const inContext = parsed.searchParams.get("in");
+    return inContext ? `https://soundcloud.com/${inContext}` : rawUrl;
+  } catch {
+    return rawUrl;
+  }
+}
+
 function getSoundCloudEmbedSrc(rawUrl: string): string {
   const params = new URLSearchParams({
-    url: rawUrl,
-    color: "%23101010",
+    url: resolveSoundCloudUrl(rawUrl),
+    color: "#101010",
     auto_play: "false",
     show_user: "true",
     show_reposts: "false",
+    show_artwork: "true",
   });
   return `https://w.soundcloud.com/player/?${params.toString()}`;
 }
@@ -44,8 +59,8 @@ const aspectRatio = platform === "youtube" ? "56.25%" : undefined;
 
 {
   embedSrc ? (
-    <div class="embed-wrap">
-      {platform === "youtube" ? (
+    platform === "youtube" ? (
+      <div class="embed-wrap">
         <div class="ratio-box" style={`padding-bottom: ${aspectRatio}`}>
           <iframe
             src={embedSrc}
@@ -55,14 +70,93 @@ const aspectRatio = platform === "youtube" ? "56.25%" : undefined;
             allowfullscreen
           />
         </div>
-      ) : (
-        <iframe class="soundcloud-frame" src={embedSrc} title={title} loading="lazy" allow="autoplay" />
-      )}
-    </div>
+      </div>
+    ) : (
+      <div class="set-row">
+        <button type="button" class="retro-btn set-nav-btn" data-set-nav="prev" aria-label="Previous set">
+          &lt;
+        </button>
+        <div class="embed-wrap set-wrap">
+          <iframe
+            class="soundcloud-frame"
+            data-soundcloud-frame
+            src={embedSrc}
+            title={title}
+            loading="lazy"
+            allow="autoplay"
+          />
+        </div>
+        <button type="button" class="retro-btn set-nav-btn" data-set-nav="next" aria-label="Next set">
+          &gt;
+        </button>
+      </div>
+    )
   ) : (
     <p class="embed-error">Could not read a video ID from this URL — check src/data/music.json.</p>
   )
 }
+
+<script>
+  // Wires the "<"/">" buttons to SoundCloud's own Widget API so they move
+  // between tracks in the loaded playlist, instead of doing nothing.
+  declare global {
+    interface Window {
+      SC?: any;
+      __scApiLoading?: Promise<void>;
+    }
+  }
+
+  function loadSoundCloudApi(): Promise<void> {
+    if (window.SC) return Promise.resolve();
+    if (window.__scApiLoading) return window.__scApiLoading;
+    window.__scApiLoading = new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://w.soundcloud.com/player/api.js";
+      script.onload = () => resolve();
+      document.head.appendChild(script);
+    });
+    return window.__scApiLoading;
+  }
+
+  async function wireSetNav() {
+    const frames = document.querySelectorAll<HTMLIFrameElement>("[data-soundcloud-frame]");
+    if (!frames.length) return;
+    await loadSoundCloudApi();
+
+    frames.forEach((frame) => {
+      const widget = window.SC.Widget(frame);
+      const row = frame.closest(".set-row");
+      const prevBtn = row?.querySelector<HTMLButtonElement>('[data-set-nav="prev"]');
+      const nextBtn = row?.querySelector<HTMLButtonElement>('[data-set-nav="next"]');
+
+      // next()/prev() start playback on their own — suppress exactly the
+      // next PLAY event they trigger so switching tracks stays silent
+      // until the user presses play themselves inside the widget.
+      let suppressNextPlay = false;
+      widget.bind(window.SC.Widget.Events.PLAY, () => {
+        if (suppressNextPlay) {
+          suppressNextPlay = false;
+          widget.pause();
+        }
+      });
+
+      prevBtn?.addEventListener("click", () => {
+        suppressNextPlay = true;
+        widget.prev();
+      });
+      nextBtn?.addEventListener("click", () => {
+        suppressNextPlay = true;
+        widget.next();
+      });
+
+      // Stop playback immediately when navigating away from the page,
+      // rather than leaving it to trail off as the document unloads.
+      window.addEventListener("pagehide", () => widget.pause());
+    });
+  }
+
+  wireSetNav();
+</script>
 
 <style>
   .embed-wrap {
@@ -88,6 +182,26 @@ const aspectRatio = platform === "youtube" ? "56.25%" : undefined;
     height: 166px;
     border: 0;
     display: block;
+    /* Matches the player's own dark accent color, so the blank iframe
+       doesn't flash white while SoundCloud's content is still loading. */
+    background: #101010;
+  }
+
+  .set-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .set-wrap {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .set-nav-btn {
+    flex: 0 0 auto;
+    line-height: 1;
   }
 
   .embed-error {

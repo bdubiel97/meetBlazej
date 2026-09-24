@@ -1,16 +1,28 @@
 {
+  "about": "PLACEHOLDER — write a short intro about your music here (what you play, where, your style). Edit this in src/data/music.json.",
   "sets": [
     {
       "platform": "soundcloud",
-      "url": "https://soundcloud.com/soundcloud/for-you-mix",
-      "title": "PLACEHOLDER — Replace with your SoundCloud set URL",
-      "description": "Paste the normal share URL from SoundCloud into \"url\" — no embed code needed."
+      "url": "https://soundcloud.com/intl-players-association/ipa-big-party-yoshee-14-07?in=yoshee13/sets/sets&si=08a66342e69b4d0e92af7bb1c70e5a9f&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+      "title": "Soundcloud sets"
     },
     {
       "platform": "youtube",
-      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "title": "PLACEHOLDER — Replace with your YouTube set/video URL",
-      "description": "Paste the normal watch or youtu.be URL from YouTube into \"url\"."
+      "url": "https://youtu.be/qZOLfIWRudA?si=R2-pBXUzNud5WDpf",
+      "title": "IPA Big Party, 07/2026",
+      "description": "Warm up set for the first IPA club night."
+    },
+    {
+      "platform": "youtube",
+      "url": "https://youtu.be/JkBi6kC93_M?si=9WNfSyBzn2K4afsm",
+      "title": "Relate Radio, 02/2026",
+      "description": "First time at Relate Radio. First time exploring high tempo sounds everywhere and in-between breaks, drums and latin sounds."
+    },
+    {
+      "platform": "youtube",
+      "url": "https://youtu.be/DLpEiJU0Syk?si=Ik-rfJo1BJFbozUf",
+      "title": "IPA Play Date, 04/2025",
+      "description": "Funky house set for IPA launch party."
     }
   ],
   "gigPhotos": [
