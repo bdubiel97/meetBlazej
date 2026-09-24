@@ -1,9 +1,5 @@
 ---
-const navItems = [
-  { label: "HOME", href: "/" },
-  { label: "PHOTOGRAPHY", href: "/photography" },
-  { label: "MUSIC", href: "/music" },
-];
+import { sitePages } from "../data/nav";
 ---
 
 <footer class="status-bar retro-border" data-status-bar>
@@ -11,9 +7,9 @@ const navItems = [
     <span data-visitor-no>VISITOR NO. : ----</span>
     <nav class="status-nav" aria-label="Primary">
       {
-        navItems.map((item) => (
-          <a class="retro-btn" href={item.href}>
-            {item.label}
+        sitePages.map((page) => (
+          <a class="retro-btn" href={page.href}>
+            {page.label}
           </a>
         ))
       }
@@ -51,6 +47,12 @@ const navItems = [
     flex-wrap: wrap;
     gap: 1rem;
     margin-left: auto;
+  }
+
+  /* Labels are stored in normal case in src/data/nav.ts; this keeps the
+     existing all-caps retro look without hardcoding the case in markup. */
+  .status-nav .retro-btn {
+    text-transform: uppercase;
   }
 </style>
 

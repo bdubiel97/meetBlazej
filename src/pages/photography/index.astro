@@ -3,12 +3,14 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import FilmReel from "../../components/FilmReel.astro";
 import site from "../../data/site.json";
+import { sitePages } from "../../data/nav";
 
 const albums = await getCollection("photography");
+const pageLabel = sitePages.find((p) => p.id === "photography")!.label;
 ---
 
-<BaseLayout title="Photography" theme="photography">
-  <h1>Photography</h1>
+<BaseLayout title={pageLabel} theme="photography">
+  <h1>{pageLabel}</h1>
   <nav class="header-links" aria-label="Photography links">
     <a href={site.photographyInstagram} target="_blank" rel="noopener noreferrer">
       Instagram

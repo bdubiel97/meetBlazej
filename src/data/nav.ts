@@ -13,3 +13,13 @@ export const homeSections = [
 ];
 
 export const gigPhotosSectionId = "gig-photos-dir";
+
+// Single source of truth for the three top-level pages' names — used for
+// the bottom nav buttons (StatusBar), the MENU dropdown's section label
+// (TopBar), each page's <h1>, and its browser-tab title. Edit a label here
+// once and all of those update together.
+export const sitePages = [
+  { id: "home", label: "Resume", href: "/" },
+  { id: "photography", label: "Analog playground", href: "/photography" },
+  { id: "music", label: "Yoshee", href: "/music" },
+];

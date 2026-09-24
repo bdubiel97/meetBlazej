@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import music from "../data/music.json";
-import { homeSections, gigPhotosSectionId } from "../data/nav";
+import { homeSections, gigPhotosSectionId, sitePages } from "../data/nav";
 import { slugify } from "../utils/slugify";
 
 const pathname = Astro.url.pathname;
@@ -27,18 +27,16 @@ function isGroup(item: MenuItem): item is MenuGroup {
   return "children" in item;
 }
 
-let sectionLabel = "HOME";
+let sectionLabel = sitePages.find((p) => p.id === section)!.label;
 let sectionItems: MenuItem[] = [];
 
 if (section === "home") {
-  sectionLabel = "HOME";
   sectionItems = [
     { label: "Top of the page", href: "/" },
     ...homeSections.map((s) => ({ label: s.label, href: `/#${s.id}` })),
   ];
 } else if (section === "photography") {
   const albums = await getCollection("photography");
-  sectionLabel = "PHOTOGRAPHY";
   sectionItems = [
     { label: "Top of the page", href: "/photography" },
     {
@@ -56,7 +54,6 @@ if (section === "home") {
   const otherLinks = music.sets
     .map((set, i) => ({ ...set, id: `${slugify(set.title)}-${i}` }))
     .filter((set) => set.platform !== "youtube");
-  sectionLabel = "MUSIC";
   sectionItems = [
     { label: "Top of the page", href: "/music" },
     { label: "About", href: "/music#about" },
@@ -156,6 +153,9 @@ if (section === "home") {
     font-size: 0.75rem;
     letter-spacing: -0.5px;
     border-bottom: var(--border-width) solid var(--color-ink);
+    /* Labels are stored in normal case in src/data/nav.ts; this keeps the
+       existing all-caps retro look without hardcoding the case in markup. */
+    text-transform: uppercase;
   }
 
   .menu-dropdown ul {
