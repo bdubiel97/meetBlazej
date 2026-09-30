@@ -1,4 +1,6 @@
 ---
+import { photoUrl } from "../utils/photoUrl";
+
 interface Photo {
   src: string;
   alt: string;
@@ -11,24 +13,92 @@ interface Props {
 }
 
 const { photos, showGrid = true } = Astro.props;
+
+// Resolved once here (not client-side) so the Cloudflare account hash/preset
+// table never needs to ship to the browser — just plain URLs.
+const resolved = photos.map((photo) => ({
+  thumb: photoUrl(photo.src, "thumb"),
+  full: photoUrl(photo.src, "full"),
+  alt: photo.alt,
+  caption: photo.caption,
+}));
 ---
 
 {
   showGrid && (
     <div class="photo-grid" data-lightbox-root>
-      {photos.map((photo, i) => (
-        <button type="button" class="photo-thumb retro-border retro-shadow" data-open-lightbox={i}>
-          <img src={photo.src} alt={photo.alt} loading="lazy" />
+      {resolved.map((photo, i) => (
+        <button type="button" class="photo-thumb retro-border" data-open-lightbox={i}>
+          <img src={photo.thumb} alt={photo.alt} loading="lazy" />
         </button>
       ))}
     </div>
   )
 }
 
+<!-- Only one Lightbox instance may be present on a page at a time — its
+     script wires up via page-wide `document.querySelector`, so a second
+     instance (e.g. combining a photo grid with FilmReel) would collide. -->
 <div class="lightbox-overlay" data-lightbox-overlay hidden>
   <div class="lightbox-inner retro-border retro-shadow">
     <button type="button" class="retro-btn lightbox-close" data-lightbox-close>CLOSE [X]</button>
-    <img data-lightbox-image src="" alt="" />
+    <div class="lightbox-figure">
+      <img data-lightbox-image src="" alt="" decoding="async" fetchpriority="high" />
+      <div class="lightbox-loading" data-lightbox-loading role="status" aria-label="Loading photo" hidden>
+        <svg viewBox="0 0 16 18" class="lightbox-hourglass" shape-rendering="crispEdges">
+          <!-- Drawn as a light outline against the lightbox's own dark
+               background (rather than a solid black-on-white icon) — the
+               "empty" glass is simply the background showing through, not
+               a separately-filled shape. A previous version filled large
+               areas with #101010, which is the exact background color
+               here and rendered as an invisible "cut off" bottom half. -->
+          <!-- Top cap -->
+          <rect x="0" y="0" width="16" height="2" fill="#fff" />
+          <!-- Upper bulb outline, tapering to the neck -->
+          <rect x="1" y="2" width="1" height="1" fill="#fff" />
+          <rect x="14" y="2" width="1" height="1" fill="#fff" />
+          <rect x="2" y="3" width="1" height="1" fill="#fff" />
+          <rect x="13" y="3" width="1" height="1" fill="#fff" />
+          <rect x="3" y="4" width="1" height="1" fill="#fff" />
+          <rect x="12" y="4" width="1" height="1" fill="#fff" />
+          <rect x="4" y="5" width="1" height="1" fill="#fff" />
+          <rect x="11" y="5" width="1" height="1" fill="#fff" />
+          <rect x="5" y="6" width="1" height="1" fill="#fff" />
+          <rect x="10" y="6" width="1" height="1" fill="#fff" />
+          <rect x="6" y="7" width="1" height="1" fill="#fff" />
+          <rect x="9" y="7" width="1" height="1" fill="#fff" />
+          <!-- Neck -->
+          <rect x="7" y="8" width="2" height="1" fill="#fff" />
+          <rect x="7" y="9" width="2" height="1" fill="#fff" />
+          <!-- Lower bulb outline, widening from the neck -->
+          <rect x="6" y="10" width="1" height="1" fill="#fff" />
+          <rect x="9" y="10" width="1" height="1" fill="#fff" />
+          <rect x="5" y="11" width="1" height="1" fill="#fff" />
+          <rect x="10" y="11" width="1" height="1" fill="#fff" />
+          <rect x="4" y="12" width="1" height="1" fill="#fff" />
+          <rect x="11" y="12" width="1" height="1" fill="#fff" />
+          <rect x="3" y="13" width="1" height="1" fill="#fff" />
+          <rect x="12" y="13" width="1" height="1" fill="#fff" />
+          <rect x="2" y="14" width="1" height="1" fill="#fff" />
+          <rect x="13" y="14" width="1" height="1" fill="#fff" />
+          <rect x="1" y="15" width="1" height="1" fill="#fff" />
+          <rect x="14" y="15" width="1" height="1" fill="#fff" />
+          <!-- Bottom cap -->
+          <rect x="0" y="16" width="16" height="2" fill="#fff" />
+          <!-- Sand: nearly drained from the top bulb (just a couple of
+               grains left near the neck)... -->
+          <rect x="7" y="6" width="2" height="1" fill="#fff" />
+          <!-- ...and piled up at the base: a solid mound filling the
+               bottom bulb, narrowing to a peak near the neck. -->
+          <rect x="7" y="10" width="2" height="1" fill="#fff" />
+          <rect x="7" y="11" width="2" height="1" fill="#fff" />
+          <rect x="7" y="12" width="2" height="1" fill="#fff" />
+          <rect x="4" y="13" width="8" height="1" fill="#fff" />
+          <rect x="3" y="14" width="10" height="1" fill="#fff" />
+          <rect x="2" y="15" width="12" height="1" fill="#fff" />
+        </svg>
+      </div>
+    </div>
     <p data-lightbox-caption class="lightbox-caption"></p>
     <div class="lightbox-nav">
       <button type="button" class="retro-btn" data-lightbox-prev>&larr; PREV</button>
@@ -37,7 +107,7 @@ const { photos, showGrid = true } = Astro.props;
   </div>
 </div>
 
-<script type="module" define:vars={{ photosJson: JSON.stringify(photos) }}>
+<script type="module" define:vars={{ photosJson: JSON.stringify(resolved) }}>
   const photos = JSON.parse(photosJson);
   const overlay = document.querySelector("[data-lightbox-overlay]");
   const imageEl = document.querySelector("[data-lightbox-image]");
@@ -46,30 +116,90 @@ const { photos, showGrid = true } = Astro.props;
   const prevBtn = document.querySelector("[data-lightbox-prev]");
   const nextBtn = document.querySelector("[data-lightbox-next]");
   const triggers = document.querySelectorAll("[data-open-lightbox]");
+  const topBar = document.querySelector("[data-top-bar]");
+  const statusBar = document.querySelector("[data-status-bar]");
+  const loadingEl = document.querySelector("[data-lightbox-loading]");
 
   let currentIndex = 0;
   let lastFocused = null;
+  let renderToken = 0;
+
+  function measureBars() {
+    if (!overlay) return;
+    const top = topBar ? Math.round(topBar.getBoundingClientRect().height) : 0;
+    const bottom = statusBar ? Math.round(statusBar.getBoundingClientRect().height) : 0;
+    overlay.style.setProperty("--lb-top", `${top}px`);
+    overlay.style.setProperty("--lb-bottom", `${bottom}px`);
+  }
+
+  const LOADING_SHOW_DELAY = 200; // don't show the loader for a brief wait...
+  const LOADING_MIN_VISIBLE = 500; // ...but once shown, don't flash it off again faster than this.
 
   function render() {
     const photo = photos[currentIndex];
     if (!photo || !imageEl || !captionEl) return;
-    imageEl.src = photo.src;
+    // The grid thumbnail is cropped to a fixed box, so for a portrait photo
+    // it's the wrong aspect ratio — showing it as an interim preview here
+    // looked like a broken transition. Show a loading indicator instead
+    // while the full-res version downloads — but only once the wait has
+    // actually gone on for a bit; flashing it on/off for fast (e.g. cached)
+    // loads is its own kind of jarring flicker. Same reasoning applies once
+    // it IS shown: if the image then arrives moments later (e.g. at 210ms),
+    // hold the loader for its minimum visible time rather than flash it away.
+    imageEl.hidden = true;
+    imageEl.removeAttribute("src");
     imageEl.alt = photo.alt ?? "";
     captionEl.textContent = photo.caption ?? "";
+    if (loadingEl) loadingEl.hidden = true;
+
+    const token = ++renderToken;
+    let loadingShownAt = null;
+    const loadingTimer = setTimeout(() => {
+      if (token !== renderToken) return;
+      loadingShownAt = performance.now();
+      if (loadingEl) loadingEl.hidden = false;
+    }, LOADING_SHOW_DELAY);
+
+    function reveal() {
+      if (token !== renderToken) return;
+      imageEl.src = photo.full;
+      imageEl.hidden = false;
+      if (loadingEl) loadingEl.hidden = true;
+    }
+
+    const hi = new Image();
+    hi.onload = () => {
+      clearTimeout(loadingTimer);
+      if (token !== renderToken) return;
+      const elapsedShown = loadingShownAt === null ? null : performance.now() - loadingShownAt;
+      if (elapsedShown !== null && elapsedShown < LOADING_MIN_VISIBLE) {
+        setTimeout(reveal, LOADING_MIN_VISIBLE - elapsedShown);
+      } else {
+        reveal();
+      }
+    };
+    hi.src = photo.full;
   }
 
   function open(index) {
     currentIndex = index;
     lastFocused = document.activeElement;
+    measureBars();
     render();
     if (overlay) overlay.hidden = false;
+    document.documentElement.classList.add("lightbox-open");
     closeBtn?.focus();
     document.addEventListener("keydown", onKeydown);
+    window.addEventListener("resize", measureBars);
+    window.addEventListener("orientationchange", measureBars);
   }
 
   function close() {
     if (overlay) overlay.hidden = true;
+    document.documentElement.classList.remove("lightbox-open");
     document.removeEventListener("keydown", onKeydown);
+    window.removeEventListener("resize", measureBars);
+    window.removeEventListener("orientationchange", measureBars);
     if (lastFocused instanceof HTMLElement) lastFocused.focus();
   }
 
@@ -128,13 +258,17 @@ const { photos, showGrid = true } = Astro.props;
 
   .lightbox-overlay {
     position: fixed;
-    inset: 0;
+    top: var(--lb-top, 0px);
+    bottom: var(--lb-bottom, 0px);
+    left: 0;
+    right: 0;
     background: var(--color-overlay);
     display: flex;
-    align-items: center;
-    justify-content: center;
     z-index: 50;
-    padding: 1.5rem;
+    /* At least the retro-shadow's offset, so it never bleeds onto the bars
+       just outside this now-tightly-bounded box. */
+    padding: 1rem;
+    overflow: hidden;
   }
 
   .lightbox-overlay[hidden] {
@@ -143,20 +277,68 @@ const { photos, showGrid = true } = Astro.props;
 
   .lightbox-inner {
     background: var(--color-bg);
-    max-width: min(90vw, 720px);
-    max-height: 90vh;
-    overflow-y: auto;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    padding: 0.75rem;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    gap: 0.5rem;
+    overflow: hidden;
+  }
+
+  .lightbox-figure {
+    position: relative;
+    min-height: 0;
   }
 
   .lightbox-inner img {
-    max-width: 100%;
-    max-height: 60vh;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
-    margin: 0 auto;
+    margin: 0;
+  }
+
+  /* global.css sets `img { display: block; }`, which overrides the
+     browser's default [hidden] handling — without this, a "hidden" image
+     still renders. */
+  .lightbox-inner img[hidden] {
+    display: none;
+  }
+
+  .lightbox-loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-loading[hidden] {
+    display: none;
+  }
+
+  .lightbox-hourglass {
+    width: 68px;
+    height: auto;
+    /* Guards against the figure area ever being shorter than the icon
+       (which was clipping its bottom half against .lightbox-inner's
+       overflow:hidden) — shrinks proportionally to fit instead. */
+    max-width: 60%;
+    max-height: 60%;
+    animation: lightbox-hourglass-pulse 1.1s ease-in-out infinite;
+  }
+
+  @keyframes lightbox-hourglass-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
   }
 
   .lightbox-caption {
@@ -171,6 +353,14 @@ const { photos, showGrid = true } = Astro.props;
   }
 
   .lightbox-close {
-    align-self: flex-end;
+    justify-self: end;
+  }
+
+  /* Very short viewports: don't squeeze the image down to nothing. */
+  @media (max-height: 520px) {
+    .lightbox-inner {
+      grid-template-rows: auto minmax(140px, 1fr) auto auto;
+      overflow-y: auto;
+    }
   }
 </style>

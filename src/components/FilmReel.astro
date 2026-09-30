@@ -1,6 +1,28 @@
 ---
-import frames from "../data/filmReel.json";
+import { getCollection } from "astro:content";
 import Lightbox from "./Lightbox.astro";
+import { photoUrl } from "../utils/photoUrl";
+
+const REEL_FRAME_COUNT = 10;
+
+// Draws from every photo in every album currently in the content
+// collection — as new albums are added, the reel's pool grows with them
+// automatically, no separate curation needed.
+const albums = await getCollection("photography");
+const pool = albums.flatMap((album) =>
+  album.data.photos.map((photo) => ({ src: photo.src, alt: photo.alt }))
+);
+
+function shuffle<T>(items: T[]): T[] {
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+const frames = shuffle(pool).slice(0, REEL_FRAME_COUNT);
 ---
 
 <div class="film-reel">
@@ -21,8 +43,7 @@ import Lightbox from "./Lightbox.astro";
             {
               frames.map((frame, i) => (
                 <button type="button" class="film-frame" data-open-lightbox={i}>
-                  <img src={frame.src} alt={frame.alt} loading="lazy" />
-                  {frame.caption && <span class="film-frame-caption">{frame.caption}</span>}
+                  <img src={photoUrl(frame.src, "reel")} alt={frame.alt} loading="lazy" />
                 </button>
               ))
             }
@@ -239,19 +260,6 @@ import Lightbox from "./Lightbox.astro";
     height: 100%;
     object-fit: cover;
     display: block;
-  }
-
-  .film-frame-caption {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 3px 6px;
-    background: rgba(0, 0, 0, 0.65);
-    color: #f5f5f5;
-    font-family: var(--font-display);
-    font-size: 0.55rem;
-    letter-spacing: -0.5px;
   }
 
   .film-tail {

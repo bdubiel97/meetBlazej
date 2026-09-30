@@ -32,23 +32,55 @@ Your profile photo: replace `public/images/cv/profile-placeholder.svg` with a re
 
 ### Adding a photography album
 
-1. Create a new file `src/content/photography/<your-slug>.json` (the filename becomes the
-   URL, e.g. `my-trip.json` → `/photography/my-trip`). Copy the shape from an existing album
-   file:
-   ```json
-   {
-     "title": "Album Title",
-     "description": "One or two sentences about this album.",
-     "coverImage": "/images/photography/my-trip/cover.jpg",
-     "photos": [
-       { "src": "/images/photography/my-trip/photo-1.jpg", "alt": "Description for screen readers", "caption": "Optional caption shown in the lightbox" }
-     ]
-   }
-   ```
-2. Put the actual image files in a matching folder: `public/images/photography/my-trip/`.
-3. The album automatically appears in the `/photography` grid — no other file needs editing.
+Real photos are hosted on [Cloudflare Images](https://developers.cloudflare.com/images/) —
+the repo never stores photo files, only lightweight references (`src/utils/photoUrl.ts`
+turns those into properly-sized delivery URLs for the album grid, the film reel, and the
+lightbox).
 
-To remove an album, delete its JSON file and its image folder.
+**One-time setup** (only needed once, ever):
+1. Enable Cloudflare Images on your account and note your **Account ID** (Cloudflare
+   dashboard → Manage Account) and your **Account Hash** (shown on the Images overview page —
+   put this in `src/data/site.json` as `"cloudflareImagesAccountHash"`).
+2. Create an **API Token** (My Profile → API Tokens → Create Token) scoped to
+   "Cloudflare Images: Edit".
+3. Copy `.env.example` to `.env` and fill in `CLOUDFLARE_ACCOUNT_ID` and
+   `CLOUDFLARE_API_TOKEN`.
+4. Under Images → Variants in the Cloudflare dashboard, create four named variants (these
+   map directly to the presets in `src/utils/photoUrl.ts`):
+
+   | Variant name | Size | Fit |
+   | --- | --- | --- |
+   | `cover` | 600×400 | Cover |
+   | `thumb` | 480×360 | Cover |
+   | `reel` | 300×212 | Cover |
+   | `full` | max width 2560 | Scale down |
+
+**Publishing a new album:**
+1. Put the album's photos in any local folder (they don't need to live in this repo, or
+   even on this machine permanently — just present when you run the script).
+2. Run:
+   ```sh
+   npm run new-album -- /path/to/your/photos
+   ```
+   It uploads every photo to Cloudflare Images, asks for the album title, description,
+   URL slug, and which photo is the cover, then writes
+   `src/content/photography/<slug>.json` for you.
+3. Open that file and fill in `location`, `equipment` (`camera`/`film`/`lens` — each can be
+   a single string or an array if you used more than one), and any per-photo captions (all
+   currently left as placeholders by the script). Filling in `equipment` isn't just cosmetic:
+   each value you list automatically makes the album appear under the matching **Cameras**,
+   **Films**, and **Lenses** entries in the MENU dropdown and their filter pages
+   (`/photography/cameras/<camera>`, `/photography/films/<film>`, `/photography/lenses/<lens>`)
+   — no extra step needed.
+4. `git add`, commit, push — the script never touches git itself.
+
+To remove an album, delete its JSON file (its Cloudflare-hosted images can be deleted
+separately from the Cloudflare dashboard if you want to reclaim space).
+
+**Film reel frames**: the scrolling film-canister strip on the photography page auto-populates
+at build time — it shuffles together every photo from every album (`src/components/FilmReel.astro`)
+and picks 10, so a freshly published album's photos can appear there immediately with no
+separate list to maintain.
 
 ### Adding a music embed
 
@@ -83,7 +115,7 @@ automatic build and deploy, and every other branch/PR gets its own preview URL.
 
 ```
 src/
-├── components/     # shared UI: TopBar, StatusBar, Breadcrumb, RetroPanel, ListRow, Lightbox, EmbedPlayer
+├── components/     # shared UI: TopBar, StatusBar, Breadcrumb, AlbumGrid, FilmReel, Lightbox, EmbedPlayer
 ├── content/
 │   └── photography/  # one JSON file per photo album (content collection)
 ├── content.config.ts # schema for the photography collection
@@ -94,9 +126,13 @@ src/
 │   ├── index.astro           # CV (home page)
 │   ├── photography/
 │   │   ├── index.astro       # album grid
-│   │   └── [album].astro     # per-album gallery + lightbox
+│   │   ├── [album].astro     # per-album gallery + lightbox
+│   │   ├── cameras/[camera].astro  # albums filtered by camera
+│   │   ├── films/[film].astro      # albums filtered by film
+│   │   └── lenses/[lens].astro     # albums filtered by lens
 │   └── music/
 │       └── index.astro       # embeds + gig photos
+├── utils/          # photoUrl (Cloudflare delivery URLs), equipment (camera/film/lens grouping), slugify
 └── styles/
     └── global.css      # color/font tokens, retro border/shadow/button utilities
 ```

@@ -1,0 +1,56 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { photoUrl } from "../utils/photoUrl";
+
+interface Props {
+  albums: CollectionEntry<"photography">[];
+}
+
+const { albums } = Astro.props;
+---
+
+<div class="album-grid">
+  {
+    albums.map((album) => (
+      <a class="album-tile retro-border retro-shadow" href={`/photography/${album.id}`}>
+        <img src={photoUrl(album.data.coverImage, "cover")} alt={album.data.title} loading="lazy" />
+        <span class="album-title">{album.data.title}</span>
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .album-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .album-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .album-tile {
+    background: var(--color-input-bg);
+    text-decoration: none;
+    color: var(--color-ink);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .album-tile img {
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-bottom: var(--border-width) solid var(--color-ink);
+  }
+
+  .album-title {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: -0.5px;
+    padding: 0.85rem;
+  }
+</style>

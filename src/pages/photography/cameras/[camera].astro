@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Breadcrumb from "../../../components/Breadcrumb.astro";
+import AlbumGrid from "../../../components/AlbumGrid.astro";
+import { groupAlbumsByEquipment } from "../../../utils/equipment";
+
+export async function getStaticPaths() {
+  const albums = await getCollection("photography");
+  const groups = groupAlbumsByEquipment(albums, "camera");
+  return groups.map((group) => ({
+    params: { camera: group.slug },
+    props: { group },
+  }));
+}
+
+const { group } = Astro.props;
+---
+
+<BaseLayout title={group.label} theme="photography">
+  <Breadcrumb
+    items={[
+      { label: "Photography", href: "/photography" },
+      { label: "Cameras" },
+      { label: group.label },
+    ]}
+  />
+  <h1>{group.label}</h1>
+
+  <AlbumGrid albums={group.albums} />
+</BaseLayout>

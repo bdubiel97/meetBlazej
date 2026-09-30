@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import FilmReel from "../../components/FilmReel.astro";
+import AlbumGrid from "../../components/AlbumGrid.astro";
 import site from "../../data/site.json";
 import { sitePages } from "../../data/nav";
 
@@ -18,49 +19,5 @@ const pageLabel = sitePages.find((p) => p.id === "photography")!.label;
   </nav>
   <FilmReel />
 
-  <div class="album-grid">
-    {
-      albums.map((album) => (
-        <a class="album-tile retro-border retro-shadow" href={`/photography/${album.id}`}>
-          <img src={album.data.coverImage} alt={album.data.title} loading="lazy" />
-          <span class="album-title">{album.data.title}</span>
-        </a>
-      ))
-    }
-  </div>
+  <AlbumGrid albums={albums} />
 </BaseLayout>
-
-<style>
-  .album-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-  }
-
-  @media (max-width: 640px) {
-    .album-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .album-tile {
-    background: var(--color-input-bg);
-    text-decoration: none;
-    color: var(--color-ink);
-    display: flex;
-    flex-direction: column;
-  }
-
-  .album-tile img {
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
-    border-bottom: var(--border-width) solid var(--color-ink);
-  }
-
-  .album-title {
-    font-family: var(--font-display);
-    font-size: 0.75rem;
-    letter-spacing: -0.5px;
-    padding: 0.85rem;
-  }
-</style>

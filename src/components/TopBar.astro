@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import music from "../data/music.json";
 import { homeSections, gigPhotosSectionId, sitePages } from "../data/nav";
 import { slugify } from "../utils/slugify";
+import { groupAlbumsByEquipment } from "../utils/equipment";
 
 const pathname = Astro.url.pathname;
 const section = pathname.startsWith("/photography")
@@ -46,6 +47,27 @@ if (section === "home") {
         href: `/photography/${album.id}`,
       })),
     },
+    {
+      label: "Cameras",
+      children: groupAlbumsByEquipment(albums, "camera").map((group) => ({
+        label: group.label,
+        href: `/photography/cameras/${group.slug}`,
+      })),
+    },
+    {
+      label: "Films",
+      children: groupAlbumsByEquipment(albums, "film").map((group) => ({
+        label: group.label,
+        href: `/photography/films/${group.slug}`,
+      })),
+    },
+    {
+      label: "Lenses",
+      children: groupAlbumsByEquipment(albums, "lens").map((group) => ({
+        label: group.label,
+        href: `/photography/lenses/${group.slug}`,
+      })),
+    },
   ];
 } else {
   const youtubeLinks = music.sets
@@ -82,34 +104,34 @@ if (section === "home") {
       MENU
     </button>
     <button type="button" class="retro-btn" data-open-contact>CONNECT</button>
-  </div>
 
-  <div id="menu-dropdown" class="menu-dropdown retro-border retro-shadow" data-menu-dropdown hidden>
-    <div class="menu-section-label">{sectionLabel}</div>
-    <ul>
-      {
-        sectionItems.map((item) =>
-          isGroup(item) ? (
-            <li>
-              <details class="menu-group">
-                <summary>{item.label}</summary>
-                <ul>
-                  {item.children.map((child) => (
-                    <li>
-                      <a href={child.href}>{child.label}</a>
-                    </li>
-                  ))}
-                </ul>
-              </details>
-            </li>
-          ) : (
-            <li>
-              <a href={item.href}>{item.label}</a>
-            </li>
+    <div id="menu-dropdown" class="menu-dropdown retro-border retro-shadow" data-menu-dropdown hidden>
+      <div class="menu-section-label">{sectionLabel}</div>
+      <ul>
+        {
+          sectionItems.map((item) =>
+            isGroup(item) ? (
+              <li>
+                <details class="menu-group">
+                  <summary>{item.label}</summary>
+                  <ul>
+                    {item.children.map((child) => (
+                      <li>
+                        <a href={child.href}>{child.label}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
+              </li>
+            ) : (
+              <li>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            )
           )
-        )
-      }
-    </ul>
+        }
+      </ul>
+    </div>
   </div>
 </header>
 
@@ -130,12 +152,13 @@ if (section === "home") {
     justify-content: space-between;
     gap: 0.75rem;
     padding-block: 0.75rem 1.5rem;
+    position: relative;
   }
 
   .menu-dropdown {
     position: absolute;
     top: calc(100% + 6px);
-    left: 1.25rem;
+    left: 0;
     background: var(--color-bg);
     width: min(320px, calc(100vw - 2.5rem));
     max-height: calc(100vh - 6rem);

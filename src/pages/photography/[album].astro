@@ -13,6 +13,14 @@ export async function getStaticPaths() {
 }
 
 const { album } = Astro.props;
+
+// A flat list of every filled-in item across all three categories — no
+// per-category labels, just the values themselves.
+const equipmentLine = [
+  ...album.data.equipment.camera,
+  ...album.data.equipment.film,
+  ...album.data.equipment.lens,
+].join(", ");
 ---
 
 <BaseLayout title={album.data.title} description={album.data.description} theme="photography">
@@ -24,6 +32,8 @@ const { album } = Astro.props;
   />
   <h1>{album.data.title}</h1>
   <p>{album.data.description}</p>
+  <p><strong>Location:</strong> {album.data.location}</p>
+  {equipmentLine && <p><strong>Equipment:</strong> {equipmentLine}</p>}
 
   <Lightbox photos={album.data.photos} />
 </BaseLayout>
