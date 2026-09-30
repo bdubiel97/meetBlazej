@@ -1,11 +1,11 @@
 {
   "title": "Mexico 2024/25",
-  "description": "Analog jounrey of my visit in Mexico during NYE of 2025.",
-  "location": "PLACEHOLDER — where this was shot",
+  "description": "Visiting Adrian in Mexico for the first time, where I got to spend New Year’s Eve 2025 with his family and experience some of the Oaxaca magic.",
+  "location": "Saltilo and Oaxaca coast.",
   "equipment": {
-    "camera": "PLACEHOLDER — camera(s) used for this album",
-    "film": "PLACEHOLDER — film stock(s) used for this album",
-    "lens": "PLACEHOLDER — lens(es) used for this album"
+    "camera": "Minolta XD7",
+    "film": "Kodak Porta 400",
+    "lens": ["Minolta MD 50mm f/1.7", "Minolta MD 35mm f/2.8"]
   },
   "coverImage": "photography/mexico-24-25/000-4874",
   "photos": [

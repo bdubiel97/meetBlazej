@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Breadcrumb from "../../components/Breadcrumb.astro";
 import Lightbox from "../../components/Lightbox.astro";
+import { sitePages } from "../../data/nav";
 
 export async function getStaticPaths() {
   const albums = await getCollection("photography");
@@ -13,6 +14,7 @@ export async function getStaticPaths() {
 }
 
 const { album } = Astro.props;
+const photographyLabel = sitePages.find((p) => p.id === "photography")!.label;
 
 // A flat list of every filled-in item across all three categories — no
 // per-category labels, just the values themselves.
@@ -26,7 +28,7 @@ const equipmentLine = [
 <BaseLayout title={album.data.title} description={album.data.description} theme="photography">
   <Breadcrumb
     items={[
-      { label: "Photography", href: "/photography" },
+      { label: photographyLabel, href: "/photography" },
       { label: album.data.title },
     ]}
   />

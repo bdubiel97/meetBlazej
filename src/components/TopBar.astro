@@ -33,13 +33,13 @@ let sectionItems: MenuItem[] = [];
 
 if (section === "home") {
   sectionItems = [
-    { label: "Top of the page", href: "/" },
+    { label: "Home", href: "/" },
     ...homeSections.map((s) => ({ label: s.label, href: `/#${s.id}` })),
   ];
 } else if (section === "photography") {
   const albums = await getCollection("photography");
   sectionItems = [
-    { label: "Top of the page", href: "/photography" },
+    { label: "Home", href: "/photography" },
     {
       label: "Albums",
       children: albums.map((album) => ({
@@ -77,7 +77,7 @@ if (section === "home") {
     .map((set, i) => ({ ...set, id: `${slugify(set.title)}-${i}` }))
     .filter((set) => set.platform !== "youtube");
   sectionItems = [
-    { label: "Top of the page", href: "/music" },
+    { label: "Home", href: "/music" },
     { label: "About", href: "/music#about" },
     ...otherLinks.map((set) => ({ label: set.title, href: `/music#${set.id}` })),
     {

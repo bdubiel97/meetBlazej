@@ -20,6 +20,6 @@ export const gigPhotosSectionId = "gig-photos-dir";
 // once and all of those update together.
 export const sitePages = [
   { id: "home", label: "Resume", href: "/" },
-  { id: "photography", label: "Analog playground", href: "/photography" },
+  { id: "photography", label: "Analog Playground", href: "/photography" },
   { id: "music", label: "Yoshee", href: "/music" },
 ];

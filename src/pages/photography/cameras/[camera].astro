@@ -4,6 +4,7 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import Breadcrumb from "../../../components/Breadcrumb.astro";
 import AlbumGrid from "../../../components/AlbumGrid.astro";
 import { groupAlbumsByEquipment } from "../../../utils/equipment";
+import { sitePages } from "../../../data/nav";
 
 export async function getStaticPaths() {
   const albums = await getCollection("photography");
@@ -15,12 +16,13 @@ export async function getStaticPaths() {
 }
 
 const { group } = Astro.props;
+const photographyLabel = sitePages.find((p) => p.id === "photography")!.label;
 ---
 
 <BaseLayout title={group.label} theme="photography">
   <Breadcrumb
     items={[
-      { label: "Photography", href: "/photography" },
+      { label: photographyLabel, href: "/photography" },
       { label: "Cameras" },
       { label: group.label },
     ]}
