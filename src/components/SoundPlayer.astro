@@ -160,17 +160,47 @@ const embedSrc = source ? getSoundCloudEmbedSrc(source.url) : null;
       setPlaying(true);
       refreshSound();
     });
-    widget.bind(E.PAUSE, () => setPlaying(false));
+    // iPhones sometimes refuse the very first play request (it reaches the
+    // hidden SoundCloud player outside the tap's "user gesture") and answer
+    // with a PAUSE right away. If that happens just after the visitor asked
+    // for playback, ask again — by then the track is loaded and it goes through.
+    let wantPlay = false;
+    let lastKick = 0;
+    let retries = 0;
+
+    function requestPlay() {
+      wantPlay = true;
+      retries = 0;
+      lastKick = Date.now();
+    }
+
+    widget.bind(E.PAUSE, () => {
+      setPlaying(false);
+      if (wantPlay && retries < 2 && Date.now() - lastKick < 4000) {
+        retries++;
+        widget.play();
+      }
+    });
     widget.bind(E.FINISH, () => setProgress(0));
     widget.bind(E.PLAY_PROGRESS, (e: any) => setProgress(e.relativePosition));
 
-    toggleBtn.addEventListener("click", () => widget.toggle());
+    toggleBtn.addEventListener("click", () => {
+      if (root.classList.contains("is-playing")) {
+        wantPlay = false;
+        widget.pause();
+      } else {
+        requestPlay();
+        widget.play();
+      }
+    });
     prevBtn.addEventListener("click", () => {
       setProgress(0);
+      requestPlay();
       widget.prev();
     });
     nextBtn.addEventListener("click", () => {
       setProgress(0);
+      requestPlay();
       widget.next();
     });
 
@@ -206,7 +236,10 @@ const embedSrc = source ? getSoundCloudEmbedSrc(source.url) : null;
     });
 
     // Stop playback immediately when navigating away.
-    window.addEventListener("pagehide", () => widget.pause());
+    window.addEventListener("pagehide", () => {
+      wantPlay = false;
+      widget.pause();
+    });
   }
 
   initPlayer();
