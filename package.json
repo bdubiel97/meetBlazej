@@ -10,7 +10,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "new-album": "node --env-file-if-exists=.env scripts/new-album.mjs"
+    "new-album": "node --env-file-if-exists=.env scripts/new-album.mjs",
+    "upload-photos": "node --env-file-if-exists=.env scripts/upload-photos.mjs"
   },
   "dependencies": {
     "@fontsource/cascadia-mono": "^5.3.0",

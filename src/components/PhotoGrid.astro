@@ -1,4 +1,6 @@
 ---
+import { photoUrl } from "../utils/photoUrl";
+
 interface GridPhoto {
   src: string;
   alt: string;
@@ -42,7 +44,7 @@ const gridAspect = (cols * cellW) / (rows * cellH);
         class="photo-cell retro-border retro-shadow"
         style={`grid-column: span ${photo.cols ?? 1}; grid-row: span ${photo.rows ?? 1};`}
       >
-        <img src={photo.src} alt={photo.alt} loading="lazy" />
+        <img src={photoUrl(photo.src, "full")} alt={photo.alt} loading="lazy" />
       </figure>
     ))
   }

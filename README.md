@@ -100,8 +100,17 @@ the gig photos. Highest number is shown at the top. The MENU dropdown follows th
 (all YouTube sets stay together in one "YouTube Sets" group, placed where the top-most one is).
 
 Gig photos live in `"gigGalleries"` in `music.json` — a list of grids, each defined by its
-shape, with photos placed in order. Drop the image files in `public/images/music/gigs/`
-(resize to ~1200px on the long side first; they're served as-is) and reference them by path:
+shape, with photos placed in order. Upload each photo to Cloudflare Images (EXIF/GPS is
+stripped, same as albums), then use the printed image IDs as `src`:
+
+```sh
+npm run upload-photos -- music/gigs /path/to/photo1.jpg /path/to/photo2.jpg
+```
+
+The same command works for adding photos to an existing album — use `photography/<slug>` as
+the prefix and add the printed IDs to that album's `photos` array. (A `src` starting with `/`
+is still treated as a local file in `public/`, but Cloudflare is preferred so the repo stays
+small.)
 
 ```json
 {
@@ -109,8 +118,8 @@ shape, with photos placed in order. Drop the image files in `public/images/music
   "cols": 3,
   "cellRatio": "2/3",
   "photos": [
-    { "src": "/images/music/gigs/left.jpg", "alt": "Portrait shot" },
-    { "src": "/images/music/gigs/wide.jpg", "alt": "Wide shot", "cols": 2 }
+    { "src": "music/gigs/left", "alt": "Portrait shot" },
+    { "src": "music/gigs/wide", "alt": "Wide shot", "cols": 2 }
   ]
 }
 ```

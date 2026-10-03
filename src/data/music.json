@@ -38,11 +38,11 @@
       "cellRatio": "2/3",
       "photos": [
         {
-          "src": "/images/music/gigs/Budchen_V.JPG",
+          "src": "music/gigs/budchen-v",
           "alt": "Placeholder gig photo 1"
         },
         {
-          "src": "/images/music/gigs/Playdate_H.JPG",
+          "src": "music/gigs/playdate-h",
           "alt": "Placeholder gig photo 2",
           "cols": 2
         }
