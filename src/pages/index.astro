@@ -180,4 +180,31 @@ function sectionTitle(id: string) {
     gap: 1rem;
     flex-wrap: wrap;
   }
+
+  /* Phones: keep the text beside the photo instead of wrapping underneath it. */
+  @media (max-width: 640px) {
+    .profile-header {
+      flex-wrap: nowrap;
+      gap: 1rem;
+    }
+
+    .profile-photo {
+      flex: 0 0 auto;
+      width: 120px;
+    }
+
+    .profile-header > div {
+      min-width: 0;
+    }
+
+    .profile-header h1 {
+      font-size: 1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .profile-title,
+    .profile-location {
+      font-size: 0.9rem;
+    }
+  }
 </style>
