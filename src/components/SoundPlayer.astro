@@ -160,10 +160,10 @@ const embedSrc = source ? getSoundCloudEmbedSrc(source.url) : null;
       setPlaying(true);
       refreshSound();
     });
-    // iPhones sometimes refuse the very first play request (it reaches the
-    // hidden SoundCloud player outside the tap's "user gesture") and answer
-    // with a PAUSE right away. If that happens just after the visitor asked
-    // for playback, ask again — by then the track is loaded and it goes through.
+    // iPhones (a known SoundCloud-embed quirk) often refuse the first play
+    // request and answer with an immediate PAUSE; a later request goes through.
+    // So after a tap we show "playing" right away, and if a PAUSE comes back
+    // before any progress, wait a moment and ask again (up to 3 times).
     let wantPlay = false;
     let lastKick = 0;
     let retries = 0;
@@ -171,22 +171,39 @@ const embedSrc = source ? getSoundCloudEmbedSrc(source.url) : null;
     function requestPlay() {
       wantPlay = true;
       retries = 0;
-      lastKick = Date.now();
+      const kick = (lastKick = Date.now());
+      setPlaying(true);
+      // Give up (and show "paused" again) if nothing has started after 9s.
+      setTimeout(() => {
+        if (wantPlay && lastKick === kick) {
+          wantPlay = false;
+          setPlaying(false);
+        }
+      }, 9000);
     }
 
     widget.bind(E.PAUSE, () => {
-      setPlaying(false);
-      if (wantPlay && retries < 2 && Date.now() - lastKick < 4000) {
+      if (wantPlay && retries < 3 && Date.now() - lastKick < 8000) {
         retries++;
-        widget.play();
+        setTimeout(() => {
+          if (wantPlay) widget.play();
+        }, 800);
+        return;
       }
+      wantPlay = false;
+      setPlaying(false);
     });
     widget.bind(E.FINISH, () => setProgress(0));
-    widget.bind(E.PLAY_PROGRESS, (e: any) => setProgress(e.relativePosition));
+    widget.bind(E.PLAY_PROGRESS, (e: any) => {
+      wantPlay = false;
+      setPlaying(true);
+      setProgress(e.relativePosition);
+    });
 
     toggleBtn.addEventListener("click", () => {
       if (root.classList.contains("is-playing")) {
         wantPlay = false;
+        setPlaying(false);
         widget.pause();
       } else {
         requestPlay();
