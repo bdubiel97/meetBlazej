@@ -11,6 +11,10 @@ const equipmentCategory = z
 const photography = defineCollection({
   loader: glob({ pattern: "*.json", base: "./src/content/photography" }),
   schema: z.object({
+    // Display order: highest number is shown first (top of the page/menu).
+    // Not named "id" because Astro treats a data field called "id" as the
+    // entry's URL id and would break the album routes.
+    order: z.number(),
     title: z.string(),
     description: z.string(),
     location: z.string(),

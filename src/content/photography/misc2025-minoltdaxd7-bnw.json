@@ -1,0 +1,70 @@
+{
+  "order": 4,
+  "title": "Misc 2025 B&W [Minolta XD7]",
+  "description": "blabla",
+  "location": "PLACEHOLDER — where this was shot",
+  "equipment": {
+    "camera": "PLACEHOLDER — camera(s) used for this album",
+    "film": "PLACEHOLDER — film stock(s) used for this album",
+    "lens": "PLACEHOLDER — lens(es) used for this album"
+  },
+  "coverImage": "photography/misc2025-minoltdaxd7-bnw/000-5007",
+  "photos": [
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5005",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 1"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5006",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 2"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5007",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 3"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5008",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 4"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5009",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 5"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5010",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 6"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5013",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 7"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5021",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 8"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5022",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 9"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5023",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 10"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5024",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 11"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5025",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 12"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5026",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 13"
+    },
+    {
+      "src": "photography/misc2025-minoltdaxd7-bnw/000-5027",
+      "alt": "misc2025-minoltdaxd7-bnw — photo 14"
+    }
+  ]
+}

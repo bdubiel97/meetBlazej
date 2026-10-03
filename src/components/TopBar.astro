@@ -4,6 +4,7 @@ import music from "../data/music.json";
 import { homeSections, gigPhotosSectionId, sitePages } from "../data/nav";
 import { slugify } from "../utils/slugify";
 import { groupAlbumsByEquipment } from "../utils/equipment";
+import { sortAlbums } from "../utils/albums";
 
 const pathname = Astro.url.pathname;
 const section = pathname.startsWith("/photography")
@@ -37,7 +38,7 @@ if (section === "home") {
     ...homeSections.map((s) => ({ label: s.label, href: `/#${s.id}` })),
   ];
 } else if (section === "photography") {
-  const albums = await getCollection("photography");
+  const albums = sortAlbums(await getCollection("photography"));
   sectionItems = [
     { label: "Home", href: "/photography" },
     {

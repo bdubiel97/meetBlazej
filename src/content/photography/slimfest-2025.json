@@ -1,0 +1,182 @@
+{
+  "order": 1,
+  "title": "Slimfest 2025",
+  "description": "BlaBla",
+  "location": "PLACEHOLDER — where this was shot",
+  "equipment": {
+    "camera": "PLACEHOLDER — camera(s) used for this album",
+    "film": "PLACEHOLDER — film stock(s) used for this album",
+    "lens": "PLACEHOLDER — lens(es) used for this album"
+  },
+  "coverImage": "photography/slimfest-2025/000051550015",
+  "photos": [
+    {
+      "src": "photography/slimfest-2025/000018680002",
+      "alt": "slimfest-2025 — photo 1"
+    },
+    {
+      "src": "photography/slimfest-2025/000018680003",
+      "alt": "slimfest-2025 — photo 2"
+    },
+    {
+      "src": "photography/slimfest-2025/000018680004",
+      "alt": "slimfest-2025 — photo 3"
+    },
+    {
+      "src": "photography/slimfest-2025/000018680006",
+      "alt": "slimfest-2025 — photo 4"
+    },
+    {
+      "src": "photography/slimfest-2025/000018680010",
+      "alt": "slimfest-2025 — photo 5"
+    },
+    {
+      "src": "photography/slimfest-2025/000018680012",
+      "alt": "slimfest-2025 — photo 6"
+    },
+    {
+      "src": "photography/slimfest-2025/000018680015",
+      "alt": "slimfest-2025 — photo 7"
+    },
+    {
+      "src": "photography/slimfest-2025/000018680018",
+      "alt": "slimfest-2025 — photo 8"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550002",
+      "alt": "slimfest-2025 — photo 9"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550003",
+      "alt": "slimfest-2025 — photo 10"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550004",
+      "alt": "slimfest-2025 — photo 11"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550005",
+      "alt": "slimfest-2025 — photo 12"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550006",
+      "alt": "slimfest-2025 — photo 13"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550007",
+      "alt": "slimfest-2025 — photo 14"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550008",
+      "alt": "slimfest-2025 — photo 15"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550009",
+      "alt": "slimfest-2025 — photo 16"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550010",
+      "alt": "slimfest-2025 — photo 17"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550011",
+      "alt": "slimfest-2025 — photo 18"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550012",
+      "alt": "slimfest-2025 — photo 19"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550013",
+      "alt": "slimfest-2025 — photo 20"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550014",
+      "alt": "slimfest-2025 — photo 21"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550015",
+      "alt": "slimfest-2025 — photo 22"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550016",
+      "alt": "slimfest-2025 — photo 23"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550017",
+      "alt": "slimfest-2025 — photo 24"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550018",
+      "alt": "slimfest-2025 — photo 25"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550019",
+      "alt": "slimfest-2025 — photo 26"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550020",
+      "alt": "slimfest-2025 — photo 27"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550021",
+      "alt": "slimfest-2025 — photo 28"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550022",
+      "alt": "slimfest-2025 — photo 29"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550023",
+      "alt": "slimfest-2025 — photo 30"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550025",
+      "alt": "slimfest-2025 — photo 31"
+    },
+    {
+      "src": "photography/slimfest-2025/000051550026",
+      "alt": "slimfest-2025 — photo 32"
+    },
+    {
+      "src": "photography/slimfest-2025/000051560001",
+      "alt": "slimfest-2025 — photo 33"
+    },
+    {
+      "src": "photography/slimfest-2025/000051560002",
+      "alt": "slimfest-2025 — photo 34"
+    },
+    {
+      "src": "photography/slimfest-2025/000051560004",
+      "alt": "slimfest-2025 — photo 35"
+    },
+    {
+      "src": "photography/slimfest-2025/000051560005",
+      "alt": "slimfest-2025 — photo 36"
+    },
+    {
+      "src": "photography/slimfest-2025/000051560007",
+      "alt": "slimfest-2025 — photo 37"
+    },
+    {
+      "src": "photography/slimfest-2025/000051560012",
+      "alt": "slimfest-2025 — photo 38"
+    },
+    {
+      "src": "photography/slimfest-2025/000051560013",
+      "alt": "slimfest-2025 — photo 39"
+    },
+    {
+      "src": "photography/slimfest-2025/000051560014",
+      "alt": "slimfest-2025 — photo 40"
+    },
+    {
+      "src": "photography/slimfest-2025/000051570037",
+      "alt": "slimfest-2025 — photo 41"
+    },
+    {
+      "src": "photography/slimfest-2025/000051570038",
+      "alt": "slimfest-2025 — photo 42"
+    }
+  ]
+}

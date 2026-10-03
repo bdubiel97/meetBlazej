@@ -180,7 +180,21 @@ async function main() {
   }
 
   const coverImageId = uploaded[coverIndex];
+
+  // New albums go on top: one higher than the current highest `order`.
+  const existingFiles = (await readdir(contentDir)).filter((f) => f.endsWith(".json"));
+  let maxOrder = 0;
+  for (const f of existingFiles) {
+    try {
+      const existing = JSON.parse(await readFile(path.join(contentDir, f), "utf8"));
+      if (typeof existing.order === "number") maxOrder = Math.max(maxOrder, existing.order);
+    } catch {
+      // Skip unreadable files; they'd fail the build separately.
+    }
+  }
+
   const doc = {
+    order: maxOrder + 1,
     title,
     description,
     location: "PLACEHOLDER — where this was shot",

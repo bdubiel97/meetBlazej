@@ -1,0 +1,170 @@
+{
+  "order": 13,
+  "title": "1st year of Carmela",
+  "description": "blabla",
+  "location": "PLACEHOLDER — where this was shot",
+  "equipment": {
+    "camera": "PLACEHOLDER — camera(s) used for this album",
+    "film": "PLACEHOLDER — film stock(s) used for this album",
+    "lens": "PLACEHOLDER — lens(es) used for this album"
+  },
+  "coverImage": "photography/carmela-one-yr/r1-07083-011a",
+  "photos": [
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0000",
+      "alt": "carmela-one-yr — photo 1"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0004",
+      "alt": "carmela-one-yr — photo 2"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0006",
+      "alt": "carmela-one-yr — photo 3"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0008",
+      "alt": "carmela-one-yr — photo 4"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0009",
+      "alt": "carmela-one-yr — photo 5"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0010",
+      "alt": "carmela-one-yr — photo 6"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0011",
+      "alt": "carmela-one-yr — photo 7"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0013",
+      "alt": "carmela-one-yr — photo 8"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0014",
+      "alt": "carmela-one-yr — photo 9"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0015",
+      "alt": "carmela-one-yr — photo 10"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0016",
+      "alt": "carmela-one-yr — photo 11"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0017",
+      "alt": "carmela-one-yr — photo 12"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0019",
+      "alt": "carmela-one-yr — photo 13"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0021",
+      "alt": "carmela-one-yr — photo 14"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0022",
+      "alt": "carmela-one-yr — photo 15"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0023",
+      "alt": "carmela-one-yr — photo 16"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0024",
+      "alt": "carmela-one-yr — photo 17"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0025",
+      "alt": "carmela-one-yr — photo 18"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07082-0026",
+      "alt": "carmela-one-yr — photo 19"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-011a",
+      "alt": "carmela-one-yr — photo 20"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-014a",
+      "alt": "carmela-one-yr — photo 21"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-015a",
+      "alt": "carmela-one-yr — photo 22"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-016a",
+      "alt": "carmela-one-yr — photo 23"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-023a",
+      "alt": "carmela-one-yr — photo 24"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-025a",
+      "alt": "carmela-one-yr — photo 25"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-026a",
+      "alt": "carmela-one-yr — photo 26"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-027a",
+      "alt": "carmela-one-yr — photo 27"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-028a",
+      "alt": "carmela-one-yr — photo 28"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-029a",
+      "alt": "carmela-one-yr — photo 29"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-030a",
+      "alt": "carmela-one-yr — photo 30"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-032a",
+      "alt": "carmela-one-yr — photo 31"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07083-034a",
+      "alt": "carmela-one-yr — photo 32"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07084-025a",
+      "alt": "carmela-one-yr — photo 33"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07084-027a",
+      "alt": "carmela-one-yr — photo 34"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07084-030a",
+      "alt": "carmela-one-yr — photo 35"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07084-031a",
+      "alt": "carmela-one-yr — photo 36"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07084-032a",
+      "alt": "carmela-one-yr — photo 37"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07084-034a",
+      "alt": "carmela-one-yr — photo 38"
+    },
+    {
+      "src": "photography/carmela-one-yr/r1-07084-035a",
+      "alt": "carmela-one-yr — photo 39"
+    }
+  ]
+}

@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import Lightbox from "./Lightbox.astro";
 import { photoUrl } from "../utils/photoUrl";
 
-const REEL_FRAME_COUNT = 10;
+const REEL_FRAME_COUNT = 36;
 
 // Draws from every photo in every album currently in the content
 // collection — as new albums are added, the reel's pool grows with them
@@ -31,7 +31,7 @@ const frames = shuffle(pool).slice(0, REEL_FRAME_COUNT);
     <div class="spool" aria-hidden="true"><span></span></div>
     <div class="canister-labels">
       <span class="canister-label">35mm</span>
-      <span class="canister-label">10 exp</span>
+      <span class="canister-label">{REEL_FRAME_COUNT} exp</span>
     </div>
   </div>
   <div class="film-scroll">

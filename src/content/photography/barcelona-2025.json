@@ -1,0 +1,138 @@
+{
+  "order": 15,
+  "title": "Barcelona 2025",
+  "description": "blabla",
+  "location": "PLACEHOLDER — where this was shot",
+  "equipment": {
+    "camera": "PLACEHOLDER — camera(s) used for this album",
+    "film": "PLACEHOLDER — film stock(s) used for this album",
+    "lens": "PLACEHOLDER — lens(es) used for this album"
+  },
+  "coverImage": "photography/barcelona-2025/000339550030",
+  "photos": [
+    {
+      "src": "photography/barcelona-2025/000339540028",
+      "alt": "barcelona-2025 — photo 1"
+    },
+    {
+      "src": "photography/barcelona-2025/000339540029",
+      "alt": "barcelona-2025 — photo 2"
+    },
+    {
+      "src": "photography/barcelona-2025/000339540030",
+      "alt": "barcelona-2025 — photo 3"
+    },
+    {
+      "src": "photography/barcelona-2025/000339540031",
+      "alt": "barcelona-2025 — photo 4"
+    },
+    {
+      "src": "photography/barcelona-2025/000339540032",
+      "alt": "barcelona-2025 — photo 5"
+    },
+    {
+      "src": "photography/barcelona-2025/000339540033",
+      "alt": "barcelona-2025 — photo 6"
+    },
+    {
+      "src": "photography/barcelona-2025/000339540034",
+      "alt": "barcelona-2025 — photo 7"
+    },
+    {
+      "src": "photography/barcelona-2025/000339540035",
+      "alt": "barcelona-2025 — photo 8"
+    },
+    {
+      "src": "photography/barcelona-2025/000339540036",
+      "alt": "barcelona-2025 — photo 9"
+    },
+    {
+      "src": "photography/barcelona-2025/000339540037",
+      "alt": "barcelona-2025 — photo 10"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550001",
+      "alt": "barcelona-2025 — photo 11"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550004",
+      "alt": "barcelona-2025 — photo 12"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550005-copy",
+      "alt": "barcelona-2025 — photo 13"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550006",
+      "alt": "barcelona-2025 — photo 14"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550007",
+      "alt": "barcelona-2025 — photo 15"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550008",
+      "alt": "barcelona-2025 — photo 16"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550009",
+      "alt": "barcelona-2025 — photo 17"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550010",
+      "alt": "barcelona-2025 — photo 18"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550018",
+      "alt": "barcelona-2025 — photo 19"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550019",
+      "alt": "barcelona-2025 — photo 20"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550020",
+      "alt": "barcelona-2025 — photo 21"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550021",
+      "alt": "barcelona-2025 — photo 22"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550022",
+      "alt": "barcelona-2025 — photo 23"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550023",
+      "alt": "barcelona-2025 — photo 24"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550027",
+      "alt": "barcelona-2025 — photo 25"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550028",
+      "alt": "barcelona-2025 — photo 26"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550029",
+      "alt": "barcelona-2025 — photo 27"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550030",
+      "alt": "barcelona-2025 — photo 28"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550031",
+      "alt": "barcelona-2025 — photo 29"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550032",
+      "alt": "barcelona-2025 — photo 30"
+    },
+    {
+      "src": "photography/barcelona-2025/000339550033",
+      "alt": "barcelona-2025 — photo 31"
+    }
+  ]
+}

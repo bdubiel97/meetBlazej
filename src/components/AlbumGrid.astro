@@ -1,12 +1,13 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { photoUrl } from "../utils/photoUrl";
+import { sortAlbums } from "../utils/albums";
 
 interface Props {
   albums: CollectionEntry<"photography">[];
 }
 
-const { albums } = Astro.props;
+const albums = sortAlbums(Astro.props.albums);
 ---
 
 <div class="album-grid">
