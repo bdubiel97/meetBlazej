@@ -25,19 +25,23 @@ const allGigPhotos = music.gigGalleries.flatMap((g) =>
 ---
 
 <BaseLayout title={pageLabel} theme="music">
-  <h1>{pageLabel}</h1>
+  <div class="page-header">
+    <h1>{pageLabel}</h1>
+    <nav class="header-links" aria-label="Personal music links">
+      <a href={site.musicSoundcloud} target="_blank" rel="noopener noreferrer">
+        SoundCloud
+      </a>
+      <a href={site.musicInstagram} target="_blank" rel="noopener noreferrer">
+        Instagram
+      </a>
+    </nav>
+  </div>
   {
     blocks.map((block) =>
       block.kind === "about" ? (
         <RetroPanel id="about" title="About">
           <p>{music.about}</p>
           <nav class="music-links" aria-label="Music links">
-            <a href={site.musicSoundcloud} target="_blank" rel="noopener noreferrer">
-              SoundCloud
-            </a>
-            <a href={site.musicInstagram} target="_blank" rel="noopener noreferrer">
-              Instagram
-            </a>
             <a href={site.musicSoundcloudIpa} target="_blank" rel="noopener noreferrer">
               SoundCloud IPA
             </a>
@@ -69,6 +73,45 @@ const allGigPhotos = music.gigGalleries.flatMap((g) =>
 </BaseLayout>
 
 <style>
+  /* Heading and the personal links share one line, links flush right. */
+  .page-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .page-header h1 {
+    --h1-size: 1.5rem;
+    font-size: var(--h1-size);
+    margin: 0;
+    min-width: 0;
+  }
+
+  .page-header .header-links {
+    /* The pixel font's letters sit a little above its reported baseline, so
+       plain baseline alignment leaves the links ~0.11em too low. */
+    position: relative;
+    top: calc(var(--h1-size, 1.5rem) * -0.11);
+    margin: 0 0 0 auto;
+    gap: 0.6rem;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    flex: 0 0 auto;
+  }
+
+  /* On phones the heading shrinks a little so both links always fit beside it. */
+  @media (max-width: 640px) {
+    .page-header h1 {
+      --h1-size: 1.2rem;
+    }
+
+    .page-header .header-links {
+      --h1-size: 1.2rem;
+    }
+  }
+
   .music-links {
     display: flex;
     flex-wrap: wrap;
