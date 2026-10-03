@@ -152,11 +152,59 @@ const embedSrc = source ? getSoundCloudEmbedSrc(source.url) : null;
       });
     }
 
+    // iPhones refuse the first play request to SoundCloud's hidden player and
+    // only accept the next one. So on touch devices we make that first
+    // (doomed) attempt ourselves, silently — volume 0, no icon changes — right
+    // after the player is ready and again on the visitor's first tap anywhere
+    // else on the page. By the time they press play it behaves like a second try.
+    let warming = false;
+    let warmToken = 0;
+    let warmUps = 0;
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+
+    function warmUp() {
+      if (!isTouch || warming || wantPlay || warmUps >= 2) return;
+      warmUps++;
+      warming = true;
+      const token = ++warmToken;
+      widget.setVolume(0);
+      widget.play();
+      setTimeout(() => {
+        if (token !== warmToken) return;
+        widget.pause();
+        widget.seekTo(0);
+        widget.setVolume(100);
+        setTimeout(() => {
+          if (token !== warmToken) return;
+          warming = false;
+          setProgress(0);
+          setPlaying(false);
+        }, 400);
+      }, 1000);
+    }
+
+    function cancelWarmUp() {
+      if (!warming) return;
+      warmToken++;
+      warming = false;
+      widget.setVolume(100);
+    }
+
     widget.bind(E.READY, () => {
       refreshSound();
       widget.getDuration((ms: number) => (duration = ms));
+      warmUp();
     });
+
+    document.addEventListener(
+      "pointerup",
+      (e) => {
+        if (!root.contains(e.target as Node)) warmUp();
+      },
+      { once: true }
+    );
     widget.bind(E.PLAY, () => {
+      if (warming) return;
       setPlaying(true);
       refreshSound();
     });
@@ -183,6 +231,7 @@ const embedSrc = source ? getSoundCloudEmbedSrc(source.url) : null;
     }
 
     widget.bind(E.PAUSE, () => {
+      if (warming) return;
       if (wantPlay && retries < 3 && Date.now() - lastKick < 8000) {
         retries++;
         setTimeout(() => {
@@ -195,6 +244,7 @@ const embedSrc = source ? getSoundCloudEmbedSrc(source.url) : null;
     });
     widget.bind(E.FINISH, () => setProgress(0));
     widget.bind(E.PLAY_PROGRESS, (e: any) => {
+      if (warming) return;
       wantPlay = false;
       setPlaying(true);
       setProgress(e.relativePosition);
@@ -206,17 +256,20 @@ const embedSrc = source ? getSoundCloudEmbedSrc(source.url) : null;
         setPlaying(false);
         widget.pause();
       } else {
+        cancelWarmUp();
         requestPlay();
         widget.play();
       }
     });
     prevBtn.addEventListener("click", () => {
       setProgress(0);
+      cancelWarmUp();
       requestPlay();
       widget.prev();
     });
     nextBtn.addEventListener("click", () => {
       setProgress(0);
+      cancelWarmUp();
       requestPlay();
       widget.next();
     });
