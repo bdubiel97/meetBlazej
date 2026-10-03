@@ -1,10 +1,9 @@
 ---
 import { getCollection } from "astro:content";
-import music from "../data/music.json";
 import { homeSections, gigPhotosSectionId, sitePages } from "../data/nav";
-import { slugify } from "../utils/slugify";
 import { groupAlbumsByEquipment } from "../utils/equipment";
 import { sortAlbums } from "../utils/albums";
+import { getMusicBlocks } from "../utils/musicBlocks";
 
 const pathname = Astro.url.pathname;
 const section = pathname.startsWith("/photography")
@@ -71,25 +70,28 @@ if (section === "home") {
     },
   ];
 } else {
-  const youtubeLinks = music.sets
-    .map((set, i) => ({ ...set, id: `${slugify(set.title)}-${i}` }))
-    .filter((set) => set.platform === "youtube");
-  const otherLinks = music.sets
-    .map((set, i) => ({ ...set, id: `${slugify(set.title)}-${i}` }))
-    .filter((set) => set.platform !== "youtube");
-  sectionItems = [
-    { label: "Home", href: "/music" },
-    { label: "About", href: "/music#about" },
-    ...otherLinks.map((set) => ({ label: set.title, href: `/music#${set.id}` })),
-    {
-      label: "YouTube Sets",
-      children: youtubeLinks.map((set) => ({
-        label: set.title,
-        href: `/music#${set.id}`,
-      })),
-    },
-    { label: "gig-photos.dir", href: `/music#${gigPhotosSectionId}` },
-  ];
+  const blocks = getMusicBlocks();
+  const youtubeLinks = blocks.flatMap((b) =>
+    b.kind === "set" && b.set.platform === "youtube"
+      ? [{ label: b.set.title, href: `/music#${b.set.id}` }]
+      : []
+  );
+  let youtubeGroupAdded = false;
+  const blockItems: MenuItem[] = [];
+  for (const block of blocks) {
+    if (block.kind === "about") {
+      blockItems.push({ label: "About", href: "/music#about" });
+    } else if (block.kind === "gigPhotos") {
+      blockItems.push({ label: "gig-photos.dir", href: `/music#${gigPhotosSectionId}` });
+    } else if (block.set.platform !== "youtube") {
+      blockItems.push({ label: block.set.title, href: `/music#${block.set.id}` });
+    } else if (!youtubeGroupAdded) {
+      // All YouTube sets share one "YouTube Sets" group, placed where the topmost one sits.
+      youtubeGroupAdded = true;
+      blockItems.push({ label: "YouTube Sets", children: youtubeLinks });
+    }
+  }
+  sectionItems = [{ label: "Home", href: "/music" }, ...blockItems];
 }
 ---
 

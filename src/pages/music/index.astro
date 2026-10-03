@@ -3,55 +3,52 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import MonkeyAnimation from "../../components/MonkeyAnimation.astro";
 import RetroPanel from "../../components/RetroPanel.astro";
 import EmbedPlayer from "../../components/EmbedPlayer.astro";
+import PhotoGrid from "../../components/PhotoGrid.astro";
 import music from "../../data/music.json";
 import site from "../../data/site.json";
-import { slugify } from "../../utils/slugify";
+import { getMusicBlocks } from "../../utils/musicBlocks";
 import { gigPhotosSectionId, sitePages } from "../../data/nav";
 
 const pageLabel = sitePages.find((p) => p.id === "music")!.label;
+const blocks = getMusicBlocks();
 ---
 
 <BaseLayout title={pageLabel} theme="music">
   <h1>{pageLabel}</h1>
-  <RetroPanel id="about" title="About">
-    <p>{music.about}</p>
-    <nav class="music-links" aria-label="Music links">
-      <a href={site.musicSoundcloud} target="_blank" rel="noopener noreferrer">
-        SoundCloud
-      </a>
-      <a href={site.musicInstagram} target="_blank" rel="noopener noreferrer">
-        Instagram
-      </a>
-      <a href={site.musicSoundcloudIpa} target="_blank" rel="noopener noreferrer">
-        SoundCloud IPA
-      </a>
-      <a href={site.musicInstagramIpa} target="_blank" rel="noopener noreferrer">
-        Instagram IPA
-      </a>
-    </nav>
-  </RetroPanel>
-
   {
-    music.sets.map((set, i) => (
-      <RetroPanel id={`${slugify(set.title)}-${i}`} title={set.title}>
-        {set.description && <p>{set.description}</p>}
-        <EmbedPlayer platform={set.platform} url={set.url} title={set.title} />
-      </RetroPanel>
-    ))
+    blocks.map((block) =>
+      block.kind === "about" ? (
+        <RetroPanel id="about" title="About">
+          <p>{music.about}</p>
+          <nav class="music-links" aria-label="Music links">
+            <a href={site.musicSoundcloud} target="_blank" rel="noopener noreferrer">
+              SoundCloud
+            </a>
+            <a href={site.musicInstagram} target="_blank" rel="noopener noreferrer">
+              Instagram
+            </a>
+            <a href={site.musicSoundcloudIpa} target="_blank" rel="noopener noreferrer">
+              SoundCloud IPA
+            </a>
+            <a href={site.musicInstagramIpa} target="_blank" rel="noopener noreferrer">
+              Instagram IPA
+            </a>
+          </nav>
+        </RetroPanel>
+      ) : block.kind === "gigPhotos" ? (
+        <RetroPanel id={gigPhotosSectionId}>
+          <div class="gig-galleries">
+            {music.gigGalleries.map((gallery) => <PhotoGrid {...gallery} />)}
+          </div>
+        </RetroPanel>
+      ) : (
+        <RetroPanel id={block.set.id} title={block.set.title}>
+          {block.set.description && <p>{block.set.description}</p>}
+          <EmbedPlayer platform={block.set.platform} url={block.set.url} title={block.set.title} />
+        </RetroPanel>
+      )
+    )
   }
-
-  <RetroPanel id={gigPhotosSectionId} title="gig-photos.dir">
-    <div class="gig-grid">
-      {
-        music.gigPhotos.map((photo) => (
-          <figure class="gig-figure retro-border retro-shadow">
-            <img src={photo.src} alt={photo.alt} loading="lazy" />
-            {photo.caption && <figcaption>{photo.caption}</figcaption>}
-          </figure>
-        ))
-      }
-    </div>
-  </RetroPanel>
 
   <MonkeyAnimation />
 </BaseLayout>
@@ -70,25 +67,9 @@ const pageLabel = sitePages.find((p) => p.id === "music")!.label;
     color: var(--color-panel-ink);
   }
 
-  .gig-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 1rem;
-  }
-
-  .gig-figure {
-    margin: 0;
-    background: var(--color-input-bg);
-  }
-
-  .gig-figure img {
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-  }
-
-  .gig-figure figcaption {
-    padding: 0.5rem;
-    font-size: 0.85rem;
-    text-align: center;
+  .gig-galleries {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
   }
 </style>

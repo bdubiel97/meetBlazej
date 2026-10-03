@@ -94,8 +94,33 @@ Open `src/data/music.json` and add an entry to `"sets"`:
 - `url` is just the normal share link you'd copy from YouTube or SoundCloud — no embed code
   needed.
 
-Gig photos work the same way as photography — add entries to `"gigPhotos"` and drop the
-matching images in `public/images/music/gigs/`.
+**Order of panels on the Yoshee page**: every panel has an `order` number in `music.json` —
+`"aboutOrder"` for About, `"order"` inside each entry of `"sets"`, and `"gigPhotosOrder"` for
+the gig photos. Highest number is shown at the top. The MENU dropdown follows the same order
+(all YouTube sets stay together in one "YouTube Sets" group, placed where the top-most one is).
+
+Gig photos live in `"gigGalleries"` in `music.json` — a list of grids, each defined by its
+shape, with photos placed in order. Drop the image files in `public/images/music/gigs/`
+(resize to ~1200px on the long side first; they're served as-is) and reference them by path:
+
+```json
+{
+  "rows": 1,
+  "cols": 3,
+  "cellRatio": "2/3",
+  "photos": [
+    { "src": "/images/music/gigs/left.jpg", "alt": "Portrait shot" },
+    { "src": "/images/music/gigs/wide.jpg", "alt": "Wide shot", "cols": 2 }
+  ]
+}
+```
+
+- `rows` x `cols` is the grid's size; `cellRatio` is the shape of one slot (`"2/3"` portrait,
+  `"3/2"` landscape, `"1/1"` square).
+- A photo takes 1 slot by default; add `"cols": 2` and/or `"rows": 2` to span more.
+- Photos fill the grid left-to-right, top-to-bottom. The build fails with a clear message if
+  they need more slots than `rows x cols` provides.
+- To add another grid, append another object to `gigGalleries`.
 
 ## Local development
 

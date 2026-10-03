@@ -1,33 +1,52 @@
 {
+  "aboutOrder": 6,
   "about": "PLACEHOLDER — write a short intro about your music here (what you play, where, your style). Edit this in src/data/music.json.",
   "sets": [
     {
+      "order": 5,
       "platform": "soundcloud",
       "url": "https://soundcloud.com/intl-players-association/ipa-big-party-yoshee-14-07?in=yoshee13/sets/sets&si=08a66342e69b4d0e92af7bb1c70e5a9f&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
       "title": "Soundcloud sets"
     },
     {
+      "order": 4,
       "platform": "youtube",
       "url": "https://youtu.be/qZOLfIWRudA?si=R2-pBXUzNud5WDpf",
       "title": "IPA Big Party, 07/2026",
       "description": "Warm up set for the first IPA club night."
     },
     {
+      "order": 2,
       "platform": "youtube",
       "url": "https://youtu.be/JkBi6kC93_M?si=9WNfSyBzn2K4afsm",
       "title": "Relate Radio, 02/2026",
       "description": "First time at Relate Radio. First time exploring high tempo sounds everywhere and in-between breaks, drums and latin sounds."
     },
     {
+      "order": 1,
       "platform": "youtube",
       "url": "https://youtu.be/DLpEiJU0Syk?si=Ik-rfJo1BJFbozUf",
       "title": "IPA Play Date, 04/2025",
       "description": "Funky house set for IPA launch party."
     }
   ],
-  "gigPhotos": [
-    { "src": "/images/music/gigs/gig-1.svg", "alt": "Placeholder gig photo 1", "caption": "Placeholder caption 1" },
-    { "src": "/images/music/gigs/gig-2.svg", "alt": "Placeholder gig photo 2", "caption": "Placeholder caption 2" },
-    { "src": "/images/music/gigs/gig-3.svg", "alt": "Placeholder gig photo 3", "caption": "Placeholder caption 3" }
+  "gigPhotosOrder": 3,
+  "gigGalleries": [
+    {
+      "rows": 1,
+      "cols": 3,
+      "cellRatio": "2/3",
+      "photos": [
+        {
+          "src": "/images/music/gigs/Budchen_V.JPG",
+          "alt": "Placeholder gig photo 1"
+        },
+        {
+          "src": "/images/music/gigs/Playdate_H.JPG",
+          "alt": "Placeholder gig photo 2",
+          "cols": 2
+        }
+      ]
+    }
   ]
 }
