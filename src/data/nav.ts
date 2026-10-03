@@ -18,8 +18,17 @@ export const gigPhotosSectionId = "gig-photos-dir";
 // the bottom nav buttons (StatusBar), the MENU dropdown's section label
 // (TopBar), each page's <h1>, and its browser-tab title. Edit a label here
 // once and all of those update together.
-export const sitePages = [
-  { id: "home", label: "Resume", href: "/" },
-  { id: "photography", label: "Analog Playground", href: "/photography" },
-  { id: "music", label: "Yoshee", href: "/music" },
+// `mobile` is what the bottom nav button shows on phones instead of the full
+// label: either short text, or the name of a pixel icon in src/assets/icons.
+export type MobileLabel = { text: string } | { icon: "camera" | "tune" };
+
+export const sitePages: {
+  id: string;
+  label: string;
+  href: string;
+  mobile: MobileLabel;
+}[] = [
+  { id: "home", label: "Resume", href: "/", mobile: { text: "CV" } },
+  { id: "photography", label: "Analog Playground", href: "/photography", mobile: { icon: "camera" } },
+  { id: "music", label: "Yoshee", href: "/music", mobile: { icon: "tune" } },
 ];

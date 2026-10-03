@@ -4,6 +4,7 @@ import MonkeyAnimation from "../../components/MonkeyAnimation.astro";
 import RetroPanel from "../../components/RetroPanel.astro";
 import EmbedPlayer from "../../components/EmbedPlayer.astro";
 import PhotoGrid from "../../components/PhotoGrid.astro";
+import Lightbox from "../../components/Lightbox.astro";
 import music from "../../data/music.json";
 import site from "../../data/site.json";
 import { getMusicBlocks } from "../../utils/musicBlocks";
@@ -11,6 +12,15 @@ import { gigPhotosSectionId, sitePages } from "../../data/nav";
 
 const pageLabel = sitePages.find((p) => p.id === "music")!.label;
 const blocks = getMusicBlocks();
+
+// One shared Lightbox for every gig grid; each grid gets the index of its
+// first photo within this flat list.
+const galleryStarts = music.gigGalleries.map((_, i) =>
+  music.gigGalleries.slice(0, i).reduce((sum, g) => sum + g.photos.length, 0)
+);
+const allGigPhotos = music.gigGalleries.flatMap((g) =>
+  g.photos.map((p) => ({ src: p.src, alt: p.alt }))
+);
 ---
 
 <BaseLayout title={pageLabel} theme="music">
@@ -38,7 +48,7 @@ const blocks = getMusicBlocks();
       ) : block.kind === "gigPhotos" ? (
         <RetroPanel id={gigPhotosSectionId}>
           <div class="gig-galleries">
-            {music.gigGalleries.map((gallery) => <PhotoGrid {...gallery} />)}
+            {music.gigGalleries.map((gallery, i) => <PhotoGrid {...gallery} startIndex={galleryStarts[i]} />)}
           </div>
         </RetroPanel>
       ) : (
@@ -49,6 +59,8 @@ const blocks = getMusicBlocks();
       )
     )
   }
+
+  <Lightbox photos={allGigPhotos} showGrid={false} />
 
   <MonkeyAnimation />
 </BaseLayout>

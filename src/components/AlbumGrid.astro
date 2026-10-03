@@ -8,6 +8,13 @@ interface Props {
 }
 
 const albums = sortAlbums(Astro.props.albums);
+
+// "Egypt 2025 [Minolta XD7]" -> main "Egypt 2025", bracket "[Minolta XD7]".
+// On phones the bracketed part sits on its own line.
+function splitTitle(title: string) {
+  const match = title.match(/^(.*?)\s*(\[[^\]]*\])\s*$/);
+  return match && match[1] ? { main: match[1], bracket: match[2] } : { main: title, bracket: "" };
+}
 ---
 
 <div class="album-grid">
@@ -15,7 +22,17 @@ const albums = sortAlbums(Astro.props.albums);
     albums.map((album) => (
       <a class="album-tile retro-border retro-shadow" href={`/photography/${album.id}`}>
         <img src={photoUrl(album.data.coverImage, "cover")} alt={album.data.title} loading="lazy" />
-        <span class="album-title">{album.data.title}</span>
+        <span class="album-title">
+          {(() => {
+            const { main, bracket } = splitTitle(album.data.title);
+            return (
+              <>
+                <span class="title-main">{main}</span>
+                {bracket && <> <span class="title-bracket">{bracket}</span></>}
+              </>
+            );
+          })()}
+        </span>
       </a>
     ))
   }
@@ -26,12 +43,6 @@ const albums = sortAlbums(Astro.props.albums);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
-  }
-
-  @media (max-width: 640px) {
-    .album-grid {
-      grid-template-columns: 1fr;
-    }
   }
 
   .album-tile {
@@ -53,5 +64,53 @@ const albums = sortAlbums(Astro.props.albums);
     font-size: 0.75rem;
     letter-spacing: -0.5px;
     padding: 0.85rem;
+  }
+
+  /* Phones: a 4-row pattern that repeats every 9 albums — 3 across, 3 across,
+     1 full-width, 2 across. A 6-column grid lets every row divide evenly. */
+  @media (max-width: 640px) {
+    .album-grid {
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.9rem;
+    }
+
+    .album-tile {
+      grid-column: span 2;
+    }
+
+    .album-tile:nth-child(9n + 7) {
+      grid-column: span 6;
+    }
+
+    .album-tile:nth-child(9n + 8),
+    .album-tile:nth-child(9n + 9) {
+      grid-column: span 3;
+    }
+
+    .album-title {
+      font-size: 0.45rem;
+      padding: 0.4rem 0.35rem;
+      overflow-wrap: anywhere;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      overflow: hidden;
+    }
+
+    .album-tile:nth-child(9n + 8) .album-title,
+    .album-tile:nth-child(9n + 9) .album-title {
+      font-size: 0.6rem;
+      padding: 0.6rem;
+    }
+
+    .album-tile:nth-child(9n + 7) .album-title {
+      font-size: 0.75rem;
+      padding: 0.85rem;
+    }
+
+    .title-bracket {
+      display: block;
+    }
   }
 </style>

@@ -1,15 +1,28 @@
 ---
 import { sitePages } from "../data/nav";
+import cameraIcon from "../assets/icons/camera.svg?raw";
+import tuneIcon from "../assets/icons/tune.svg?raw";
+
+const icons = { camera: cameraIcon, tune: tuneIcon };
 ---
 
 <footer class="status-bar retro-border" data-status-bar>
   <div class="status-bar-row container">
-    <span data-visitor-no>VISITOR NO. : ----</span>
+    <span data-visitor-no>VISITOR:----</span>
     <nav class="status-nav" aria-label="Primary">
       {
         sitePages.map((page) => (
-          <a class="retro-btn" href={page.href}>
-            {page.label}
+          <a class="retro-btn" href={page.href} aria-label={page.label}>
+            <span class="label-full">{page.label}</span>
+            {"text" in page.mobile ? (
+              <span class="label-short" aria-hidden="true">{page.mobile.text}</span>
+            ) : (
+              <span
+                class={`label-short icon icon-${page.mobile.icon}`}
+                aria-hidden="true"
+                set:html={icons[page.mobile.icon]}
+              />
+            )}
           </a>
         ))
       }
@@ -54,6 +67,46 @@ import { sitePages } from "../data/nav";
   .status-nav .retro-btn {
     text-transform: uppercase;
   }
+
+  .label-short {
+    display: none;
+  }
+
+  /* Phones: replace the long labels with "CV" and two small pixel icons so
+     the three buttons stay on one row, all the same height. */
+  @media (max-width: 640px) {
+    .status-nav {
+      gap: 0.75rem;
+    }
+
+    .status-nav .retro-btn {
+      height: 36px;
+      padding: 0 0.9em;
+    }
+
+    .label-full {
+      display: none;
+    }
+
+    .label-short {
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .label-short.icon :global(svg) {
+      display: block;
+      height: 18px;
+      width: auto;
+    }
+
+    .label-short.icon-camera :global(svg) {
+      aspect-ratio: 15 / 12;
+    }
+
+    .label-short.icon-tune :global(svg) {
+      aspect-ratio: 1 / 1;
+    }
+  }
 </style>
 
 <script>
@@ -70,9 +123,9 @@ import { sitePages } from "../data/nav";
   const visitorEl = document.querySelector("[data-visitor-no]");
   if (visitorEl) {
     try {
-      visitorEl.textContent = `VISITOR NO. : ${getVisitorNumber()}`;
+      visitorEl.textContent = `VISITOR:${getVisitorNumber()}`;
     } catch {
-      visitorEl.textContent = "VISITOR NO. : 0001";
+      visitorEl.textContent = "VISITOR:0001";
     }
   }
 </script>

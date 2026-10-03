@@ -134,7 +134,14 @@ import siteData from "../data/site.json";
       animateModalBetween(startRect, endRect, clearModalInlineRect);
     }
 
-    overlay.querySelector<HTMLInputElement>("input")?.focus();
+    // On touch devices focusing a text field pops the keyboard up immediately;
+    // park focus on the close button there instead, so the keyboard only opens
+    // when the visitor taps a field.
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      closeBtn?.focus();
+    } else {
+      overlay.querySelector<HTMLInputElement>("input")?.focus();
+    }
     document.addEventListener("keydown", onKeydown);
   }
 

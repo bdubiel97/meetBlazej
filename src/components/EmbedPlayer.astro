@@ -72,23 +72,28 @@ const aspectRatio = platform === "youtube" ? "56.25%" : undefined;
         </div>
       </div>
     ) : (
-      <div class="set-row">
-        <button type="button" class="retro-btn set-nav-btn" data-set-nav="prev" aria-label="Previous set">
-          &lt;
+      <div class="set-block" data-set-block>
+        <button type="button" class="retro-btn set-reveal" data-set-reveal>
+          [+] PLAY SET
         </button>
-        <div class="embed-wrap set-wrap">
-          <iframe
-            class="soundcloud-frame"
-            data-soundcloud-frame
-            src={embedSrc}
-            title={title}
-            loading="lazy"
-            allow="autoplay"
-          />
+        <div class="set-row">
+          <button type="button" class="retro-btn set-nav-btn" data-set-nav="prev" aria-label="Previous set">
+            &lt;
+          </button>
+          <div class="embed-wrap set-wrap">
+            <iframe
+              class="soundcloud-frame"
+              data-soundcloud-frame
+              src={embedSrc}
+              title={title}
+              loading="lazy"
+              allow="autoplay"
+            />
+          </div>
+          <button type="button" class="retro-btn set-nav-btn" data-set-nav="next" aria-label="Next set">
+            &gt;
+          </button>
         </div>
-        <button type="button" class="retro-btn set-nav-btn" data-set-nav="next" aria-label="Next set">
-          &gt;
-        </button>
       </div>
     )
   ) : (
@@ -156,6 +161,15 @@ const aspectRatio = platform === "youtube" ? "56.25%" : undefined;
   }
 
   wireSetNav();
+
+  // Phones start with the SoundCloud player collapsed (CSS hides it, and the
+  // lazy iframe doesn't load while hidden) so SoundCloud's own full-size
+  // "Play on SoundCloud" prompt only appears if the visitor asks for the player.
+  document.querySelectorAll<HTMLElement>("[data-set-block]").forEach((block) => {
+    block
+      .querySelector("[data-set-reveal]")
+      ?.addEventListener("click", () => block.classList.add("is-open"));
+  });
 </script>
 
 <style>
@@ -202,6 +216,20 @@ const aspectRatio = platform === "youtube" ? "56.25%" : undefined;
   .set-nav-btn {
     flex: 0 0 auto;
     line-height: 1;
+  }
+
+  .set-reveal {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .set-block:not(.is-open) .set-reveal {
+      display: inline-flex;
+    }
+
+    .set-block:not(.is-open) .set-row {
+      display: none;
+    }
   }
 
   .embed-error {

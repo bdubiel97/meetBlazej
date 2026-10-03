@@ -21,3 +21,13 @@ const pageLabel = sitePages.find((p) => p.id === "photography")!.label;
 
   <AlbumGrid albums={albums} />
 </BaseLayout>
+
+<style>
+  /* Keep "Analog Playground" on a single line on phones: shrink the heading
+     just enough to fit the screen width (17 characters), never above normal. */
+  @media (max-width: 640px) {
+    h1 {
+      font-size: min(1.5rem, calc((100vw - 2.5rem) / 17.6));
+    }
+  }
+</style>

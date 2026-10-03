@@ -15,9 +15,11 @@ interface Props {
   // spanning several slots simply covers that many slots' worth of space.
   cellRatio?: string;
   photos: GridPhoto[];
+  // Index of this grid's first photo within the page's shared Lightbox list.
+  startIndex?: number;
 }
 
-const { rows, cols, cellRatio = "2/3", photos } = Astro.props;
+const { rows, cols, cellRatio = "2/3", photos, startIndex = 0 } = Astro.props;
 
 const [cellW, cellH] = cellRatio.split("/").map(Number);
 if (!(cellW > 0 && cellH > 0)) {
@@ -39,12 +41,14 @@ const gridAspect = (cols * cellW) / (rows * cellH);
   style={`--grid-cols:${cols}; --grid-rows:${rows}; aspect-ratio:${gridAspect};`}
 >
   {
-    photos.map((photo) => (
+    photos.map((photo, i) => (
       <figure
         class="photo-cell retro-border retro-shadow"
         style={`grid-column: span ${photo.cols ?? 1}; grid-row: span ${photo.rows ?? 1};`}
       >
-        <img src={photoUrl(photo.src, "full")} alt={photo.alt} loading="lazy" />
+        <button type="button" class="photo-open" data-open-lightbox={startIndex + i}>
+          <img src={photoUrl(photo.src, "full")} alt={photo.alt} loading="lazy" />
+        </button>
       </figure>
     ))
   }
@@ -63,6 +67,16 @@ const gridAspect = (cols * cellW) / (rows * cellH);
     min-width: 0;
     min-height: 0;
     background: var(--color-input-bg);
+  }
+
+  .photo-open {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: url("/cursors/pointer.svg") 4 1, pointer;
   }
 
   .photo-cell img {

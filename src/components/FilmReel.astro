@@ -127,6 +127,14 @@ const frames = shuffle(pool).slice(0, REEL_FRAME_COUNT);
     margin-bottom: 1.5rem;
   }
 
+  /* Phones: shrink the whole canister + strip so at least 2.5 frames are
+     visible beside the canister (frames are 150px wide at full size). */
+  @media (max-width: 640px) {
+    .film-reel {
+      zoom: 0.68;
+    }
+  }
+
   .film-scroll {
     flex: 1 1 auto;
     min-width: 0;
