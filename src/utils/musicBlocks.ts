@@ -14,12 +14,15 @@ export function getMusicBlocks(): MusicBlock[] {
   const blocks: MusicBlock[] = [
     { kind: "about", order: music.aboutOrder },
     { kind: "gigPhotos", order: music.gigPhotosOrder },
-    ...music.sets.map((set, i) => ({
-      kind: "set" as const,
-      order: set.order,
-      // Anchor ids use the set's position in music.json so existing links stay stable.
-      set: { ...set, id: `${slugify(set.title)}-${i}` },
-    })),
+    // SoundCloud sets don't get a panel — they feed the sticky player bar instead.
+    ...music.sets
+      .map((set, i) => ({
+        kind: "set" as const,
+        order: set.order,
+        // Anchor ids use the set's position in music.json so existing links stay stable.
+        set: { ...set, id: `${slugify(set.title)}-${i}` },
+      }))
+      .filter((block) => block.set.platform !== "soundcloud"),
   ];
   return blocks.sort((a, b) => b.order - a.order);
 }

@@ -1,0 +1,334 @@
+---
+import music from "../data/music.json";
+import { getSoundCloudEmbedSrc } from "../utils/soundcloud";
+
+// The first SoundCloud entry in music.json is the player's source (a single
+// track or a playlist link). SoundCloud's own player is kept invisible and
+// driven through its Widget API, so only our controls are shown.
+const source = music.sets.find((set) => set.platform === "soundcloud");
+const embedSrc = source ? getSoundCloudEmbedSrc(source.url) : null;
+---
+
+{
+  embedSrc && (
+    <div class="sound-player" data-sound-player>
+      <div class="player-row container">
+        <img class="player-art" data-sp-art alt="" />
+        <div class="player-main">
+          <div class="player-title" data-sp-title></div>
+          <div
+            class="player-progress"
+            data-sp-progress
+            role="slider"
+            tabindex="0"
+            aria-label="Playback position"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          >
+            <div class="player-progress-fill" data-sp-fill></div>
+          </div>
+        </div>
+        <div class="player-controls">
+          <button type="button" class="player-btn" data-sp-prev aria-label="Previous track">
+            <svg viewBox="0 0 6 9" shape-rendering="crispEdges" fill="currentColor" aria-hidden="true">
+              <path d="M4 0h2v1H4zM3 1h2v1H3zM2 2h2v1H2zM1 3h2v1H1zM0 4h2v1H0zM1 5h2v1H1zM2 6h2v1H2zM3 7h2v1H3zM4 8h2v1H4z" />
+            </svg>
+          </button>
+          <button type="button" class="player-btn player-toggle" data-sp-toggle aria-label="Play">
+            <svg class="icon-play" viewBox="0 0 8 7" shape-rendering="crispEdges" fill="currentColor" aria-hidden="true">
+              <path d="M0 0h2v7H0zM2 1h2v5H2zM4 2h2v3H4zM6 3h2v1H6z" />
+            </svg>
+            <svg class="icon-pause" viewBox="0 0 8 7" shape-rendering="crispEdges" fill="currentColor" aria-hidden="true">
+              <path d="M0 0h3v7H0zM5 0h3v7H5z" />
+            </svg>
+          </button>
+          <button type="button" class="player-btn" data-sp-next aria-label="Next track">
+            <svg viewBox="0 0 6 9" shape-rendering="crispEdges" fill="currentColor" aria-hidden="true">
+              <path d="M0 0h2v1H0zM1 1h2v1H1zM2 2h2v1H2zM3 3h2v1H3zM4 4h2v1H4zM3 5h2v1H3zM2 6h2v1H2zM1 7h2v1H1zM0 8h2v1H0z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <iframe
+        class="player-frame"
+        data-sp-frame
+        src={embedSrc}
+        title={`${source?.title ?? "SoundCloud"} (hidden player)`}
+        allow="autoplay"
+      />
+    </div>
+  )
+}
+
+<script>
+  declare global {
+    interface Window {
+      SC?: any;
+      __scApiLoading?: Promise<void>;
+    }
+  }
+
+  function loadSoundCloudApi(): Promise<void> {
+    if (window.SC) return Promise.resolve();
+    if (window.__scApiLoading) return window.__scApiLoading;
+    window.__scApiLoading = new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://w.soundcloud.com/player/api.js";
+      script.onload = () => resolve();
+      document.head.appendChild(script);
+    });
+    return window.__scApiLoading;
+  }
+
+  // The player is 3/4 as tall as the bottom nav bar, which itself changes
+  // height with screen size — so measure it instead of hardcoding.
+  function trackBarHeight() {
+    const statusBar = document.querySelector<HTMLElement>("[data-status-bar]");
+    if (!statusBar) return;
+    const apply = () => {
+      const h = statusBar.getBoundingClientRect().height;
+      document.documentElement.style.setProperty("--status-bar-h", `${h}px`);
+      document.documentElement.style.setProperty("--player-height", `${h * 0.75}px`);
+    };
+    apply();
+    new ResizeObserver(apply).observe(statusBar);
+  }
+
+  async function initPlayer() {
+    const root = document.querySelector<HTMLElement>("[data-sound-player]");
+    if (!root) return;
+
+    trackBarHeight();
+
+    const frame = root.querySelector<HTMLIFrameElement>("[data-sp-frame]")!;
+    const art = root.querySelector<HTMLImageElement>("[data-sp-art]")!;
+    const titleEl = root.querySelector<HTMLElement>("[data-sp-title]")!;
+    const progress = root.querySelector<HTMLElement>("[data-sp-progress]")!;
+    const fill = root.querySelector<HTMLElement>("[data-sp-fill]")!;
+    const toggleBtn = root.querySelector<HTMLButtonElement>("[data-sp-toggle]")!;
+    const prevBtn = root.querySelector<HTMLButtonElement>("[data-sp-prev]")!;
+    const nextBtn = root.querySelector<HTMLButtonElement>("[data-sp-next]")!;
+
+    await loadSoundCloudApi();
+    const widget = window.SC.Widget(frame);
+    const E = window.SC.Widget.Events;
+
+    let duration = 0;
+
+    function setProgress(ratio: number) {
+      const pct = Math.max(0, Math.min(1, ratio)) * 100;
+      fill.style.width = `${pct}%`;
+      progress.setAttribute("aria-valuenow", String(Math.round(pct)));
+    }
+
+    function setPlaying(playing: boolean) {
+      root!.classList.toggle("is-playing", playing);
+      toggleBtn.setAttribute("aria-label", playing ? "Pause" : "Play");
+    }
+
+    // Hide "previous" on the first track and "next" on the last one. Uses
+    // visibility so the other controls don't shift sideways.
+    function updateNavVisibility() {
+      widget.getSounds((sounds: any[]) => {
+        widget.getCurrentSoundIndex((index: number) => {
+          const last = (sounds?.length ?? 1) - 1;
+          prevBtn.style.visibility = index <= 0 ? "hidden" : "visible";
+          nextBtn.style.visibility = index >= last ? "hidden" : "visible";
+        });
+      });
+    }
+
+    function refreshSound() {
+      updateNavVisibility();
+      widget.getCurrentSound((sound: any) => {
+        if (!sound) return;
+        const url = (sound.artwork_url || sound.user?.avatar_url || "").replace("-large", "-t300x300");
+        if (url && art.getAttribute("src") !== url) art.src = url;
+        art.alt = sound.title ?? "";
+        titleEl.textContent = sound.title ?? "";
+        progress.setAttribute("aria-label", `Playback position — ${sound.title ?? "track"}`);
+        duration = sound.duration ?? duration;
+      });
+    }
+
+    widget.bind(E.READY, () => {
+      refreshSound();
+      widget.getDuration((ms: number) => (duration = ms));
+    });
+    widget.bind(E.PLAY, () => {
+      setPlaying(true);
+      refreshSound();
+    });
+    widget.bind(E.PAUSE, () => setPlaying(false));
+    widget.bind(E.FINISH, () => setProgress(0));
+    widget.bind(E.PLAY_PROGRESS, (e: any) => setProgress(e.relativePosition));
+
+    toggleBtn.addEventListener("click", () => widget.toggle());
+    prevBtn.addEventListener("click", () => {
+      setProgress(0);
+      widget.prev();
+    });
+    nextBtn.addEventListener("click", () => {
+      setProgress(0);
+      widget.next();
+    });
+
+    function seekFromPointer(clientX: number) {
+      const rect = progress.getBoundingClientRect();
+      const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+      setProgress(ratio);
+      return ratio;
+    }
+
+    let dragging = false;
+    progress.addEventListener("pointerdown", (e) => {
+      dragging = true;
+      progress.setPointerCapture(e.pointerId);
+      seekFromPointer(e.clientX);
+    });
+    progress.addEventListener("pointermove", (e) => {
+      if (dragging) seekFromPointer(e.clientX);
+    });
+    progress.addEventListener("pointerup", (e) => {
+      if (!dragging) return;
+      dragging = false;
+      const ratio = seekFromPointer(e.clientX);
+      if (duration) widget.seekTo(ratio * duration);
+    });
+    progress.addEventListener("keydown", (e) => {
+      if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+      e.preventDefault();
+      widget.getPosition((ms: number) => {
+        const delta = e.key === "ArrowRight" ? 5000 : -5000;
+        widget.seekTo(Math.max(0, Math.min(duration, ms + delta)));
+      });
+    });
+
+    // Stop playback immediately when navigating away.
+    window.addEventListener("pagehide", () => widget.pause());
+  }
+
+  initPlayer();
+</script>
+
+<style>
+  .sound-player {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: var(--status-bar-h, 56px);
+    height: var(--player-height, 42px);
+    background: var(--color-bg);
+    border-top: var(--border-width) solid var(--color-shadow);
+    z-index: 19;
+  }
+
+  .player-row {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-block: 0.4rem;
+  }
+
+  .player-art {
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    flex: 0 0 auto;
+    object-fit: cover;
+    border: 2px solid var(--color-shadow);
+    background: rgba(234, 0, 255, 0.15);
+    color: transparent;
+  }
+
+  .player-main {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.3rem;
+  }
+
+  .player-title {
+    font-family: var(--font-display);
+    font-size: 0.5rem;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    color: var(--color-panel);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 0.5rem;
+  }
+
+  .player-progress {
+    height: 14px;
+    border: 2px solid var(--color-panel);
+    cursor: url("/cursors/pointer.svg") 4 1, pointer;
+    touch-action: none;
+  }
+
+  .player-progress-fill {
+    width: 0;
+    height: 100%;
+    /* Blocky, segmented fill to match the pixel look. */
+    background: repeating-linear-gradient(
+      90deg,
+      var(--color-panel) 0 6px,
+      transparent 6px 8px
+    );
+  }
+
+  .player-controls {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    height: 100%;
+  }
+
+  .player-btn {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-shadow);
+    cursor: url("/cursors/pointer.svg") 4 1, pointer;
+    display: flex;
+    align-items: center;
+    height: 50%;
+  }
+
+  .player-btn svg {
+    height: 100%;
+    width: auto;
+    display: block;
+  }
+
+  .player-toggle .icon-pause,
+  .is-playing .player-toggle .icon-play {
+    display: none;
+  }
+
+  .is-playing .player-toggle .icon-pause {
+    display: block;
+  }
+
+  /* Off-screen, not display:none — SoundCloud's widget needs to stay live. */
+  .player-frame {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+    border: 0;
+  }
+
+  /* Keep the page content clear of the fixed bar. */
+  :global(body.theme-music .page-main) {
+    padding-bottom: calc(6rem + var(--player-height, 42px));
+  }
+</style>

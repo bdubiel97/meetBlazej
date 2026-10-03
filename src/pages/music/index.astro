@@ -5,6 +5,7 @@ import RetroPanel from "../../components/RetroPanel.astro";
 import EmbedPlayer from "../../components/EmbedPlayer.astro";
 import PhotoGrid from "../../components/PhotoGrid.astro";
 import Lightbox from "../../components/Lightbox.astro";
+import SoundPlayer from "../../components/SoundPlayer.astro";
 import music from "../../data/music.json";
 import site from "../../data/site.json";
 import { getMusicBlocks } from "../../utils/musicBlocks";
@@ -61,6 +62,8 @@ const allGigPhotos = music.gigGalleries.flatMap((g) =>
   }
 
   <Lightbox photos={allGigPhotos} showGrid={false} />
+
+  <SoundPlayer />
 
   <MonkeyAnimation />
 </BaseLayout>
