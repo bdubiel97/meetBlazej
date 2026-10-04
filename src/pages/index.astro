@@ -78,15 +78,18 @@ function sectionTitle(id: string) {
 
   <RetroPanel id="courses-log" title={sectionTitle("courses-log")}>
     {
-      cv.coursesConferences.map((course) => (
-        <div class="entry">
-          <h3>{course.name}</h3>
-          <p class="entry-dates">
-            {course.provider && `${course.provider} — `}{course.date}
-          </p>
-          {course.notes && <p>{course.notes}</p>}
-        </div>
-      ))
+      cv.coursesConferences.map((course) => {
+        // Every field is optional: only the ones that are present get shown,
+        // and separators appear only between fields that exist.
+        const meta = [course.provider, course.date].filter(Boolean).join(" — ");
+        return (
+          <div class="entry">
+            {course.name && <h3>{course.name}</h3>}
+            {meta && <p class="entry-dates">{meta}</p>}
+            {course.notes && <p>{course.notes}</p>}
+          </div>
+        );
+      })
     }
   </RetroPanel>
 

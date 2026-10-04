@@ -1,12 +1,12 @@
 {
   "order": 12,
   "title": "Egypt 2025 [YashicaT3]",
-  "description": "blabla",
-  "location": "PLACEHOLDER — where this was shot",
+  "description": "Holidays trip to Egypt. Cairo felt like a different reality and visit to the 'garabage district' has been of the most emotional and humbling moments I ever experienced while travling. On one side, you can see people living on the trash (literally); On the other side, you see people smiling and socializing together... ",
+  "location": "Egypt. Cairo and Dahab.",
   "equipment": {
-    "camera": "PLACEHOLDER — camera(s) used for this album",
-    "film": "PLACEHOLDER — film stock(s) used for this album",
-    "lens": "PLACEHOLDER — lens(es) used for this album"
+    "camera": "Yashica T3",
+    "film": ["Kodak Porta 400", "Kodak Gold 200"],
+    "lens": []
   },
   "coverImage": "photography/egypt-2025-yashicat3/000018650009",
   "photos": [

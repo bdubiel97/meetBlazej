@@ -1,12 +1,12 @@
 {
   "order": 3,
   "title": "Misc 2025 [Minolta XD7]",
-  "description": "blabla",
-  "location": "PLACEHOLDER — where this was shot",
+  "description": "Some random shots from 2025 with my beloved Minolta XD7 (RIP).",
+  "location": "World.",
   "equipment": {
-    "camera": "PLACEHOLDER — camera(s) used for this album",
-    "film": "PLACEHOLDER — film stock(s) used for this album",
-    "lens": "PLACEHOLDER — lens(es) used for this album"
+    "camera": "Minolta XD7",
+    "film": ["Kodak Porta 400", "Kodak Ultramax 400", "Kodak Gold 200"],
+    "lens": ["Minolta MD 50mm f/1.7", "Minolta MD 35mm f/2.8"]
   },
   "coverImage": "photography/misc-2025-minoltaxd7/000-4862",
   "photos": [

@@ -1,12 +1,12 @@
 {
   "order": 7,
   "title": "Slimfest 2025",
-  "description": "BlaBla",
-  "location": "PLACEHOLDER — where this was shot",
+  "description": "During Bodek's visit in Groningen, we went to Slimfest to make some content for Adrian. Cool festival, cool people and broskie killing it on the decks.",
+  "location": "Amsterdam, under the bridge.",
   "equipment": {
-    "camera": "PLACEHOLDER — camera(s) used for this album",
-    "film": "PLACEHOLDER — film stock(s) used for this album",
-    "lens": "PLACEHOLDER — lens(es) used for this album"
+    "camera": ["Yashica T3", "Minolta XD7"],
+    "film": ["Kodak Porta 400", "Kodak Gold 200"],
+    "lens": ["Minolta MD 50mm f/1.7", "Minolta MD 35mm f/2.8"]
   },
   "coverImage": "photography/slimfest-2025/000051550015",
   "photos": [

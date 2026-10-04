@@ -1,12 +1,12 @@
 {
   "order": 15,
   "title": "Morocco 2026",
-  "description": "blabla",
-  "location": "PLACEHOLDER — where this was shot",
+  "description": "Surf escape to Morocco. Unfortunately, this is when my beloved Minolta XD7 died but I still have these shots from Yashica which are probably my favourite ones overall. Catchy colours and tempting spots were dripping all over.",
+  "location": "Morocco, Agadir & Taghazout.",
   "equipment": {
-    "camera": "PLACEHOLDER — camera(s) used for this album",
-    "film": "PLACEHOLDER — film stock(s) used for this album",
-    "lens": "PLACEHOLDER — lens(es) used for this album"
+    "camera": "Yashica T3",
+    "film": ["Kodak Porta 400", "Kodak Gold 200"],
+    "lens": []
   },
   "coverImage": "photography/morocoo2026/000115150037",
   "photos": [

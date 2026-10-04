@@ -1,12 +1,12 @@
 {
   "order": 13,
   "title": "Egypt 2025 [Minolta XD7]",
-  "description": "blabla",
-  "location": "PLACEHOLDER — where this was shot",
+  "description": "Quick trip to less popular side of Nile - Faiyum. One of the oldest cities in Egypt because of its central location and proximity to the water reserviour. Now a small, peaceful town that has maintained its love for ceramic craftsmanship.",
+  "location": "Egypt. Faiyum.",
   "equipment": {
-    "camera": "PLACEHOLDER — camera(s) used for this album",
-    "film": "PLACEHOLDER — film stock(s) used for this album",
-    "lens": "PLACEHOLDER — lens(es) used for this album"
+    "camera": "Minolta XD7",
+    "film": "Kodak Porta 400",
+    "lens": ["Minolta MD 50mm f/1.7", "Minolta MD 35mm f/2.8"]
   },
   "coverImage": "photography/egypt2025-minoltaxd7/000018680021",
   "photos": [

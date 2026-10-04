@@ -1,12 +1,12 @@
 {
   "order": 5,
   "title": "Misc 2025 B&W [Minolta XD7]",
-  "description": "blabla",
-  "location": "PLACEHOLDER — where this was shot",
+  "description": "Experimenting with my first B&W film.",
+  "location": "Cracow, Poland.",
   "equipment": {
-    "camera": "PLACEHOLDER — camera(s) used for this album",
-    "film": "PLACEHOLDER — film stock(s) used for this album",
-    "lens": "PLACEHOLDER — lens(es) used for this album"
+    "camera": "Minolta XD7",
+    "film": [],
+    "lens": ["Minolta MD 50mm f/1.7", "Minolta MD 35mm f/2.8"]
   },
   "coverImage": "photography/misc2025-minoltdaxd7-bnw/000-5007",
   "photos": [

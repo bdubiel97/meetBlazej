@@ -1,12 +1,12 @@
 {
   "order": 6,
   "title": "1st year of Carmela",
-  "description": "blabla",
-  "location": "PLACEHOLDER — where this was shot",
+  "description": "Some random shots throughout Carmela's first year events.",
+  "location": "Misc Amsteram, Netherlands.",
   "equipment": {
-    "camera": "PLACEHOLDER — camera(s) used for this album",
-    "film": "PLACEHOLDER — film stock(s) used for this album",
-    "lens": "PLACEHOLDER — lens(es) used for this album"
+    "camera": "Yashica T3",
+    "film": ["Kodak Porta 400", "Kodak Gold 200"],
+    "lens": []
   },
   "coverImage": "photography/carmela-one-yr/r1-07083-011a",
   "photos": [

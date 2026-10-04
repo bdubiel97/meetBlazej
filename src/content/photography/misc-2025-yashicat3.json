@@ -1,12 +1,12 @@
 {
   "order": 4,
   "title": "Misc 2025 [YashicaT3]",
-  "description": "blabla",
-  "location": "PLACEHOLDER — where this was shot",
+  "description": "Some random shots from 2025 with my fav weapon - Yashica T3.",
+  "location": "World.",
   "equipment": {
-    "camera": "PLACEHOLDER — camera(s) used for this album",
-    "film": "PLACEHOLDER — film stock(s) used for this album",
-    "lens": "PLACEHOLDER — lens(es) used for this album"
+    "camera": "Yashica T3",
+    "film": ["Kodak Porta 400", "Kodak Ultramax 400", "Kodak Gold 200"],
+    "lens": []
   },
   "coverImage": "photography/misc-2025-yashicat3/000002510003",
   "photos": [

@@ -20,7 +20,8 @@
       "start": "JAN 2026",
       "end": "Ongoing",
       "bullets": [
-        "Successfully designed and developed the control software for a prototype clarifier machine used in a chemical laboratory at a beet sugar factory to maintain chemical solutions at specific concentrations and temperatures. Built both the front-end and back-end for a Raspberry Pi.",
+        "Brought a prototype clarifier to life for the chemistry lab of a beet sugar factory. I wrote the software that keeps its chemical solutions at exactly the right concentration and temperature, building both the back-end logic and the front-end interface on a Raspberry Pi. End to end and by myself.",
+        "Personal web-interface to analyse stock prices for the personal use.",
         "This website."
       ],
       "stack": ["Python", "PyQt6", "Linux CLI", "Claudde Code"]
@@ -32,13 +33,11 @@
       "end": "Ongoing",
       "place": "Leek, Netherlands",
       "bullets": [
-        "Developing and and maintaining track and trace software infrastructure to ensure compliance and operational efficiency within EU tobacco directive on tracebility of tobacco products.",
-        "That includes implementation of data applications ensuring data aggregation and processing, control logic of industrials machines, HMI design and vision systems configuration.",
-        "Led several successful projects, implementing software architecture enhancements and enabling secure, safety-compliant AI deployment across the company.",
-        "Responsible for Claude Code adaptation within the software team, including research, infrastructure set up, skills and routines design.",
-        "Working closely with clients remotely during development and service, as well as on-site during the commissioning of new machines",
-        "Daily collaboration with cross-functional teams, including engineers from different departments and product managers."
-      ],
+        "One of the lead engineers behind the track-and-trace software that keeps tobacco production compliant with the traceability requirements of the EU Tobacco Products Directive.",
+        "Developing, deploying and maintaining software across the whole chain: data applications that aggregate and process production data, control logic for industrial machines, HMI design and vision system configuration.",
+        "Led several projects that reshaped our software architecture and brought AI into the company in a secure, safety-compliant way. Highlights include successful design and delivery of several prototype machines, propsal and adaptation of a modular approach to our software through a shared in-house library. Recently led the adaptation of Claude Code within the software department, from the initial research and infrastructure setup to defining the Markdown-based skills and routines we now use every day.",
+        "Staying close to clients throughout a machine's life, supporting them remotely during development and service, and on the factory floor during commissioning.",
+        "Working daily with engineers from other departments and with product managers to turn requirements into working systems."      ],
       "stack": ["PLC", "C#", ".NET", "SQL", "Structured Text", "WPF"]
     },
     {
@@ -49,7 +48,7 @@
       "place": "Den Hague, Netherlands",
       "bullets": [
         "Conducted research as part of a project entitled “Autonomous Detection and Classification of Bituminous Joints in Highway Pavement Using Two-Staged and Residual-Based Convolutional Autoencoder.",
-        "Extracted and preprocessed intensity-based data from a laser-triangulation system and developed an end-to-end unsupervised pipeline for bituminous joint detection, addressing label sparsity, anomaly detection, feature space inhomogeneity, and normalization challenges.",
+        "Extracted and preprocessed intensity-based data from a laser-triangulation system and developed an end-to-end unsupervised pipeline for bituminous joint detection. My work addressed the following research areas: label sparsity, anomaly detection, feature space inhomogeneity and normalization challenges.",
         "Thesis outcomes received high acclaim, earning a grade of 7.5 from academia and recognition from the host company, where the proposed approach established a benchmark for future projects."
       ],
       "stack": ["python", "Docker", "MATLAB"]
@@ -116,6 +115,11 @@
     {
       "name": "ML in Poland conference (2024 edition)",
       "notes": "Conference on AI state-of-the-art in Poland."
+    },
+    {
+      "name": "AI Safety Workshop",
+      "provider": "Organised by SAIN",
+      "date": "upcomming..."
     }
   ],
   "projects": [
