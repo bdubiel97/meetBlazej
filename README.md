@@ -4,7 +4,7 @@ A retro personal site built with [Astro](https://astro.build) to showcave my res
 
 I used "Back to 90s" Framer template as a staring point (https://www.framer.com/marketplace/templates/back-to-90s/).
 
-Same style, three different stories. Done with help of Claude Code.
+Same style, three different stories. Done with the help of Claude Code.
 
 ## Local development
 
@@ -18,7 +18,7 @@ npm run preview  # preview the production build locally
 ## Deployment
 
 This repo is connected to [Vercel](https://vercel.com) — every push to `main` triggers an
-automatic build and deploy, and every other branch/PR gets its own preview URL.
+automatic build and deploy and every other branch/PR gets its own preview URL.
 
 ## Images storage
 
