@@ -20,8 +20,7 @@
       "start": "JAN 2026",
       "end": "Ongoing",
       "bullets": [
-        "Brought a prototype clarifier to life for the chemistry lab of a beet sugar factory. I wrote the software that keeps its chemical solutions at exactly the right concentration and temperature, building both the back-end logic and the front-end interface on a Raspberry Pi. End to end and by myself.",
-        "Personal web-interface to analyse stock prices for the personal use.",
+        "Brought a prototype clarifier to life for the chemistry lab of a beet sugar factory. The scope included Python-based control software on a Raspberry Pi 5 that regulates chemical solution concentration and temperature in real time, integrating IO-Link sensors (IFM AL1340) and digital I/O (ICP-DAS ET-7245) with a Qt-based HMI. End to end and by myself.",
         "This website."
       ],
       "stack": ["Python", "PyQt6", "Linux CLI", "Claudde Code"]
@@ -101,6 +100,16 @@
   ],
   "coursesConferences": [
     {
+      "name": "AmpHi Labs Hackathon: H/Pack for 20230",
+      "provider": "Organised by AmpHi Labs",
+      "date": "Upcomming..."
+    },
+    {
+      "name": "AI Safety Workshop",
+      "provider": "Organised by SAIN (Safe AI Netherlands)",
+      "date": "Fall 2026"
+    },
+    {
       "name": "Governance in AI",
       "provider": "Organised by Bluedot",
       "date": "Fall 2025",
@@ -108,18 +117,13 @@
     },
     {
       "name": "AI Safety - technical track",
-      "provider": "Organised by SAIN (Safe AI Netherlands)",
+      "provider": "Organised by SAIN",
       "date": "Fall 2025",
       "notes": "A course on technical aspects of AI safety, covering technical aspects of AI safety and discussion of potential risks as well as possible solutions. Concluded with a research project entitled 'Subjective overview of the mechanistic interpretability methods for LLMs'."
     },
     {
       "name": "ML in Poland conference (2024 edition)",
       "notes": "Conference on AI state-of-the-art in Poland."
-    },
-    {
-      "name": "AI Safety Workshop",
-      "provider": "Organised by SAIN",
-      "date": "upcomming..."
     }
   ],
   "projects": [
