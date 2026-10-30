@@ -6,7 +6,7 @@ export const homeSections = [
   { id: "about-txt", label: "About me" },
   { id: "experience-exe", label: "Work experience" },
   { id: "education-dat", label: "Education" },
-  { id: "courses-log", label: "Courses & conferences" },
+  { id: "courses-log", label: "Extracurricular" },
   { id: "projects-zip", label: "Projects" },
   { id: "skills-sys", label: "Skills" },
   { id: "contact-cfg", label: "Contact" },
