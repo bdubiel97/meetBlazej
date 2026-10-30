@@ -100,9 +100,10 @@
   ],
   "coursesConferences": [
     {
-      "name": "AmpHi Labs Hackathon: H/Pack for 20230",
-      "provider": "Organised by AmpHi Labs",
-      "date": "Upcomming..."
+      "name": "AmPhi Labs Hackathon: H/Pack for 20230",
+      "provider": "Organised by AmPhi Labs",
+      "date": "October 2026",
+      "notes": "Together with team Giada, I won first place at the AmPhi Labs Pack for 2030 hackathon on sustainable packaging. The jury chose our proposal as the most innovative and tangible prototype. As the team's developer, I built a Streamlit web application that analyses a non-recyclable product and proposes the alternative with the largest financial benefit and recyclability advantage, along with a written explanation of why it suits the product owner best."
     },
     {
       "name": "AI Safety Workshop",
